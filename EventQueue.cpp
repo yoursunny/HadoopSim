@@ -5,6 +5,7 @@ HadoopSim is a simulator for a Hadoop Runtime by replaying the collected traces.
 #include <iostream>
 #include <queue>
 #include <assert.h>
+#include <limits.h>
 #include "TaskTracker.h"
 #include "JobClient.h"
 #include "HEvent.h"
