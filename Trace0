@@ -1,0 +1,387 @@
+{
+  "priority" : "NORMAL",
+  "jobID" : "job_201205012252_0001",
+  "user" : "hduser",
+  "jobName" : "hadoop-0\\.20\\.2-test\\.jar",
+  "mapTasks" : [ {
+    "startTime" : 1335938115039,
+    "attempts" : [ {
+      "location" : {
+        "layers" : [ "default-rack", "gn04" ]
+      },
+      "hostName" : "/default-rack/gn04",
+      "startTime" : 1335938115066,
+      "result" : "SUCCESS",
+      "finishTime" : 1335938115879,
+      "attemptID" : "attempt_201205012252_0001_m_000000_0",
+      "shuffleFinished" : -1,
+      "sortFinished" : -1,
+      "hdfsBytesRead" : 2,
+      "hdfsBytesWritten" : -1,
+      "fileBytesRead" : -1,
+      "fileBytesWritten" : 45,
+      "mapInputRecords" : 1,
+      "mapOutputBytes" : 5,
+      "mapOutputRecords" : 1,
+      "combineInputRecords" : 0,
+      "reduceInputGroups" : -1,
+      "reduceInputRecords" : -1,
+      "reduceShuffleBytes" : -1,
+      "reduceOutputRecords" : -1,
+      "spilledRecords" : 1,
+      "mapInputBytes" : 2
+    } ],
+    "finishTime" : 1335938118048,
+    "preferredLocations" : [ {
+      "layers" : [ "default-rack", "gn04" ]
+    } ],
+    "taskType" : "MAP",
+    "taskStatus" : "SUCCESS",
+    "taskID" : "task_201205012252_0001_m_000000",
+    "inputBytes" : 2,
+    "inputRecords" : 1,
+    "outputBytes" : 45,
+    "outputRecords" : 1
+  }, {
+    "startTime" : 1335938115041,
+    "attempts" : [ {
+      "location" : {
+        "layers" : [ "default-rack", "gn04" ]
+      },
+      "hostName" : "/default-rack/gn04",
+      "startTime" : 1335938115089,
+      "result" : "SUCCESS",
+      "finishTime" : 1335938115938,
+      "attemptID" : "attempt_201205012252_0001_m_000001_0",
+      "shuffleFinished" : -1,
+      "sortFinished" : -1,
+      "hdfsBytesRead" : 2,
+      "hdfsBytesWritten" : -1,
+      "fileBytesRead" : -1,
+      "fileBytesWritten" : 38,
+      "mapInputRecords" : 0,
+      "mapOutputBytes" : 0,
+      "mapOutputRecords" : 0,
+      "combineInputRecords" : 0,
+      "reduceInputGroups" : -1,
+      "reduceInputRecords" : -1,
+      "reduceShuffleBytes" : -1,
+      "reduceOutputRecords" : -1,
+      "spilledRecords" : 0,
+      "mapInputBytes" : 0
+    } ],
+    "finishTime" : 1335938118050,
+    "preferredLocations" : [ {
+      "layers" : [ "default-rack", "gn04" ]
+    } ],
+    "taskType" : "MAP",
+    "taskStatus" : "SUCCESS",
+    "taskID" : "task_201205012252_0001_m_000001",
+    "inputBytes" : 2,
+    "inputRecords" : 0,
+    "outputBytes" : 38,
+    "outputRecords" : 0
+  } ],
+  "finishTime" : 1335938133072,
+  "reduceTasks" : [ {
+    "startTime" : 1335938118052,
+    "attempts" : [ {
+      "location" : {
+        "layers" : [ "default-rack", "gn04" ]
+      },
+      "hostName" : "/default-rack/gn04",
+      "startTime" : 1335938118080,
+      "result" : "SUCCESS",
+      "finishTime" : 1335938127798,
+      "attemptID" : "attempt_201205012252_0001_r_000000_0",
+      "shuffleFinished" : 1335938124690,
+      "sortFinished" : 1335938124712,
+      "hdfsBytesRead" : -1,
+      "hdfsBytesWritten" : 3,
+      "fileBytesRead" : 13,
+      "fileBytesWritten" : 13,
+      "mapInputRecords" : -1,
+      "mapOutputBytes" : -1,
+      "mapOutputRecords" : -1,
+      "combineInputRecords" : 0,
+      "reduceInputGroups" : 1,
+      "reduceInputRecords" : 1,
+      "reduceShuffleBytes" : 13,
+      "reduceOutputRecords" : 1,
+      "spilledRecords" : 1,
+      "mapInputBytes" : -1
+    } ],
+    "finishTime" : 1335938130067,
+    "preferredLocations" : [ ],
+    "taskType" : "REDUCE",
+    "taskStatus" : "SUCCESS",
+    "taskID" : "task_201205012252_0001_r_000000",
+    "inputBytes" : 13,
+    "inputRecords" : 1,
+    "outputBytes" : 3,
+    "outputRecords" : 1
+  } ],
+  "submitTime" : 1335938109049,
+  "launchTime" : 1335938109276,
+  "totalMaps" : 2,
+  "totalReduces" : 1,
+  "otherTasks" : [ {
+    "startTime" : 1335938111990,
+    "attempts" : [ {
+      "location" : {
+        "layers" : [ "default-rack", "gn04" ]
+      },
+      "hostName" : "/default-rack/gn04",
+      "startTime" : 1335938112332,
+      "result" : "SUCCESS",
+      "finishTime" : 1335938113024,
+      "attemptID" : "attempt_201205012252_0001_m_000003_0",
+      "shuffleFinished" : -1,
+      "sortFinished" : -1,
+      "hdfsBytesRead" : -1,
+      "hdfsBytesWritten" : -1,
+      "fileBytesRead" : -1,
+      "fileBytesWritten" : -1,
+      "mapInputRecords" : -1,
+      "mapOutputBytes" : -1,
+      "mapOutputRecords" : -1,
+      "combineInputRecords" : -1,
+      "reduceInputGroups" : -1,
+      "reduceInputRecords" : -1,
+      "reduceShuffleBytes" : -1,
+      "reduceOutputRecords" : -1,
+      "spilledRecords" : 0,
+      "mapInputBytes" : -1
+    } ],
+    "finishTime" : 1335938115037,
+    "preferredLocations" : [ ],
+    "taskType" : "SETUP",
+    "taskStatus" : "SUCCESS",
+    "taskID" : "task_201205012252_0001_m_000003",
+    "inputBytes" : -1,
+    "inputRecords" : -1,
+    "outputBytes" : -1,
+    "outputRecords" : -1
+  }, {
+    "startTime" : 1335938130069,
+    "attempts" : [ {
+      "location" : {
+        "layers" : [ "default-rack", "gn04" ]
+      },
+      "hostName" : "/default-rack/gn04",
+      "startTime" : 1335938130083,
+      "result" : "SUCCESS",
+      "finishTime" : 1335938130652,
+      "attemptID" : "attempt_201205012252_0001_m_000002_0",
+      "shuffleFinished" : -1,
+      "sortFinished" : -1,
+      "hdfsBytesRead" : -1,
+      "hdfsBytesWritten" : -1,
+      "fileBytesRead" : -1,
+      "fileBytesWritten" : -1,
+      "mapInputRecords" : -1,
+      "mapOutputBytes" : -1,
+      "mapOutputRecords" : -1,
+      "combineInputRecords" : -1,
+      "reduceInputGroups" : -1,
+      "reduceInputRecords" : -1,
+      "reduceShuffleBytes" : -1,
+      "reduceOutputRecords" : -1,
+      "spilledRecords" : 0,
+      "mapInputBytes" : -1
+    } ],
+    "finishTime" : 1335938133071,
+    "preferredLocations" : [ ],
+    "taskType" : "CLEANUP",
+    "taskStatus" : "SUCCESS",
+    "taskID" : "task_201205012252_0001_m_000002",
+    "inputBytes" : -1,
+    "inputRecords" : -1,
+    "outputBytes" : -1,
+    "outputRecords" : -1
+  } ],
+  "computonsPerMapInputByte" : -1,
+  "computonsPerMapOutputByte" : -1,
+  "computonsPerReduceInputByte" : -1,
+  "computonsPerReduceOutputByte" : -1,
+  "heapMegabytes" : 200,
+  "outcome" : "SUCCESS",
+  "jobtype" : "JAVA",
+  "directDependantJobs" : [ ],
+  "successfulMapAttemptCDFs" : [ {
+    "maximum" : 849,
+    "minimum" : 813,
+    "rankings" : [ {
+      "relativeRanking" : 0.05,
+      "datum" : 813
+    }, {
+      "relativeRanking" : 0.1,
+      "datum" : 813
+    }, {
+      "relativeRanking" : 0.15,
+      "datum" : 813
+    }, {
+      "relativeRanking" : 0.2,
+      "datum" : 813
+    }, {
+      "relativeRanking" : 0.25,
+      "datum" : 813
+    }, {
+      "relativeRanking" : 0.3,
+      "datum" : 813
+    }, {
+      "relativeRanking" : 0.35,
+      "datum" : 813
+    }, {
+      "relativeRanking" : 0.4,
+      "datum" : 813
+    }, {
+      "relativeRanking" : 0.45,
+      "datum" : 813
+    }, {
+      "relativeRanking" : 0.5,
+      "datum" : 813
+    }, {
+      "relativeRanking" : 0.55,
+      "datum" : 813
+    }, {
+      "relativeRanking" : 0.6,
+      "datum" : 813
+    }, {
+      "relativeRanking" : 0.65,
+      "datum" : 813
+    }, {
+      "relativeRanking" : 0.7,
+      "datum" : 813
+    }, {
+      "relativeRanking" : 0.75,
+      "datum" : 813
+    }, {
+      "relativeRanking" : 0.8,
+      "datum" : 813
+    }, {
+      "relativeRanking" : 0.85,
+      "datum" : 813
+    }, {
+      "relativeRanking" : 0.9,
+      "datum" : 813
+    }, {
+      "relativeRanking" : 0.95,
+      "datum" : 813
+    } ],
+    "numberValues" : 2
+  }, {
+    "maximum" : 9223372036854775807,
+    "minimum" : -9223372036854775808,
+    "rankings" : [ ],
+    "numberValues" : 0
+  }, {
+    "maximum" : 9223372036854775807,
+    "minimum" : -9223372036854775808,
+    "rankings" : [ ],
+    "numberValues" : 0
+  }, {
+    "maximum" : 9223372036854775807,
+    "minimum" : -9223372036854775808,
+    "rankings" : [ ],
+    "numberValues" : 0
+  } ],
+  "failedMapAttemptCDFs" : [ {
+    "maximum" : 9223372036854775807,
+    "minimum" : -9223372036854775808,
+    "rankings" : [ ],
+    "numberValues" : 0
+  }, {
+    "maximum" : 9223372036854775807,
+    "minimum" : -9223372036854775808,
+    "rankings" : [ ],
+    "numberValues" : 0
+  }, {
+    "maximum" : 9223372036854775807,
+    "minimum" : -9223372036854775808,
+    "rankings" : [ ],
+    "numberValues" : 0
+  }, {
+    "maximum" : 9223372036854775807,
+    "minimum" : -9223372036854775808,
+    "rankings" : [ ],
+    "numberValues" : 0
+  } ],
+  "successfulReduceAttemptCDF" : {
+    "maximum" : 9718,
+    "minimum" : 9718,
+    "rankings" : [ {
+      "relativeRanking" : 0.05,
+      "datum" : 9718
+    }, {
+      "relativeRanking" : 0.1,
+      "datum" : 9718
+    }, {
+      "relativeRanking" : 0.15,
+      "datum" : 9718
+    }, {
+      "relativeRanking" : 0.2,
+      "datum" : 9718
+    }, {
+      "relativeRanking" : 0.25,
+      "datum" : 9718
+    }, {
+      "relativeRanking" : 0.3,
+      "datum" : 9718
+    }, {
+      "relativeRanking" : 0.35,
+      "datum" : 9718
+    }, {
+      "relativeRanking" : 0.4,
+      "datum" : 9718
+    }, {
+      "relativeRanking" : 0.45,
+      "datum" : 9718
+    }, {
+      "relativeRanking" : 0.5,
+      "datum" : 9718
+    }, {
+      "relativeRanking" : 0.55,
+      "datum" : 9718
+    }, {
+      "relativeRanking" : 0.6,
+      "datum" : 9718
+    }, {
+      "relativeRanking" : 0.65,
+      "datum" : 9718
+    }, {
+      "relativeRanking" : 0.7,
+      "datum" : 9718
+    }, {
+      "relativeRanking" : 0.75,
+      "datum" : 9718
+    }, {
+      "relativeRanking" : 0.8,
+      "datum" : 9718
+    }, {
+      "relativeRanking" : 0.85,
+      "datum" : 9718
+    }, {
+      "relativeRanking" : 0.9,
+      "datum" : 9718
+    }, {
+      "relativeRanking" : 0.95,
+      "datum" : 9718
+    } ],
+    "numberValues" : 1
+  },
+  "failedReduceAttemptCDF" : {
+    "maximum" : 9223372036854775807,
+    "minimum" : -9223372036854775808,
+    "rankings" : [ ],
+    "numberValues" : 0
+  },
+  "mapperTriesToSucceed" : [ 1.0 ],
+  "failedMapperFraction" : 0.0,
+  "relativeTime" : 0,
+  "queue" : "default",
+  "clusterMapMB" : -1,
+  "clusterReduceMB" : -1,
+  "jobMapMB" : 200,
+  "jobReduceMB" : 200
+}

@@ -1,0 +1,19 @@
+{
+  "name" : "<root>",
+  "children" : [ {
+    "name" : "default-rack",
+    "children" : [ {
+      "name" : "gn04",
+      "children" : null
+    }, {
+      "name" : "Pico",
+      "children" : null
+    }, {
+      "name" : "gn05",
+      "children" : null
+    }, {
+      "name" : "Silo",
+      "children" : null
+    } ]
+  } ]
+}
