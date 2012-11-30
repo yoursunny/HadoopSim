@@ -28,13 +28,38 @@ void transferHeartBeat(string src, size_t bytes, Time now)
     app->GetObject<NameNodeClient>()->SetDataSize(bytes);
 
     // ScheduleTransmit
-    app->GetObject<NameNodeClient>()->ScheduleTransmit(now);
+    app->GetObject<NameNodeClient>()->ScheduleTransmit(Simulator::Now());
 }
 
-long fetchRawData(string dest, string src, long bytes, long now)
+void fetchRawData(string dest, string src, size_t bytes, uint32_t dataRequestID, Time now)
 {
+    // create DataNodeClient using src IP Addr
+    NS_LOG_COMPONENT_DEFINE("DataNodeClient");
+    LogComponentEnable("DataNodeClient", LOG_LEVEL_ALL);
+    NS_LOG_INFO("Create DataNodeClient Application.");
+    DataNodeClientHelper dataNodeClient(Ipv4Address(dest.c_str()), DataNodeServerPort);
+    dataNodeClient.SetAttribute("MaxPackets", UintegerValue(1));
+    dataNodeClient.SetAttribute("Interval", TimeValue(Seconds(1.0)));
+    dataNodeClient.SetAttribute("PacketSize", UintegerValue(183));
 
-    return 0;
+    // find the node to install the DataNodeClient
+    map<string, uint32_t>::iterator it;
+    it = IP2NameNodeClientAppIndex.find(src);
+    assert(it != IP2NameNodeClientAppIndex.end());
+    Ptr<Node> node = nameNodeClientNodes.Get(it->second);
+    ApplicationContainer dataNodeClientApps = dataNodeClient.Install(node);
+//    dataNodeClientApps.Start(now);
+
+    // SetDataSize
+    assert(dataNodeClientApps.GetN() == 1);
+    DataRequest request;
+    request.dataRequestID = dataRequestID;
+    request.requestBytes = 300;//bytes;
+    dataNodeClientApps.Get(0)->GetObject<DataNodeClient>()->SetDataSize(sizeof(DataRequest));
+    dataNodeClientApps.Get(0)->GetObject<DataNodeClient>()->SetFill((uint8_t *)&request, sizeof(DataRequest), sizeof(DataRequest));
+    dataNodeClientApps.Start(now);
+    // ScheduleTransmit
+//    dataNodeClientApps.Get(0)->GetObject<DataNodeClient>()->ScheduleTransmit(Seconds(0.));
 }
 
 long fetchMapData(string dest, vector<string> src, long bytes, long now)
@@ -48,6 +73,7 @@ void buildBusTopo(vector<MachineNode> &nodeSet)
     NS_LOG_COMPONENT_DEFINE("BusTopologyNetwork");
     LogComponentEnable("BusTopologyNetwork", LOG_LEVEL_ALL);
     LogComponentEnable("NameNodeApplication", LOG_LEVEL_INFO);
+    LogComponentEnable("DataNodeApplication", LOG_LEVEL_INFO);
     NS_LOG_INFO("Bus Network Simulation");
 
     NodeContainer csmaNodes;
@@ -96,7 +122,6 @@ void buildBusTopo(vector<MachineNode> &nodeSet)
 
     // Install NameNodeClient applications
     NS_LOG_INFO("Create NameNodeClient Applications.");
-    NS_LOG_INFO(csmaInterfaces.GetAddress(0));
     NameNodeClientHelper nameNodeClient(csmaInterfaces.GetAddress(0), NameNodeServerPort);
     nameNodeClient.SetAttribute("MaxPackets", UintegerValue(1));
     nameNodeClient.SetAttribute("Interval", TimeValue(Seconds(1.0)));

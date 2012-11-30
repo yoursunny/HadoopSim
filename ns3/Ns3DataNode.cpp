@@ -66,13 +66,20 @@ void DataNodeServer::ReceivePacket(Ptr<Socket> s)
     while(packet = s->RecvFrom(from)) {
         if (packet->GetSize() > 0) {
             stringstream ss;
-            ss<<InetSocketAddress::ConvertFrom(from).GetIpv4();
-            NS_LOG_INFO(ss.str() << " DataNodeServer Received " << packet->GetSize() << " bytes BlockDataRequest from " <<
+            ss<<GetNode()->GetObject<Ipv4>()->GetAddress(1, 0).GetLocal();
+            NS_LOG_INFO(" \t **** " << ss.str() << " DataNodeServer Received " << packet->GetSize() << " bytes BlockDataRequest from " <<
                                    InetSocketAddress::ConvertFrom(from).GetIpv4());
             NS_LOG_LOGIC("Send back BlockData");
-//          uint32_t packetSize = reportArrive(ss.str());
-            Ptr<Packet> p = Create<Packet>(64 * 1024 * 1024);
+
+            DataRequest request;
+            assert(packet->GetSize() == sizeof(DataRequest));
+            packet->CopyData((uint8_t *)&request, sizeof(DataRequest));
+            uint32_t size = request.requestBytes + sizeof(uint32_t);
+            uint8_t *buffer = new uint8_t[size];
+            *(uint32_t *)buffer = request.dataRequestID;
+            Ptr<Packet> p = Create<Packet>(buffer, size);
             s->Send(p);
+            delete [] buffer;
         }
     }
 }
@@ -80,7 +87,7 @@ void DataNodeServer::ReceivePacket(Ptr<Socket> s)
 void DataNodeServer::HandleSuccessClose(Ptr<Socket> s)
 {
     NS_LOG_FUNCTION(this << s);
-    NS_LOG_LOGIC("Client close received");
+    NS_LOG_INFO("Client close received");
     s->Close();
     s->SetRecvCallback(MakeNullCallback<void, Ptr<Socket> >());
     s->SetCloseCallbacks(MakeNullCallback<void, Ptr<Socket> >(),
@@ -240,7 +247,7 @@ void DataNodeClient::StartApplication(void)
         m_socket->Connect(InetSocketAddress(m_peerAddress, m_peerPort));
     }
     m_socket->SetRecvCallback(MakeCallback(&DataNodeClient::ReceivePacket, this));
-//    ScheduleTransmit(Seconds (0.));
+    ScheduleTransmit(Seconds (0.));
 }
 
 void DataNodeClient::StopApplication()
@@ -357,7 +364,7 @@ void DataNodeClient::Send(void)
 
     stringstream ss;
     ss<<GetNode()->GetObject<Ipv4>()->GetAddress(1, 0).GetLocal();
-    NS_LOG_INFO(ss.str() << " Sent " << m_size << " bytes BlockDataRequest to " << m_peerAddress);
+    NS_LOG_INFO(" \t **** " << ss.str() << " Sent " << m_size << " bytes BlockDataRequest to " << m_peerAddress);
     if (m_sent < m_count)
         ScheduleTransmit(m_interval);
 }
@@ -370,19 +377,23 @@ void DataNodeClient::ReceivePacket(Ptr<Socket> socket)
     while(packet = socket->RecvFrom(from)) {
         stringstream ss;
         ss<<GetNode()->GetObject<Ipv4>()->GetAddress(1, 0).GetLocal();
-        NS_LOG_INFO (ss.str() << " Received " << packet->GetSize() << " bytes BlockData from " <<
+        NS_LOG_INFO(" \t **** " << ss.str() << " Received " << packet->GetSize() << " bytes BlockData from " <<
                      InetSocketAddress::ConvertFrom(from).GetIpv4());
         // dont check if data returned is the same data sent earlier
         m_recvBack++;
         m_bytesRecvBack += packet->GetSize();
 
-//        responseArrive(ss.str());
+        uint32_t size = packet->GetSize();
+        uint8_t *buffer = new uint8_t[size];
+        packet->CopyData(buffer, size);
+        rawDataArrive(*(uint32_t *)buffer, ss.str());
+        delete [] buffer;
     }
-    if (m_count == m_recvBack) {
-//        socket->Close();
-//        m_socket->SetRecvCallback(MakeNullCallback<void, Ptr<Socket> >());
-//        socket = 0;
-    }
+//    if (m_count == m_recvBack) {
+        socket->Close();
+        m_socket->SetRecvCallback(MakeNullCallback<void, Ptr<Socket> >());
+        socket = 0;
+//    }
 }
 
 DataNodeClientHelper::DataNodeClientHelper(Ipv4Address address, uint16_t port)

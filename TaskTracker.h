@@ -15,7 +15,7 @@ using namespace std;
 
 class TaskTracker: public EventListener{
 public:
-    TaskTracker():usedMapSlots(0), usedReduceSlots(0), lastReportTime(0) { }
+    TaskTracker():usedMapSlots(0), usedReduceSlots(0), lastReportTime(0), pendingTaskActionID(0) { }
     void setHostName(string hostName);
     string getHostName();
     long getUsedMapSlots();
@@ -32,6 +32,9 @@ public:
     HeartBeatReport getReport();
     void addResponse(HeartBeatResponse response);
     HeartBeatResponse getResponse();
+    TaskAction getPendingTaskAction(unsigned long taskActionID);
+    map<string, Task> getRunningTasks();
+    void addRunningTask(string taskID, Task task);
 private:
     long usedMapSlots;
     long usedReduceSlots;
@@ -42,10 +45,13 @@ private:
     string hostName;
     queue<HeartBeatReport> reportQueue;
     queue<HeartBeatResponse> responseQueue;
+    map<unsigned long, TaskAction> pendingTaskAction;
+    unsigned long pendingTaskActionID;   // self-increasing only
 };
 
 size_t reportArrive(string hostIPAddr);
 void responseArrive(string hostIPAddr);
+void rawDataArrive(unsigned long dataRequestID, string hostIPAddr);
 long initTaskTrackers(long startTime);
 void killTaskTrackers();
 

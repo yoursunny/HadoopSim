@@ -34,7 +34,7 @@ public:
     bool isWaitingMapLeft();
     bool isWaitingReduceLeft();
     ActionType updateTaskStatus(TaskStatus &taskStatus);
-    void moveWaitingMapToRunning(bool isRemote, string trackerName, string taskID);
+    void moveWaitingMapToRunning(bool isRemote, string trackerName, string dataSource, string taskID);
     void moveWaitingReduceToRunning(string trackerName, string taskID);
     void setStartTime(long startTime);
     void setEndTime(long endTime);

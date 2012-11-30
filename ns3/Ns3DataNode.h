@@ -16,6 +16,11 @@ HadoopSim is a simulator for a Hadoop Runtime by replaying the collected traces.
 
 namespace ns3 {
 
+typedef struct DataRequest {
+    uint32_t dataRequestID;
+    size_t requestBytes;
+}DataRequest;
+
 class Socket;
 class Packet;
 
@@ -80,12 +85,12 @@ public:
     uint64_t GetBytesSent(void) { return m_bytesSent; };
     uint32_t GetPacketsReceivedBack(void) { return m_recvBack; };
     uint64_t GetBytesReceivedBack(void) { return m_bytesRecvBack; };
+    void ScheduleTransmit(Time dt);
 protected:
     virtual void DoDispose(void);
 private:
     virtual void StartApplication(void);
     virtual void StopApplication(void);
-    void ScheduleTransmit(Time dt);
     void Send(void);
     void ReceivePacket(Ptr<Socket> socket);
     uint32_t m_count;

@@ -14,6 +14,7 @@ Task::Task(string jobID, string taskID, Type type, bool isRemote, long startTime
     this->status.type = type;
     this->status.isRemote = isRemote;
     this->status.isSucceeded = false;
+    this->status.dataSize = 64 * 1024 * 1024;
     this->status.progress = 0.0;
     assert(type == MAPTASK || type == REDUCETASK);
     if (type == MAPTASK)
@@ -52,10 +53,11 @@ bool Task::isSucceeded()
 //    this->status = *status;
 //}
 
-void Task::updateTaskStatus(bool isRemote, string trackerName)
+void Task::updateTaskStatus(bool isRemote, string trackerName, string dataSource)
 {
     this->status.taskTracker = trackerName;
     this->status.isRemote = isRemote;
+    this->status.dataSource = dataSource;
 }
 
 void Task::updateTaskStatus(TaskStatus status)

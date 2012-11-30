@@ -169,7 +169,7 @@ ActionType Job::updateTaskStatus(TaskStatus &taskStatus)
     return NO_ACTION;
 }
 
-void Job::moveWaitingMapToRunning(bool isRemote, string trackerName, string taskID)
+void Job::moveWaitingMapToRunning(bool isRemote, string trackerName, string dataSource, string taskID)
 {
     map<string, Task>::iterator taskIt;
     Task task;
@@ -177,7 +177,7 @@ void Job::moveWaitingMapToRunning(bool isRemote, string trackerName, string task
     assert(taskIt != waitingMaps.end());
 
     task = taskIt->second;
-    task.updateTaskStatus(isRemote, trackerName);
+    task.updateTaskStatus(isRemote, trackerName, dataSource);
     taskIt->second = task;
     if (isRemote) {
         remoteRunningMaps.insert(pair<string, Task>(taskID, taskIt->second));
@@ -195,7 +195,7 @@ void Job::moveWaitingReduceToRunning(string trackerName, string taskID)
     assert(taskIt != waitingReduces.end());
 
     task = taskIt->second;
-    task.updateTaskStatus(true, trackerName);
+    task.updateTaskStatus(true, trackerName, "ALL");
     taskIt->second = task;
     runningReduces.insert(pair<string, Task>(taskID, taskIt->second));
     waitingReduces.erase(taskIt);

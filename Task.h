@@ -74,9 +74,7 @@ public:
     string getTaskTrackerName();
     TaskStatus getTaskStatus();
     bool isSucceeded();
-//    void updateTaskStatus(list<TaskAction>::iterator action);
-//    void updateTaskStatus(list<TaskStatus>::iterator status);
-    void updateTaskStatus(bool isRemote, string trackerName);
+    void updateTaskStatus(bool isRemote, string trackerName, string dataSource);
     void updateTaskStatus(TaskStatus status);
     void setTaskStatus(double progress, long now);
 private:

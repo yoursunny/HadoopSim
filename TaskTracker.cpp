@@ -136,32 +136,76 @@ list<TaskStatus> TaskTracker::collectTaskStatus(long now)
     return allTaskStatus;
 }
 
+TaskAction TaskTracker::getPendingTaskAction(unsigned long taskActionID)
+{
+    map<unsigned long, TaskAction>::iterator it;
+    it = pendingTaskAction.find(taskActionID);
+    assert(it != pendingTaskAction.end());
+
+    TaskAction action = it->second;
+    pendingTaskAction.erase(it);
+    return action;
+}
+
+map<string, Task> TaskTracker::getRunningTasks()
+{
+    return this->runningTasks;
+}
+
+void TaskTracker::addRunningTask(string taskID, Task task)
+{
+    runningTasks.insert(pair<string, Task>(taskID, task));
+}
+
+void rawDataArrive(unsigned long dataRequestID, string hostIPAddr)
+{
+    string hostName = findHostName4IP(hostIPAddr);
+    int i;
+    for(i = 0; i < numTaskTrackers; i++) {
+        if (taskTrackers[i].getHostName() == hostName)
+            break;
+    }
+    assert(i < numTaskTrackers);
+    
+    TaskAction action = taskTrackers[i].getPendingTaskAction(dataRequestID);
+    Task task;
+    action.status.startTime = Simulator::Now().GetMilliSeconds();
+    action.status.finishTime = Simulator::Now().GetMilliSeconds() + action.status.duration;
+    task.updateTaskStatus(action.status);
+    map<string, Task> runningTasks = taskTrackers[i].getRunningTasks();
+    map<string, Task>::iterator taskIt = runningTasks.find(action.status.taskAttemptID);
+    assert(taskIt == runningTasks.end());
+    assert(task.getTaskStatus().type == MAPTASK);
+    taskTrackers[i].setUsedMapSlots(taskTrackers[i].getUsedMapSlots() + 1);
+    taskTrackers[i].addRunningTask(action.status.taskAttemptID, task);
+}
+
 void TaskTracker::handleHeartbeatResponse(HeartBeatResponse *response, long evtTime)
 {
     assert(response->type == HBResponse);
     Task task;
     map<string, Task>::iterator taskIt;
     list<TaskAction>::iterator actionIt = response->taskActions.begin();
-    long dataTransferTime;
     while(actionIt != response->taskActions.end()) {
         assert(actionIt->type != NO_ACTION);
         switch(actionIt->type) {
             case LAUNCH_TASK:
-                if (actionIt->status.isRemote) {
-                    dataTransferTime = fetchRawData(this->hostName, actionIt->status.dataSource, actionIt->status.dataSize, evtTime);
+                if (!actionIt->status.isRemote || actionIt->status.type == REDUCETASK) {    // todo modify
+                    actionIt->status.startTime = evtTime;
+                    actionIt->status.finishTime = evtTime + actionIt->status.duration;
+                    task.updateTaskStatus(actionIt->status);
+                    taskIt = runningTasks.find(actionIt->status.taskAttemptID);
+                    assert(taskIt == runningTasks.end());
+                    if (task.getTaskStatus().type == MAPTASK)
+                        this->usedMapSlots++;
+                    else
+                        this->usedReduceSlots++;
+                    runningTasks.insert(pair<string, Task>(actionIt->status.taskAttemptID, task));
                 } else {
-                    dataTransferTime = 0;
+                    pendingTaskAction.insert(pair<unsigned long, TaskAction>(pendingTaskActionID, *actionIt));
+                    fetchRawData(findIPAddr4Host(actionIt->status.dataSource), findIPAddr4Host(this->hostName), actionIt->status.dataSize, pendingTaskActionID, MilliSeconds(evtTime));
+                    pendingTaskActionID++;
                 }
-                actionIt->status.startTime = evtTime + dataTransferTime;
-                actionIt->status.finishTime = evtTime + dataTransferTime + actionIt->status.duration;
-                task.updateTaskStatus(actionIt->status);
-                taskIt = runningTasks.find(actionIt->status.taskAttemptID);
-                assert(taskIt == runningTasks.end());
-                if (task.getTaskStatus().type == MAPTASK)
-                    this->usedMapSlots++;
-                else
-                    this->usedReduceSlots++;
-                runningTasks.insert(pair<string, Task>(actionIt->status.taskAttemptID, task));
                 break;
             case KILL_TASK:
                 taskIt = runningTasks.find(actionIt->status.taskAttemptID);

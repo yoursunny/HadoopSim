@@ -58,7 +58,8 @@ list<TaskAction> FIFOScheduler::assignTasks(string trackerName, long numAvailMap
             action.type = LAUNCH_TASK;
             action.status = taskIt->second.getTaskStatus();
             action.status.taskTracker = trackerName;
-            job.moveWaitingMapToRunning(false, trackerName, taskIt->first);
+            action.status.dataSource = trackerName;
+            job.moveWaitingMapToRunning(false, trackerName, trackerName, taskIt->first);
         } else {
             // we will assign a non-local map task to this task tracker
             taskIt = waitingMaps.begin();
@@ -67,7 +68,12 @@ list<TaskAction> FIFOScheduler::assignTasks(string trackerName, long numAvailMap
             action.status = taskIt->second.getTaskStatus();
             action.status.taskTracker = trackerName;
             action.status.isRemote = true;
-            job.moveWaitingMapToRunning(true, trackerName, taskIt->first);
+            // find remote node (in random mode) to fetch data for this MAP task
+            mapIt = block2Node.find(action.status.taskAttemptID);
+            assert(mapIt != block2Node.end());
+            vector<string> nodes = mapIt->second;
+            action.status.dataSource = nodes[rand() % nodes.size()];
+            job.moveWaitingMapToRunning(true, trackerName, action.status.dataSource, taskIt->first);
         }
         jobIt->second = job;
         taskAction.push_back(action);
