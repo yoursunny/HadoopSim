@@ -32,7 +32,7 @@ typedef enum TopoType {
 
 void setTopology(int topoType, vector<MachineNode> &nodeSet);
 void transferHeartBeat(string src, size_t bytes, Time now);
-void fetchRawData(string dest, string src, size_t bytes, uint32_t dataRequestID, Time now);
-long fetchMapData(string dest, vector<string> src, long bytes, long now);
+void fetchRawData(string dest, string src, size_t bytes, uint32_t dataType, uint32_t dataRequestID, Time now);
+void fetchMapData(string dest, string src, size_t bytes, uint32_t dataType, uint32_t dataRequestID, Time now);
 
 #endif

@@ -157,7 +157,25 @@ void TaskTracker::addRunningTask(string taskID, Task task)
     runningTasks.insert(pair<string, Task>(taskID, task));
 }
 
-void rawDataArrive(unsigned long dataRequestID, string hostIPAddr)
+MapDataAction TaskTracker::getPendingMapDataAction(unsigned long mapDataActionID)
+{
+    map<unsigned long, MapDataAction>::iterator it;
+    it = pendingMapDataAction.find(mapDataActionID);
+    assert(it != pendingMapDataAction.end());
+
+    MapDataAction action = it->second;
+    pendingMapDataAction.erase(it);
+    return action;
+}
+
+void TaskTracker::updateRunningTask(string taskID, Task task)
+{
+    map<string, Task>::iterator taskIt = runningTasks.find(taskID);
+    assert(taskIt != runningTasks.end());
+    taskIt->second = task;
+}
+
+void dataArrive(unsigned long dataType, unsigned long dataRequestID, string hostIPAddr)
 {
     string hostName = findHostName4IP(hostIPAddr);
     int i;
@@ -166,18 +184,30 @@ void rawDataArrive(unsigned long dataRequestID, string hostIPAddr)
             break;
     }
     assert(i < numTaskTrackers);
-    
-    TaskAction action = taskTrackers[i].getPendingTaskAction(dataRequestID);
-    Task task;
-    action.status.startTime = Simulator::Now().GetMilliSeconds();
-    action.status.finishTime = Simulator::Now().GetMilliSeconds() + action.status.duration;
-    task.updateTaskStatus(action.status);
-    map<string, Task> runningTasks = taskTrackers[i].getRunningTasks();
-    map<string, Task>::iterator taskIt = runningTasks.find(action.status.taskAttemptID);
-    assert(taskIt == runningTasks.end());
-    assert(task.getTaskStatus().type == MAPTASK);
-    taskTrackers[i].setUsedMapSlots(taskTrackers[i].getUsedMapSlots() + 1);
-    taskTrackers[i].addRunningTask(action.status.taskAttemptID, task);
+
+    if (dataType == MAPTASK) {
+        TaskAction action = taskTrackers[i].getPendingTaskAction(dataRequestID);
+        Task task;
+        action.status.startTime = Simulator::Now().GetMilliSeconds();
+        action.status.finishTime = Simulator::Now().GetMilliSeconds() + action.status.duration;
+        task.updateTaskStatus(action.status);
+        map<string, Task> runningTasks = taskTrackers[i].getRunningTasks();
+        map<string, Task>::iterator taskIt = runningTasks.find(action.status.taskAttemptID);
+        assert(taskIt == runningTasks.end());
+        assert(task.getTaskStatus().type == MAPTASK);
+        taskTrackers[i].setUsedMapSlots(taskTrackers[i].getUsedMapSlots() + 1);
+        taskTrackers[i].addRunningTask(action.status.taskAttemptID, task);
+    } else {
+        MapDataAction action = taskTrackers[i].getPendingMapDataAction(dataRequestID);
+        map<string, Task> runningTasks = taskTrackers[i].getRunningTasks();
+        map<string, Task>::iterator taskIt = runningTasks.find(action.reduceTaskID);
+        assert(taskIt != runningTasks.end());
+        Task task = taskIt->second;
+        TaskStatus status = task.getTaskStatus();
+        status.mapDataCouter++;
+        task.updateTaskStatus(status);
+        taskTrackers[i].updateRunningTask(taskIt->first, task);
+    }
 }
 
 void TaskTracker::handleHeartbeatResponse(HeartBeatResponse *response, long evtTime)
@@ -185,12 +215,14 @@ void TaskTracker::handleHeartbeatResponse(HeartBeatResponse *response, long evtT
     assert(response->type == HBResponse);
     Task task;
     map<string, Task>::iterator taskIt;
+
+    // handle TaskAction
     list<TaskAction>::iterator actionIt = response->taskActions.begin();
     while(actionIt != response->taskActions.end()) {
         assert(actionIt->type != NO_ACTION);
         switch(actionIt->type) {
             case LAUNCH_TASK:
-                if (!actionIt->status.isRemote || actionIt->status.type == REDUCETASK) {    // todo modify
+                if (!actionIt->status.isRemote || actionIt->status.type == REDUCETASK) {    // todo modify for reduce task
                     actionIt->status.startTime = evtTime;
                     actionIt->status.finishTime = evtTime + actionIt->status.duration;
                     task.updateTaskStatus(actionIt->status);
@@ -203,7 +235,10 @@ void TaskTracker::handleHeartbeatResponse(HeartBeatResponse *response, long evtT
                     runningTasks.insert(pair<string, Task>(actionIt->status.taskAttemptID, task));
                 } else {
                     pendingTaskAction.insert(pair<unsigned long, TaskAction>(pendingTaskActionID, *actionIt));
-                    fetchRawData(findIPAddr4Host(actionIt->status.dataSource), findIPAddr4Host(this->hostName), actionIt->status.dataSize, pendingTaskActionID, MilliSeconds(evtTime));
+                    fetchRawData(findIPAddr4Host(actionIt->status.dataSource),
+                                 findIPAddr4Host(this->hostName),
+                                 actionIt->status.dataSize,
+                                 MAPTASK, pendingTaskActionID, MilliSeconds(evtTime));
                     pendingTaskActionID++;
                 }
                 break;
@@ -235,6 +270,18 @@ void TaskTracker::handleHeartbeatResponse(HeartBeatResponse *response, long evtT
                 break;
         }
         actionIt++;
+    }
+
+    // handle MapDataAction
+    for(size_t i = 0; i < response->mapDataActions.size(); i++) {
+        taskIt = runningTasks.find(response->mapDataActions[i].reduceTaskID);
+        assert(taskIt != runningTasks.end());
+        pendingMapDataAction.insert(pair<unsigned long, MapDataAction>(pendingMapDataActionID, response->mapDataActions[i]));
+        fetchMapData(findIPAddr4Host(response->mapDataActions[i].dataSource),
+                     findIPAddr4Host(this->hostName),
+                     response->mapDataActions[i].dataSize,
+                     REDUCETASK, pendingMapDataActionID, MilliSeconds(evtTime));
+        pendingMapDataActionID++;
     }
 }
 

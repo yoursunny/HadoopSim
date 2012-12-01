@@ -17,6 +17,7 @@ HadoopSim is a simulator for a Hadoop Runtime by replaying the collected traces.
 namespace ns3 {
 
 typedef struct DataRequest {
+    uint32_t dataType;
     uint32_t dataRequestID;
     size_t requestBytes;
 }DataRequest;

@@ -3,6 +3,7 @@ Lei Ye <leiy@cs.arizona.edu>
 HadoopSim is a simulator for a Hadoop Runtime by replaying the collected traces.
 */
 #include <assert.h>
+#include <math.h>
 #include <iostream>
 #include "JobTracker.h"
 #include "JobClient.h"
@@ -83,13 +84,44 @@ void JobTracker::updateTaskStatus(HeartBeatReport report, long now)
         TaskStatus status = *taskStatusIt;
         Job job = jobIt->second;
         ActionType type = job.updateTaskStatus(status);
-        if (type != NO_ACTION) {
+        jobIt->second = job;
+        if (type != NO_ACTION && type != FETCH_MAPDATA) {
             TaskAction action;
             action.type = type;
             action.status = status;
             taskActions.push_back(action);       //add KILL_TASK & START_REDUCEPHASE actions
         }
-        jobIt->second = job;
+        if (type == FETCH_MAPDATA) {
+            // this Map is done, try to tell all running Reduce tasks to fetch its data
+            assert(status.type == MAPTASK);
+            assert(status.outputSize > 0);
+
+            // data information
+            MapDataAction dataAction;
+            dataAction.dataSource = report.hostName;
+            dataAction.dataSize = ceil(status.outputSize * 1.0 / job.getNumReduce());
+
+            // try to set DataAction for running Reduce tasks
+            map<string, Task> runningReduces = job.getRunningReduces();
+            map<string, Task>::iterator taskIt = runningReduces.begin();
+            while(taskIt != runningReduces.end()) {
+                string nodeName = taskIt->second.getTaskStatus().taskTracker;
+                map<string, vector<MapDataAction> >::iterator dataActionIt;
+                dataActionIt = allMapDataActions.find(nodeName);
+                if (dataActionIt != allMapDataActions.end()) {
+                    vector<MapDataAction> mapDataActions = dataActionIt->second;
+                    dataAction.reduceTaskID = taskIt->first;
+                    mapDataActions.push_back(dataAction);
+                    dataActionIt->second = mapDataActions;
+                } else {
+                    vector<MapDataAction> mapDataActions;
+                    dataAction.reduceTaskID = taskIt->first;
+                    mapDataActions.push_back(dataAction);
+                    allMapDataActions.insert(pair<string, vector<MapDataAction> >(nodeName, mapDataActions));
+                }
+                taskIt++;
+            }
+        }
 
         // if job is done, move it to completedJobs
         if(jobIt->second.isSucceeded()) {
@@ -113,30 +145,6 @@ void JobTracker::updateTaskStatus(HeartBeatReport report, long now)
     }
 }
 
-/*
-void createTaskEntry(TaskAttemptID taskid, String taskTracker, TaskInProgress tip);
-void removeTaskEntry(TaskAttemptID taskid);
-void markCompletedTaskAttempt(String taskTracker, TaskAttemptID taskid);
-void markCompletedJob(JobInProgress job);
-void removeMarkedTasks(String taskTracker);
-void removeJobTasks(JobInProgress job);
-void finalizeJob(JobInProgress job);
-
-void addNewTracker(TaskTrackerStatus status);
-
-
-JobStatus submitJob(JobID jobId);
-void initJob(JobInProgress job);
-JobStatus getJobStatus(JobID jobid);
-TaskReport[] getMapTaskReports(JobID jobid);
-TaskReport[] getReduceTaskReports(JobID jobid);
-TaskReport[] getCleanupTaskReports(JobID jobid);
-TaskReport[] getSetupTaskReports(JobID jobid);
-TaskCompletionEvent[] getTaskCompletionEvents(JobID jobid, int fromEventId, int maxEvents);
-
-void updateTaskStatuses(TaskTrackerStatus status);
-*/
-
 HeartBeatResponse JobTracker::processHeartbeat(HeartBeatReport report, long now)
 {
     assert(report.type == HBReport);
@@ -145,18 +153,54 @@ HeartBeatResponse JobTracker::processHeartbeat(HeartBeatReport report, long now)
     updateTaskTrackerStatus(report, now);
     updateTaskStatus(report, now);
 
+    vector<MapDataAction> mapDataActions;
     if (report.numAvailMapSlots > 0 || report.numAvailReduceSlots > 0) {
         // add LAUNCH_TASK actions, scheduling a task
         list<TaskAction> actions = sched->assignTasks(report.hostName, report.numAvailMapSlots, report.numAvailReduceSlots, now);
         while (!actions.empty()) {
+            // add to TaskAction which will be sent to the TaskTracker who send this HeartBeatReport
+            TaskStatus status = actions.front().status;
             taskActions.push_back(actions.front());
             actions.pop_front();
+
+            if (status.type == REDUCETASK) { // a new launched Reduce Task, find available Map data for it
+                map<string, Job>::iterator jobIt = runningJobs.find(status.jobID);
+                assert(jobIt != runningJobs.end() && jobIt->second.getState() == JOBRUNNING);
+
+                // find all completed Map Tasks since they have all data ready to use
+                map<string, Task> completedMaps = jobIt->second.getCompletedMaps();
+                map<string, Task>::iterator taskIt = completedMaps.begin();
+                while(taskIt != completedMaps.end()) {
+                    MapDataAction dataAction;
+                    dataAction.reduceTaskID = status.taskAttemptID;
+                    dataAction.dataSource = taskIt->second.getTaskStatus().taskTracker;
+                    dataAction.dataSize = ceil(taskIt->second.getTaskStatus().outputSize * 1.0 / jobIt->second.getNumReduce());
+                    mapDataActions.push_back(dataAction);
+                    taskIt++;
+                }
+            }
         }
     }
 
     HeartBeatResponse response;
     response.type = HBResponse;
     response.taskActions = taskActions;
+
+    // combine MapDataAction from two different cases
+    map<string, vector<MapDataAction> >::iterator dataActionIt = allMapDataActions.find(report.hostName);
+    if (dataActionIt != allMapDataActions.end()) {
+        vector<MapDataAction> actions = dataActionIt->second;
+        response.mapDataActions = actions;
+        actions.clear();
+        dataActionIt->second = actions;
+
+        while(!mapDataActions.empty()) {
+            response.mapDataActions.push_back(mapDataActions.back());
+            mapDataActions.pop_back();
+        }
+    } else {
+        response.mapDataActions = mapDataActions;
+    }
     return response;
 }
 
@@ -201,4 +245,3 @@ JobTracker *getJobTracker()
 {
     return jobTracker;
 }
-

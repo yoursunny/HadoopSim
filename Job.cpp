@@ -136,6 +136,8 @@ ActionType Job::updateTaskStatus(TaskStatus &taskStatus)
                 } else {
                     localRunningMaps.erase(taskIt);
                 }
+                if (task.getTaskStatus().outputSize != 0)
+                    return FETCH_MAPDATA;
             }
         }
     } else {
@@ -159,7 +161,7 @@ ActionType Job::updateTaskStatus(TaskStatus &taskStatus)
                     setState(JOBSUCCEEDED);
                 }
             } else {
-                if (isAllMapsDone() && taskStatus.runPhase == SHUFFLE) {
+                if (isAllMapsDone() && taskStatus.runPhase == SHUFFLE && taskStatus.mapDataCouter == this->numMap) {
                     taskStatus.runPhase = REDUCE;
                     return START_REDUCEPHASE;
                 }
@@ -231,6 +233,11 @@ map<string, Task> Job::getCompletedReduces()
     return this->completedReduces;
 }
 
+map<string, Task> Job::getRunningReduces()
+{
+    return this->runningReduces;
+}
+
 bool Job::canScheduleReduce()
 {
     return completedMaps.size() >= (size_t)completedMapsForReduceStart;
@@ -256,3 +263,7 @@ bool Job::isFirstMap()
     return remoteRunningMaps.empty() && localRunningMaps.empty() && completedMaps.empty() && killedMaps.empty();
 }
 
+long Job::getNumReduce()
+{
+    return this->numReduce;
+}

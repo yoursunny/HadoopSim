@@ -14,7 +14,11 @@ Task::Task(string jobID, string taskID, Type type, bool isRemote, long startTime
     this->status.type = type;
     this->status.isRemote = isRemote;
     this->status.isSucceeded = false;
-    this->status.dataSize = 64 * 1024 * 1024;
+    if (type == MAPTASK)
+        this->status.dataSize = 64 * 1024 * 1024;
+    else
+        this->status.dataSize = 0;
+    this->status.mapDataCouter = 0;
     this->status.progress = 0.0;
     assert(type == MAPTASK || type == REDUCETASK);
     if (type == MAPTASK)

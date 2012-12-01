@@ -21,6 +21,7 @@ size_t getHBResponseSize(HeartBeatResponse &response)
     size_t size = 0;
     size += sizeof(response.type);
     size += response.taskActions.size() * sizeof(TaskAction);
+    size += response.mapDataActions.size() * sizeof(MapDataAction);
     return size;
 }
 
@@ -51,7 +52,14 @@ void dumpHeartBeatResponse(HeartBeatResponse &response)
         cout<<"-----------\n";
         i++;
     }
-//    if (i != 0)
-//        assert(0);
-}
 
+    if (response.mapDataActions.empty())
+        return;
+    cout<<"MapDataActions = "<<endl;
+    for(size_t j = 0; j < response.mapDataActions.size(); j++) {
+        cout<<"\t"<<j<<":\n";
+        cout<<"\treduceTaskID = "<<response.mapDataActions[j].reduceTaskID<<endl;
+        cout<<"\tdataSource = "<<response.mapDataActions[j].dataSource<<endl;
+        cout<<"\tdataSize = "<<response.mapDataActions[j].dataSize<<endl;
+    }
+}

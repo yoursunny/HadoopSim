@@ -42,11 +42,13 @@ public:
     map<string, Task> getWaitingReduces();
     map<string, Task> getCompletedMaps();
     map<string, Task> getCompletedReduces();
+    map<string, Task> getRunningReduces();
     bool canScheduleReduce();
     long getStarTime();
     long getEndTime();
     string getJobID();
     bool isFirstMap();
+    long getNumReduce();
 private:
     string jobID;
     JobState state;

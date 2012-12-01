@@ -31,7 +31,7 @@ void transferHeartBeat(string src, size_t bytes, Time now)
     app->GetObject<NameNodeClient>()->ScheduleTransmit(Simulator::Now());
 }
 
-void fetchRawData(string dest, string src, size_t bytes, uint32_t dataRequestID, Time now)
+void fetchRawData(string dest, string src, size_t bytes, uint32_t dataType, uint32_t dataRequestID, Time now)
 {
     // create DataNodeClient using src IP Addr
     NS_LOG_COMPONENT_DEFINE("DataNodeClient");
@@ -53,6 +53,7 @@ void fetchRawData(string dest, string src, size_t bytes, uint32_t dataRequestID,
     // SetDataSize
     assert(dataNodeClientApps.GetN() == 1);
     DataRequest request;
+    request.dataType = dataType;
     request.dataRequestID = dataRequestID;
     request.requestBytes = 300;//bytes;
     dataNodeClientApps.Get(0)->GetObject<DataNodeClient>()->SetDataSize(sizeof(DataRequest));
@@ -62,10 +63,9 @@ void fetchRawData(string dest, string src, size_t bytes, uint32_t dataRequestID,
 //    dataNodeClientApps.Get(0)->GetObject<DataNodeClient>()->ScheduleTransmit(Seconds(0.));
 }
 
-long fetchMapData(string dest, vector<string> src, long bytes, long now)
+void fetchMapData(string dest, string src, size_t bytes, uint32_t dataType, uint32_t dataRequestID, Time now)
 {
-
-    return 0;
+    return fetchRawData(dest, src, bytes, dataType, dataRequestID, now);
 }
 
 void buildBusTopo(vector<MachineNode> &nodeSet)

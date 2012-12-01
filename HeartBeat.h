@@ -6,6 +6,7 @@ HadoopSim is a simulator for a Hadoop Runtime by replaying the collected traces.
 #define HEARTBEAT_H
 
 #include <list>
+#include <vector>
 #include "Task.h"
 using namespace std;
 
@@ -25,6 +26,7 @@ typedef struct HeartBeatReport {
 typedef struct HeartBeatResponse {
     HeartBeatType type;
     list<TaskAction> taskActions;
+    vector<MapDataAction> mapDataActions;
 }HeartBeatResponse;
 
 size_t getHBReportSize(HeartBeatReport &report);
@@ -33,4 +35,3 @@ void dumpHeartBeatReport(HeartBeatReport &report);
 void dumpHeartBeatResponse(HeartBeatResponse &response);
 
 #endif
-

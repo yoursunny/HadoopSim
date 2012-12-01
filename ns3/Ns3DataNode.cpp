@@ -74,9 +74,9 @@ void DataNodeServer::ReceivePacket(Ptr<Socket> s)
             DataRequest request;
             assert(packet->GetSize() == sizeof(DataRequest));
             packet->CopyData((uint8_t *)&request, sizeof(DataRequest));
-            uint32_t size = request.requestBytes + sizeof(uint32_t);
+            uint32_t size = request.requestBytes + sizeof(DataRequest);
             uint8_t *buffer = new uint8_t[size];
-            *(uint32_t *)buffer = request.dataRequestID;
+            memcpy(buffer, &request, sizeof(DataRequest));
             Ptr<Packet> p = Create<Packet>(buffer, size);
             s->Send(p);
             delete [] buffer;
@@ -386,7 +386,10 @@ void DataNodeClient::ReceivePacket(Ptr<Socket> socket)
         uint32_t size = packet->GetSize();
         uint8_t *buffer = new uint8_t[size];
         packet->CopyData(buffer, size);
-        rawDataArrive(*(uint32_t *)buffer, ss.str());
+
+        DataRequest request;
+        memcpy(&request, buffer, sizeof(DataRequest));
+        dataArrive(request.dataType, request.dataRequestID, ss.str());
         delete [] buffer;
     }
 //    if (m_count == m_recvBack) {
