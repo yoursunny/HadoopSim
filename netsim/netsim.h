@@ -3,7 +3,6 @@
 #include "netsim/defs.h"
 #include <vector>
 #include <map>
-#include "ns3/core-module.h"
 namespace HadoopNetSim {
 
 enum TransmitType {
@@ -20,6 +19,7 @@ typedef ns3::Callback<void,const ns3::Time&,LinkId,size_t> QueueLengthCb;//void 
 class NetSim {
   public:
     NetSim(void);
+    
     const std::set<std::string>& ns_hosts(void) { return this->ns_hosts_; }//get name servers
     void set_ns_hosts(const std::set<std::string>& value) { this->ns_hosts_ = value; }//set name servers
     uint32_t host_ip(const std::string& host);//get first IPv4 address of a host
@@ -42,8 +42,7 @@ class NetSim {
     
   private:
     std::set<std::string> ns_hosts_;
-    std::map<std::string,ns3::Node> hostname_to_node_;
-    std::map<uint32_t,std::string> nodeid_to_hostname_;
+    std::map<std::string,ns3::Node> nodes_;//hostname=>node
     DISALLOW_COPY_AND_ASSIGN(NetSim);
 };
 

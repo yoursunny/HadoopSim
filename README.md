@@ -1,12 +1,17 @@
 # Hadoop simulator
 
-This program requires ns-3.15.
-This directory should be placed in `ns-3.15/examples/HadoopSim`.
+This program requires ns-3.15. This directory should be placed in `ns-3.15/examples/HadoopSim`.
+ns-3 needs a patch to compile in C++ 11. Run `./ns3patch.sh` once to apply the patch.
 
-How to run HadoopSim? Below is an example.
-Enter `ns-3.15/examples/HadoopSim` directory, run command:
-./waf --run "HadoopSim 0 0 /home/hduser/ns3/ns-allinone-3.15/ns-3.15/examples/HadoopSim-NS3/topo.json /home/hduser/ns3/ns-allinone-3.15/ns-3.15/examples/HadoopSim-NS3/Trace 2 1"
+## Running
 
-How to run GDB to debug HadoopSim? Below is an example.
-Enter `ns-3.15/examples/HadoopSim` directory, run command:
-./waf --run "HadoopSim" --command-template="gdb --args %s"
+Run HadoopSim
+`./waf --run "HadoopSim 0 0 examples/HadoopSim/topo.json examples/HadoopSim/Trace 2 1"`
+
+Debug HadoopSim
+`./waf --run "HadoopSim" --command-template="gdb --args %s 0 0 examples/HadoopSim/topo.json examples/HadoopSim/Trace 2 1"`
+
+Run NetSim unittest
+`./waf --run HadoopNetSimUnitTest
+
+
