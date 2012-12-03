@@ -2,7 +2,7 @@
 Lei Ye <leiy@cs.arizona.edu>
 HadoopSim is a simulator for a Hadoop Runtime by replaying the collected traces.
 */
-#include <vector>
+#include <assert.h>
 #include "Cluster.h"
 #include "TopologyReader.h"
 #include "ns3/Ns3.h"

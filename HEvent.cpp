@@ -2,9 +2,7 @@
 Lei Ye <leiy@cs.arizona.edu>
 HadoopSim is a simulator for a Hadoop Runtime by replaying the collected traces.
 */
-#include <iostream>
 #include "HEvent.h"
-using namespace std;
 
 HEvent::HEvent(EventListener *listener, int type, long timestamp)
 {
@@ -37,4 +35,3 @@ void HEvent::setVersion(long count)
 {
     this->version = count;
 }
-

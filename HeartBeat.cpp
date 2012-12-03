@@ -2,7 +2,6 @@
 Lei Ye <leiy@cs.arizona.edu>
 HadoopSim is a simulator for a Hadoop Runtime by replaying the collected traces.
 */
-#include <assert.h>
 #include <iostream>
 #include "HeartBeat.h"
 using namespace std;

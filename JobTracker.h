@@ -5,43 +5,41 @@ HadoopSim is a simulator for a Hadoop Runtime by replaying the collected traces.
 #ifndef JOBTRACKER_H
 #define JOBTRACKER_H
 
+#include <list>
 #include <map>
 #include <vector>
-#include <list>
+#include "HeartBeat.h"
 #include "HScheduler.h"
 #include "Job.h"
-#include "HeartBeat.h"
-#include "TaskTrackerStatus.h"
 #include "JobTaskStory.h"
-using namespace std;
+#include "TaskTrackerStatus.h"
 
 class JobTracker {
 public:
     JobTracker(HScheduler *sched);
     HScheduler* getScheduler();
-    void updateBlockNodeMapping(string splitID, vector<string> dataNodes);
+    void updateBlockNodeMapping(std::string splitID, std::vector<std::string> dataNodes);
     void acceptNewJob(JobStory *jobStory, long now);
     void updateTaskTrackerStatus(HeartBeatReport report, long now);
     void updateTaskStatus(HeartBeatReport report, long now);
     HeartBeatResponse processHeartbeat(HeartBeatReport report, long now);
-    map<string, Job> &getRunningJobs();
-    map<string, Job> &getCompletedJobs();
-    map<string, vector<string> > getNode2Block();
-    map<string, vector<string> > getBlock2Node();
-
+    std::map<std::string, Job> &getRunningJobs();
+    std::map<std::string, Job> &getCompletedJobs();
+    std::map<std::string, std::vector<std::string> > getNode2Block();
+    std::map<std::string, std::vector<std::string> > getBlock2Node();
 private:
     HScheduler *sched;
-    list<TaskAction> taskActions;
-    map<string, vector<string> > node2Block;    // trackerName <---> splitIDs on this tracker
-    map<string, vector<string> > block2Node;    // splitID <---> trackerNames holding this split
-    map<string, TaskTrackerStatus> allTaskTrackerStatus;    // trackerName <--> TaskTrackerStatus
-    map<string, vector<MapDataAction> > allMapDataActions;  // trackerName <--> vector<MapDataAction> on this tracker
-    map<string, Job> runningJobs;
-    map<string, Job> completedJobs;
+    std::list<TaskAction> taskActions;
+    std::map<std::string, std::vector<std::string> > node2Block;    // trackerName <---> splitIDs on this tracker
+    std::map<std::string, std::vector<std::string> > block2Node;    // splitID <---> trackerNames holding this split
+    std::map<std::string, TaskTrackerStatus> allTaskTrackerStatus;  // trackerName <--> TaskTrackerStatus
+    std::map<std::string, std::vector<MapDataAction> > allMapDataActions;  // trackerName <--> vector<MapDataAction> on this tracker
+    std::map<std::string, Job> runningJobs;
+    std::map<std::string, Job> completedJobs;
 };
 
 void initJobTracker(int schedType);
 void killJobTracker();
 JobTracker *getJobTracker();
 
-#endif
+#endif // JOBTRACKER_H

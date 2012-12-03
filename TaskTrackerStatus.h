@@ -6,11 +6,10 @@ HadoopSim is a simulator for a Hadoop Runtime by replaying the collected traces.
 #define TASKTRACKERSTATUS_H
 
 #include <string>
-using namespace std;
 
 class TaskTrackerStatus {
 public:
-    TaskTrackerStatus(string trackerName): isTrackerLive(true), \
+    TaskTrackerStatus(std::string trackerName): isTrackerLive(true), \
             lastReportTime(0), numAvailMapSlots(0), numAvailReduceSlots(0)
     {
         this->taskTrackerName = trackerName;
@@ -24,12 +23,11 @@ public:
     long getAvailReduceSlots();
     void setAvailReduceSlots(long slot);
 private:
-    string taskTrackerName;
+    std::string taskTrackerName;
     bool isTrackerLive;
     long lastReportTime;
     long numAvailMapSlots;
     long numAvailReduceSlots;
 };
 
-#endif
-
+#endif // TASKTRACKERSTATUS_H

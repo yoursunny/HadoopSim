@@ -5,24 +5,24 @@ HadoopSim is a simulator for a Hadoop Runtime by replaying the collected traces.
 #ifndef TASKTRACKER_H
 #define TASKTRACKER_H
 
+#include <list>
 #include <map>
 #include <queue>
-#include <list>
-#include "Task.h"
-#include "HEvent.h"
+#include <string>
 #include "HeartBeat.h"
-using namespace std;
+#include "HEvent.h"
+#include "Task.h"
 
 class TaskTracker: public EventListener{
 public:
     TaskTracker():usedMapSlots(0), usedReduceSlots(0), lastReportTime(0), pendingTaskActionID(0), pendingMapDataActionID(0) { }
-    void setHostName(string hostName);
-    string getHostName();
+    void setHostName(std::string hostName);
+    std::string getHostName();
     long getUsedMapSlots();
     void setUsedMapSlots(long slot);
     long getUsedReduceSlots();
     void setUsedReduceSlots(long slot);
-    list<TaskStatus> collectTaskStatus(long now);
+    std::list<TaskStatus> collectTaskStatus(long now);
     void sendHeartbeat(long evtTime);
     void handleHeartbeatResponse(HeartBeatResponse *response, long evtTime);
     void completeMapTask(long evtTime);
@@ -33,31 +33,30 @@ public:
     void addResponse(HeartBeatResponse response);
     HeartBeatResponse getResponse();
     TaskAction getPendingTaskAction(unsigned long taskActionID);
-    map<string, Task> getRunningTasks();
-    void addRunningTask(string taskID, Task task);
+    std::map<std::string, Task> getRunningTasks();
+    void addRunningTask(std::string taskID, Task task);
     MapDataAction getPendingMapDataAction(unsigned long mapDataActionID);
-    void updateRunningTask(string taskID, Task task);
+    void updateRunningTask(std::string taskID, Task task);
 private:
     long usedMapSlots;
     long usedReduceSlots;
-    map<string, Task> runningTasks;
-    map<string, Task> killedTasks;
-    map<string, Task> completedTasks;
+    std::map<std::string, Task> runningTasks;
+    std::map<std::string, Task> killedTasks;
+    std::map<std::string, Task> completedTasks;
     long lastReportTime;
-    string hostName;
-    queue<HeartBeatReport> reportQueue;
-    queue<HeartBeatResponse> responseQueue;
-    map<unsigned long, TaskAction> pendingTaskAction;
+    std::string hostName;
+    std::queue<HeartBeatReport> reportQueue;
+    std::queue<HeartBeatResponse> responseQueue;
+    std::map<unsigned long, TaskAction> pendingTaskAction;
     unsigned long pendingTaskActionID;      // self-increasing only
-    map<unsigned long, MapDataAction> pendingMapDataAction;
+    std::map<unsigned long, MapDataAction> pendingMapDataAction;
     unsigned long pendingMapDataActionID;   // self-increasing only
 };
 
-size_t reportArrive(string hostIPAddr);
-void responseArrive(string hostIPAddr);
-void dataArrive(unsigned long dataType, unsigned long dataRequestID, string hostIPAddr);
+size_t reportArrive(std::string hostIPAddr);
+void responseArrive(std::string hostIPAddr);
+void dataArrive(unsigned long dataType, unsigned long dataRequestID, std::string hostIPAddr);
 long initTaskTrackers(long startTime);
 void killTaskTrackers();
 
-#endif
-
+#endif // TASKTRACKER_H

@@ -5,11 +5,12 @@ HadoopSim is a simulator for a Hadoop Runtime by replaying the collected traces.
 #include <assert.h>
 #include <math.h>
 #include <iostream>
-#include "JobTracker.h"
-#include "JobClient.h"
 #include "EventQueue.h"
+#include "JobClient.h"
+#include "JobTracker.h"
 #include "TraceReader.h"
 #include "ns3/Ns3.h"
+using namespace ns3;
 using namespace std;
 
 /* JobTracker Variables */
@@ -140,7 +141,6 @@ void JobTracker::updateTaskStatus(HeartBeatReport report, long now)
             JobClient *client = getJobClient();
             HEvent evt(client, EVT_JobDone, now);
             Simulator::Schedule(Seconds((double)now/1000.0), &hadoopEventCallback, evt);
-//            addEventToEvtQueue(evt);
         }
     }
 }

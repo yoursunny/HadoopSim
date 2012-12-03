@@ -13,7 +13,6 @@ public:
         Pending = 3,
         Completed = 4
     };
-
     enum ErrorCode {
         TooFewParameters = -1,
         WrongParameters = -2,
@@ -21,5 +20,4 @@ public:
     };
 };
 
-#endif
-
+#endif // STATUS_H

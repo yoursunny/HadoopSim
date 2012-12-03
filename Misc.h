@@ -6,14 +6,12 @@ HadoopSim is a simulator for a Hadoop Runtime by replaying the collected traces.
 #define MISC_H
 
 #include <sstream>
-using namespace std;
 
-inline string to_string(int n)
+inline std::string to_string(int n)
 {
-    stringstream ss;
+    std::stringstream ss;
     ss<<n;
     return ss.str();
 }
 
-#endif
-
+#endif // MISC_H

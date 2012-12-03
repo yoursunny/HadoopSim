@@ -6,28 +6,27 @@ HadoopSim is a simulator for a Hadoop Runtime by replaying the collected traces.
 #define CLUSTER_H
 
 #include <string>
-using namespace std;
+#include <vector>
 
 const int MaxMapSlots = 2;
 const int MaxReduceSlots = 2;
 
 class MachineNode {
 public:
-    MachineNode(string rackName, string hostName, string ipAddr);
-    string getRackName();
-    string getHostName();
-    string getIpAddr();
-    void setIpAddr(string ipAddr);
+    MachineNode(std::string rackName, std::string hostName, std::string ipAddr);
+    std::string getRackName();
+    std::string getHostName();
+    std::string getIpAddr();
+    void setIpAddr(std::string ipAddr);
 private:
-    string rackName;
-    string hostName;
-    string ipAddr;
+    std::string rackName;
+    std::string hostName;
+    std::string ipAddr;
 };
 
 void setupCluster(int topoType);
-vector<MachineNode> getClusterNodes();
-string findIPAddr4Host(string hostName);
-string findHostName4IP(string hostIPAddr);
+std::vector<MachineNode> getClusterNodes();
+std::string findIPAddr4Host(std::string hostName);
+std::string findHostName4IP(std::string hostIPAddr);
 
-#endif
-
+#endif // CLUSTER_H

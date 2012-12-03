@@ -5,19 +5,17 @@ HadoopSim is a simulator for a Hadoop Runtime by replaying the collected traces.
 #ifndef SPLIT_H
 #define SPLIT_H
 
-#include <vector>
 #include <string>
-using namespace std;
+#include <vector>
 
 class Split {
 public:
-    Split(string splitId, vector<string> dataNodes);
-    string getSplitId();
-    vector<string> getDataNodes();
+    Split(std::string splitId, std::vector<std::string> dataNodes);
+    std::string getSplitId();
+    std::vector<std::string> getDataNodes();
 private:
-    string splitId;        // splitId is the same as taskID
-    vector<string> dataNodes;
+    std::string splitId;        // splitId is the same as taskID
+    std::vector<std::string> dataNodes;
 };
 
-#endif
-
+#endif // SPLIT_H

@@ -32,5 +32,4 @@ public:
 	void free();
 };
 
-#endif
-
+#endif // BLOCK_ALLOCATOR_H

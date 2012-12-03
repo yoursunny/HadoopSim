@@ -2,18 +2,17 @@
 Lei Ye <leiy@cs.arizona.edu>
 HadoopSim is a simulator for a Hadoop Runtime by replaying the collected traces.
 */
-#include <stdlib.h>
 #include <assert.h>
 #include <math.h>
-#include <iostream>
+#include <stdlib.h>
 #include <algorithm>
-#include <vector>
-#include "Task.h"
+#include <iostream>
 #include "Cluster.h"
-#include "TaskTracker.h"
 #include "EventQueue.h"
 #include "JobTracker.h"
+#include "TaskTracker.h"
 #include "ns3/Ns3.h"
+using namespace ns3;
 using namespace std;
 
 /* TaskTracker Variables */
@@ -71,8 +70,8 @@ list<TaskStatus> TaskTracker::collectTaskStatus(long now)
     Task task;
     double EPSILON = 0.0001;
     for(it = runningTasks.begin(); it != runningTasks.end();) {
-        cout<<"it->second.getTaskTrackerName() = "<<it->second.getTaskTrackerName()<<endl;
-        cout<<"this->hostName = "<<this->hostName<<endl;
+        //cout<<"it->second.getTaskTrackerName() = "<<it->second.getTaskTrackerName()<<endl;
+        //cout<<"this->hostName = "<<this->hostName<<endl;
         assert(it->second.getTaskTrackerName() == this->hostName);
         TaskStatus status = it->second.getTaskStatus();
 
@@ -365,7 +364,6 @@ void TaskTracker::completeMapTask(long evtTime)
 
 void TaskTracker::handleNewEvent(long timestamp, EvtType type)
 {
-//    HEvent evt = getEventFromEvtQueue();
     switch(type) {
         case EVT_HBReport:
             sendHeartbeat(timestamp);
@@ -403,7 +401,6 @@ long initTaskTrackers(long startTime)
         long timeStamp = startTime + rand() % clusterStartupDuration;
         HEvent evt(&taskTrackers[index], EVT_HBReport, timeStamp);
         Simulator::Schedule(Seconds((double)timeStamp/1000.0), &hadoopEventCallback, evt);
-//        addEventToEvtQueue(evt);
         index++;
     }
     return startTime + clusterStartupDuration + nextHeartbeatInterval;
@@ -413,4 +410,3 @@ void killTaskTrackers()
 {
     delete []taskTrackers;
 }
-

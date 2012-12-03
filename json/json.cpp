@@ -469,4 +469,3 @@ json_value *json_parse(char *source, char **error_pos, char **error_desc, int *e
 
 	return root;
 }
-

@@ -2,26 +2,21 @@
 Lei Ye <leiy@cs.arizona.edu>
 HadoopSim is a simulator for a Hadoop Runtime by replaying the collected traces.
 */
-#include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
 #include <assert.h>
 #include <time.h>
 #include <iostream>
-#include <climits>
-#include <queue>
-#include "HEvent.h"
-#include "EventQueue.h"
-#include "Status.h"
-#include "JobTracker.h"
-#include "TaskTracker.h"
-#include "JobClient.h"
-#include "TraceReader.h"
-#include "TopologyReader.h"
 #include "Cluster.h"
+#include "JobClient.h"
+#include "JobTracker.h"
 #include "Misc.h"
+#include "Status.h"
+#include "TaskTracker.h"
+#include "TopologyReader.h"
 #include "TraceAnalyzer.h"
+#include "TraceReader.h"
 #include "ns3/Ns3.h"
+using namespace ns3;
 using namespace std;
 
 /* Sim Variables */

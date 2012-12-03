@@ -3,7 +3,6 @@ Lei Ye <leiy@cs.arizona.edu>
 HadoopSim is a simulator for a Hadoop Runtime by replaying the collected traces.
 */
 #include <assert.h>
-#include <iostream>
 #include "HScheduler.h"
 #include "JobTracker.h"
 using namespace std;
@@ -105,7 +104,8 @@ list<TaskAction> FIFOScheduler::assignTasks(string trackerName, long numAvailMap
         action.type = LAUNCH_TASK;
         action.status = taskIt->second.getTaskStatus();
         action.status.taskTracker = trackerName;
-        job.moveWaitingReduceToRunning(trackerName, taskIt->first);
+        action.status.dataSource = "ALL";
+        job.moveWaitingReduceToRunning(trackerName, taskIt->first);     // todo fetch data for reduce tasks
         jobIt->second = job;
         taskAction.push_back(action);
     }

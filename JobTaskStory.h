@@ -5,8 +5,8 @@ HadoopSim is a simulator for a Hadoop Runtime by replaying the collected traces.
 #ifndef JOBSTORY_H
 #define JOBSTORY_H
 
+#include <string>
 #include <vector>
-using namespace std;
 
 typedef struct Ranking {
     double relativeRanking;
@@ -16,22 +16,22 @@ typedef struct Ranking {
 typedef struct CDF {
     long maximum;
     long minimum;
-    vector<Ranking> rankings;
+    std::vector<Ranking> rankings;
     long numberValues;
 }CDF;
 
 typedef struct Location {
-    string rack;
-    string hostName;
+    std::string rack;
+    std::string hostName;
 }Location;
 
 typedef struct Attempt {
     Location location;
-    string hostName;
+    std::string hostName;
     long startTime;
-    string result;
+    std::string result;
     long finishTime;
-    string attemptID;
+    std::string attemptID;
     long shuffleFinished;
     long sortFinished;
     long hdfsBytesRead;
@@ -52,12 +52,12 @@ typedef struct Attempt {
 
 typedef struct TaskStory {
     long startTime;
-    vector<Attempt> attempts;
+    std::vector<Attempt> attempts;
     long finishTime;
-    vector<Location> preferredLocations;
-    string taskType;
-    string taskStatus;
-    string taskID;
+    std::vector<Location> preferredLocations;
+    std::string taskType;
+    std::string taskStatus;
+    std::string taskID;
     long inputBytes;
     long inputRecords;
     long outputBytes;
@@ -65,38 +65,38 @@ typedef struct TaskStory {
 }TaskStory;
 
 typedef struct JobStory {
-    string priority;
-    string jobID;
-    string user;
-    string jobName;
-    vector<TaskStory> mapTasks;
+    std::string priority;
+    std::string jobID;
+    std::string user;
+    std::string jobName;
+    std::vector<TaskStory> mapTasks;
     long finishTime;
-    vector<TaskStory> reduceTasks;
+    std::vector<TaskStory> reduceTasks;
     long submitTime;
     long launchTime;
     long totalMaps;
     long totalReduces;
-    vector<TaskStory> otherTasks;
+    std::vector<TaskStory> otherTasks;
     long computonsPerMapInputByte;
     long computonsPerMapOutputByte;
     long computonsPerReduceInputByte;
     long computonsPerReduceOutputByte;
     long heapMegabytes;
-    string outcome;
-    string jobtype;
-    string directDependantJobs;
-    vector<CDF> successfulMapAttemptCDFs;
-    vector<CDF> failedMapAttemptCDFs;
-    vector<CDF> successfulReduceAttemptCDF;
-    vector<CDF> failedReduceAttemptCDF;
-    vector<double> mapperTriesToSucceed;
+    std::string outcome;
+    std::string jobtype;
+    std::string directDependantJobs;
+    std::vector<CDF> successfulMapAttemptCDFs;
+    std::vector<CDF> failedMapAttemptCDFs;
+    std::vector<CDF> successfulReduceAttemptCDF;
+    std::vector<CDF> failedReduceAttemptCDF;
+    std::vector<double> mapperTriesToSucceed;
     double failedMapperFraction;
     long relativeTime;
-    string queuetype;
+    std::string queuetype;
     long clusterMapMB;
     long clusterReduceMB;
     long jobMapMB;
     long jobReduceMB;
 }JobStory;
 
-#endif
+#endif // JOBSTORY_H

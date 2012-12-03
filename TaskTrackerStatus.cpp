@@ -44,4 +44,3 @@ void TaskTrackerStatus::setAvailReduceSlots(long slot)
 {
     this->numAvailReduceSlots = slot;
 }
-

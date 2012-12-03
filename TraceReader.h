@@ -6,17 +6,16 @@ HadoopSim is a simulator for a Hadoop Runtime by replaying the collected traces.
 #define TRACEREADER_H
 
 #include <deque>
+#include <string>
 #include "JobTaskStory.h"
-using namespace std;
 
 void dumpJobStory(JobStory *job, int ident = 0);
-void initTraceReader(string traceFilePrefix, int numTraceFiles, bool debug);
+void initTraceReader(std::string traceFilePrefix, int numTraceFiles, bool debug);
 bool isAllJobsDone();
 bool isMoreJobs();
 long nextJobSubmitTime();
 JobStory fetchNextJob();
-void completeJob(string jobID);
-deque<JobStory> getAllJobs();
+void completeJob(std::string jobID);
+std::deque<JobStory> getAllJobs();
 
-#endif
-
+#endif // TRACEREADER_H

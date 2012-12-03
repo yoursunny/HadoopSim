@@ -52,11 +52,6 @@ bool Task::isSucceeded()
     return this->status.isSucceeded;
 }
 
-//void Task::updateTaskStatus(list<TaskStatus>::iterator status)
-//{
-//    this->status = *status;
-//}
-
 void Task::updateTaskStatus(bool isRemote, string trackerName, string dataSource)
 {
     this->status.taskTracker = trackerName;
@@ -78,8 +73,6 @@ void Task::setTaskStatus(double progress, long now)
         assert(now >= this->status.finishTime);
         this->status.runState = SUCCEEDED;
         this->status.isSucceeded = true;
-//        if(this->status.type == REDUCETASK)
-//           this->status.runPhase = REDUCE;
     }
 }
 
@@ -107,4 +100,3 @@ void dumpTaskAction(TaskAction &action)
     cout<<"ActionType = "<<action.type<<endl;
     dumpTaskStatus(action.status);
 }
-

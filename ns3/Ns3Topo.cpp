@@ -2,9 +2,17 @@
 Lei Ye <leiy@cs.arizona.edu>
 HadoopSim is a simulator for a Hadoop Runtime by replaying the collected traces.
 */
-#include "Ns3NameNode.h"
-#include "Ns3DataNode.h"
+#include <assert.h>
+#include <iostream>
+#include <map>
+#include <sstream>
+#include <string>
+#include <vector>
 #include "Ns3.h"
+#include "Ns3DataNode.h"
+#include "Ns3NameNode.h"
+using namespace ns3;
+using namespace std;
 
 const string NetworkAddress = "10.1.0.0";
 const string NetworkMask = "255.255.0.0";
@@ -142,20 +150,14 @@ void buildBusTopo(vector<MachineNode> &nodeSet)
 
 void buildStarTopo(vector<MachineNode> &nodeSet)
 {
-
-
 }
 
 void buildDumbBellTopo(vector<MachineNode> &nodeSet)
 {
-
-
 }
 
 void buildTreeTopo(vector<MachineNode> &nodeSet)
 {
-
-
 }
 
 void buildFatTreeTopo(vector<MachineNode> &nodeSet)

@@ -34,5 +34,4 @@ struct json_value
 
 json_value *json_parse(char *source, char **error_pos, char **error_desc, int *error_line, block_allocator *allocator);
 
-#endif
-
+#endif // JSON_H

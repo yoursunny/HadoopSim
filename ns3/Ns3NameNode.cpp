@@ -2,6 +2,7 @@
 Lei Ye <leiy@cs.arizona.edu>
 HadoopSim is a simulator for a Hadoop Runtime by replaying the collected traces.
 */
+#include <sstream>
 #include "ns3/log.h"
 #include "ns3/ipv4-address.h"
 #include "ns3/address-utils.h"
@@ -16,6 +17,7 @@ HadoopSim is a simulator for a Hadoop Runtime by replaying the collected traces.
 #include "Ns3NameNode.h"
 #include "Ns3.h"
 #include "../TaskTracker.h"
+using namespace std;
 
 namespace ns3 {
 

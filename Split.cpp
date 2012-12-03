@@ -20,4 +20,3 @@ vector<string> Split::getDataNodes()
 {
     return this->dataNodes;
 }
-

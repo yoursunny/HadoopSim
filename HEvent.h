@@ -5,9 +5,6 @@ HadoopSim is a simulator for a Hadoop Runtime by replaying the collected traces.
 #ifndef HEVENT_H
 #define HEVENT_H
 
-#include <iostream>
-using namespace std;
-
 typedef enum EvtType {
     EVT_NULL,
     EVT_HBReport,
@@ -20,7 +17,7 @@ typedef enum EvtType {
 
 class EventListener {
 public:
-    virtual void handleNewEvent(long timestamp, EvtType type) { cout<<"a\n";}
+    virtual void handleNewEvent(long timestamp, EvtType type) { }
 };
 
 class HEvent {  // Hadoop Event Class
@@ -39,5 +36,4 @@ private:
     long version;       // Version number orders multiple events that occur at the same time.
 };
 
-#endif
-
+#endif // HEVENT_H

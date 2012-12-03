@@ -2,7 +2,6 @@
 Lei Ye <leiy@cs.arizona.edu>
 HadoopSim is a simulator for a Hadoop Runtime by replaying the collected traces.
 */
-#include <iostream>
 #include "HScheduler.h"
 using namespace std;
 
@@ -11,4 +10,3 @@ list<TaskAction> DataLocalityScheduler::assignTasks(string trackerName, long num
     list<TaskAction> taskAction;
     return taskAction;
 }
-

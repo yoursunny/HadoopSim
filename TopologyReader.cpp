@@ -2,11 +2,11 @@
 Lei Ye <leiy@cs.arizona.edu>
 HadoopSim is a simulator for a Hadoop Runtime by replaying the collected traces.
 */
-#include <stdio.h>
 #include <assert.h>
+#include <stdio.h>
 #include <iostream>
-#include "json/json.h"
 #include "TopologyReader.h"
+#include "json/json.h"
 using namespace std;
 
 /* TopologyReader Variables */

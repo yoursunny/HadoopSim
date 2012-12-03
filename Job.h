@@ -6,11 +6,11 @@ HadoopSim is a simulator for a Hadoop Runtime by replaying the collected traces.
 #define JOB_H
 
 #include <map>
-#include <list>
+#include <string>
 #include <vector>
+#include "JobTaskStory.h"
 #include "Split.h"
 #include "Task.h"
-#include "JobTaskStory.h"
 
 // what state is the job in?
 typedef enum JobState {
@@ -23,9 +23,9 @@ typedef enum JobState {
 
 class Job {
 public:
-    Job(string jobID, int numMap, int numReduce, long submitTime);
-    void initMapTasks(vector<TaskStory> mapTasks);
-    void initReduceTasks(vector<TaskStory> reduceTasks);
+    Job(std::string jobID, int numMap, int numReduce, long submitTime);
+    void initMapTasks(std::vector<TaskStory> mapTasks);
+    void initReduceTasks(std::vector<TaskStory> reduceTasks);
     JobState getState();
     void setState(JobState state);
     bool isSucceeded();
@@ -34,43 +34,42 @@ public:
     bool isWaitingMapLeft();
     bool isWaitingReduceLeft();
     ActionType updateTaskStatus(TaskStatus &taskStatus);
-    void moveWaitingMapToRunning(bool isRemote, string trackerName, string dataSource, string taskID);
-    void moveWaitingReduceToRunning(string trackerName, string taskID);
+    void moveWaitingMapToRunning(bool isRemote, std::string trackerName, std::string dataSource, std::string taskID);
+    void moveWaitingReduceToRunning(std::string trackerName, std::string taskID);
     void setStartTime(long startTime);
     void setEndTime(long endTime);
-    map<string, Task> getWaitingMaps();
-    map<string, Task> getWaitingReduces();
-    map<string, Task> getCompletedMaps();
-    map<string, Task> getCompletedReduces();
-    map<string, Task> getRunningReduces();
+    std::map<std::string, Task> getWaitingMaps();
+    std::map<std::string, Task> getWaitingReduces();
+    std::map<std::string, Task> getCompletedMaps();
+    std::map<std::string, Task> getCompletedReduces();
+    std::map<std::string, Task> getRunningReduces();
     bool canScheduleReduce();
     long getStarTime();
     long getEndTime();
-    string getJobID();
+    std::string getJobID();
     bool isFirstMap();
     long getNumReduce();
 private:
-    string jobID;
+    std::string jobID;
     JobState state;
-    map<string, Split> splitSpace;      // block location space
+    std::map<std::string, Split> splitSpace;      // block location space
     long numMap;
     long numReduce;
     long submitTime;
     long startTime;
     long endTime;
     long completedMapsForReduceStart;
-
-    map<string, Task> waitingMaps;
-    map<string, Task> remoteRunningMaps;
-    map<string, Task> localRunningMaps;
-    map<string, Task> killedMaps;
-    map<string, Task> completedMaps;
-
-    map<string, Task> waitingReduces;
-    map<string, Task> runningReduces;
-    map<string, Task> killedReduces;
-    map<string, Task> completedReduces;
+    // map tasks
+    std::map<std::string, Task> waitingMaps;
+    std::map<std::string, Task> remoteRunningMaps;
+    std::map<std::string, Task> localRunningMaps;
+    std::map<std::string, Task> killedMaps;
+    std::map<std::string, Task> completedMaps;
+    // reduce tasks
+    std::map<std::string, Task> waitingReduces;
+    std::map<std::string, Task> runningReduces;
+    std::map<std::string, Task> killedReduces;
+    std::map<std::string, Task> completedReduces;
 };
 
-#endif
-
+#endif // JOB_H

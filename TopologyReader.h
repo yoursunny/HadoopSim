@@ -6,25 +6,24 @@ HadoopSim is a simulator for a Hadoop Runtime by replaying the collected traces.
 #define TOPOLOGYREADER_H
 
 #include <vector>
-using namespace std;
 
 typedef struct HadoopHost {
-    string hostName;
-    string rackName;
-    string ipAddr;
+    std::string hostName;
+    std::string rackName;
+    std::string ipAddr;
 }HadoopHost;
 
 typedef struct HadoopRack {
-    string rackName;
-    vector<HadoopHost> hostSet;
+    std::string rackName;
+    std::vector<HadoopHost> hostSet;
 }HadoopRack;
 
 typedef struct ClusterTopo {
-    string clusterName;
-    vector<HadoopRack> rackSet;
+    std::string clusterName;
+    std::vector<HadoopRack> rackSet;
 }ClusterTopo;
 
-void initTopologyReader(string topologyFile, bool debug);
-vector<HadoopHost> getHostTopology();
+void initTopologyReader(std::string topologyFile, bool debug);
+std::vector<HadoopHost> getHostTopology();
 
-#endif
+#endif // TOPOLOGYREADER_H

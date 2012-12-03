@@ -3,7 +3,6 @@ Lei Ye <leiy@cs.arizona.edu>
 HadoopSim is a simulator for a Hadoop Runtime by replaying the collected traces.
 */
 #include <assert.h>
-#include <iostream>
 #include "Job.h"
 #include "JobTracker.h"
 using namespace std;
@@ -16,7 +15,7 @@ Job::Job(string jobID, int numMap, int numReduce, long submitTime)
     this->numReduce = numReduce;
     this->submitTime = submitTime;
     this->completedMapsForReduceStart = (long)(numMap * 0.05);
-    cout<<"completedMapsForReduceStart = "<<completedMapsForReduceStart<<endl;
+    //cout<<"completedMapsForReduceStart = "<<completedMapsForReduceStart<<endl;
 }
 
 void Job::initMapTasks(vector<TaskStory> mapTasks)

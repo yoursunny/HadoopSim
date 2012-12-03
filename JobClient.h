@@ -6,8 +6,6 @@ HadoopSim is a simulator for a Hadoop Runtime by replaying the collected traces.
 #define JOBCLIENT_H
 
 #include "HEvent.h"
-#include <vector>
-using namespace std;
 
 typedef enum JobSubmissionPolicy {
     Replay,
@@ -25,13 +23,10 @@ public:
 private:
     JobSubmissionPolicy policy;
     long lastSubmissionTime;
-//    vector<Task> runningJobs;
-//    vector<Task> completedJobs;
 };
 
 void initJobClient(JobSubmissionPolicy policy, long firstJobSubmitTime);
 void killJobClient();
 JobClient *getJobClient();
 
-#endif
-
+#endif // JOBCLIENT_H

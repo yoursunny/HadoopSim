@@ -48,4 +48,3 @@ void block_allocator::free()
 {
 	block_allocator(0).swap(*this);
 }
-
