@@ -23,5 +23,5 @@ class NodeInfo : public ns3::Object {
     DISALLOW_COPY_AND_ASSIGN(NodeInfo);
 };
 
-}//namespace HadoopNetSim
+};//namespace HadoopNetSim
 #endif//HADOOPSIM_NS3_NODEINFO_H_

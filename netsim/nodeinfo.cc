@@ -12,5 +12,4 @@ ns3::TypeId NodeInfo::GetTypeId(void) {
     .AddConstructor<NodeInfo>();
 }
 
-
-}//namespace HadoopNetSim
+};//namespace HadoopNetSim
