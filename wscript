@@ -1,4 +1,12 @@
 def build(bld):
+  netsim_source = {
+    'json/block_allocator.cpp',
+    'json/json.cpp',
+    'netsim/topology.cc',
+    'netsim/msginfo.cc',
+    'netsim/msgtransport.cc',
+  }
+  
   obj = bld.create_ns3_program('HadoopSim', ['core', 'point-to-point', 'csma', 'internet', 'config-store', 'tools', 'applications'])
   obj.source = ['HadoopSim.cpp',
     'json/block_allocator.cpp',
@@ -25,13 +33,11 @@ def build(bld):
     'ns3/Ns3NameNode.cpp',
     'ns3/Ns3DataNode.cpp']
 
-  obj = bld.create_ns3_program('HadoopNetSimUnitTest', ['csma','internet','applications'])
-  obj.source = [
+  obj = bld.create_ns3_program('HadoopNetSimUnitTest', ['point-to-point','internet','applications'])
+  obj.source = netsim_source | {
     'gtest/gtest_main.cc',
     'gtest/gtest.cc',
-    'json/block_allocator.cpp',
-    'json/json.cpp',
-    'netsim/topology.cc',
-    'netsim/topology_test.cc'
-  ]
+    'netsim/topology_test.cc',
+    'netsim/msgtransport_test.cc',
+  }
 

@@ -7,6 +7,7 @@ namespace HadoopNetSim {
 class NodeInfo : public ns3::Object {
   public:
     NodeInfo(void);
+    virtual ~NodeInfo(void) {}
     static ns3::TypeId GetTypeId(void);
     
     const std::string& name(void) const { return this->name_; }
