@@ -23,7 +23,11 @@ class NetSim {
     void InstallDataServer(void);//install DataServer app on all nodes other than name servers
 
     //----transmit----
-    bool Transmit(MsgId msgid, MsgType type, const HostName& src, const HostName& dst, size_t size, TransmitCb& cb);//transmit a message 'now', call <cb> on completion
+    //transmit a message 'now', call <cb> on completion
+    bool NameRequest(MsgId msgid, const HostName& src, const HostName& dst, size_t size, TransmitCb& cb);
+    bool NameResponse(MsgId msgid, const HostName& src, const HostName& dst, size_t size, TransmitCb& cb);
+    bool DataRequest(MsgId msgid, const HostName& src, const HostName& dst, size_t size, TransmitCb& cb);
+    bool DataResponse(MsgId msgid, MsgId in_reply_to, const HostName& src, const HostName& dst, size_t size, TransmitCb& cb);
     
     //----stat----
     ns3::Ptr<LinkStat> GetLinkStat(LinkId link);//get link utilization and queue usage 'now'

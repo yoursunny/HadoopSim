@@ -10,15 +10,15 @@ class NodeInfo : public ns3::Object {
     virtual ~NodeInfo(void) {}
     static ns3::TypeId GetTypeId(void);
     
-    const std::string& name(void) const { return this->name_; }
-    void set_name(const std::string& value) { this->name_ = value; }
+    HostName name(void) const { return this->name_; }
+    void set_name(const HostName value) { this->name_ = value; }
     NodeType type(void) const { return this->type_; }
     void set_type(NodeType value) { this->type_ = value; }
     bool is_manager(void) const { return this->is_manager_; }
     void set_is_manager(bool value) { this->is_manager_ = value; }
     
   private:
-    std::string name_;
+    HostName name_;
     NodeType type_;
     bool is_manager_;
     DISALLOW_COPY_AND_ASSIGN(NodeInfo);

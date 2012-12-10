@@ -37,7 +37,7 @@ class MsgTransportTestSink : public ns3::Application {
       this->mt_ = ns3::Create<MsgTransport>(sock);
       this->mt_->set_recv_cb(ns3::MakeCallback(&MsgTransportTestSink::Recv, this));
     }
-    void Recv(ns3::Ptr<MsgInfo> msg) {
+    void Recv(ns3::Ptr<MsgTransport>, ns3::Ptr<MsgInfo> msg) {
       this->msg_ = msg;
     }
     
@@ -50,10 +50,12 @@ class MsgTransportTestSource : public ns3::Application {
     ns3::Ptr<MsgTransport> mt_;
     ns3::Ptr<MsgInfo> msg_;
     int send_called_;
+    int transmit_cb_called_;
 
     MsgTransportTestSource(void) {
       this->mt_ = NULL;
       this->send_called_ = 0;
+      this->transmit_cb_called_ = 0;
     }
     virtual ~MsgTransportTestSource(void) {}
     static ns3::TypeId GetTypeId(void) {
@@ -76,12 +78,16 @@ class MsgTransportTestSource : public ns3::Application {
     void HandleConnect(ns3::Ptr<ns3::Socket> sock) {
       this->msg_ = ns3::Create<MsgInfo>();
       this->msg_->set_id(50); this->msg_->set_size(1<<20);
+      this->msg_->set_cb(ns3::MakeCallback(&MsgTransportTestSource::TransmitCallback, this));
       this->mt_ = ns3::Create<MsgTransport>(sock);
       this->mt_->set_send_cb(ns3::MakeCallback(&MsgTransportTestSource::HandleSend, this));
       this->mt_->Send(this->msg_);
     }
-    void HandleSend(ns3::Ptr<MsgInfo> msg) {
+    void HandleSend(ns3::Ptr<MsgTransport>, ns3::Ptr<MsgInfo>) {
       ++this->send_called_;
+    }
+    void TransmitCallback(ns3::Ptr<MsgInfo>) {
+      ++this->transmit_cb_called_;
     }
     
     DISALLOW_COPY_AND_ASSIGN(MsgTransportTestSource);
@@ -113,6 +119,7 @@ TEST(NetSimTest, MsgTransport) {
 
     if (ns3::PeekPointer(sink->msg_) != ns3::PeekPointer(source->msg_)) ::exit(1);
     if (source->send_called_ != 1) ::exit(2);
+    if (source->transmit_cb_called_ != 1) ::exit(3);
     ::exit(0);
   }, ::testing::ExitedWithCode(0), "");
 }

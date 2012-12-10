@@ -35,23 +35,33 @@ TransmitState::TransmitState(ns3::Ptr<MsgInfo> msg) {
   this->tag_ = MsgTag(msg);
 }
 
-MsgTransport::MsgTransport(ns3::Ptr<ns3::Socket> socket) {
+MsgTransport::MsgTransport(ns3::Ptr<ns3::Socket> socket, bool connected) {
   this->socket_ = socket;
+  this->connected_ = connected;
   socket->SetRecvCallback(ns3::MakeCallback(&MsgTransport::RecvData, this));
-  this->send_cb_ = TransmitCb_null;
-  this->recv_cb_ = TransmitCb_null;
+  if (!connected) {
+    socket->SetConnectCallback(ns3::MakeCallback(&MsgTransport::SocketConnect, this),
+                               ns3::MakeCallback(&MsgTransport::SocketConnectFail, this));
+  }
+  socket->SetCloseCallbacks(ns3::MakeCallback(&MsgTransport::SocketNormalClose, this),
+                            ns3::MakeCallback(&MsgTransport::SocketErrorClose, this));
+  this->send_cb_ = ns3::MakeNullCallback<void,ns3::Ptr<MsgTransport>,ns3::Ptr<MsgInfo>>();
+  this->recv_cb_ = ns3::MakeNullCallback<void,ns3::Ptr<MsgTransport>,ns3::Ptr<MsgInfo>>();
+  this->evt_cb_ = ns3::MakeNullCallback<void,ns3::Ptr<MsgTransport>,MsgTransportEvt>();
   this->send_block_ = false;
 }
 
 void MsgTransport::Send(ns3::Ptr<MsgInfo> msg) {
   msg->set_start(ns3::Simulator::Now());
+  msg->Ref();//in-flight message reference
+  this->peer_ = msg->dst();
   ns3::Ptr<TransmitState> ts = ns3::Create<TransmitState>(msg);
   this->send_queue_.push(ts);
   this->SendData();
 }
 
 void MsgTransport::SendData(void) {
-  while (!this->send_block_ && !this->send_queue_.empty()) {
+  while (this->connected_ && !this->send_block_ && !this->send_queue_.empty()) {
     ns3::Ptr<TransmitState> ts = this->send_queue_.front();
     uint32_t send_size = std::min((uint32_t)ts->remaining(), (uint32_t)this->socket_->GetTxAvailable());
     if (send_size == 0) {
@@ -65,6 +75,7 @@ void MsgTransport::SendData(void) {
     //printf("SendData size=%u actual=%d\n", send_size, send_actual);
     if (send_actual < 0) {
       this->send_block_ = true;
+      this->evt_cb_(ns3::Ptr<MsgTransport>(this), kMTESendError);
       break;
     } else {
       this->send_block_ = ((uint32_t)send_actual < send_size);
@@ -72,7 +83,7 @@ void MsgTransport::SendData(void) {
     }
     if (ts->IsComplete()) {
       this->send_queue_.pop();
-      this->send_cb_(ts->msg());
+      this->send_cb_(ns3::Ptr<MsgTransport>(this), ts->msg());
     }
   }
 }
@@ -109,11 +120,34 @@ void MsgTransport::RecvData(ns3::Ptr<ns3::Socket>) {
       if (ts->IsComplete()) {
         this->recv_map_.erase(msg->id());
         msg->set_finish(ns3::Simulator::Now());
-        this->recv_cb_(msg);
+        msg->Unref();//in-flight message reference
+        this->peer_ = msg->src();
+        msg->cb()(msg);
+        this->recv_cb_(ns3::Ptr<MsgTransport>(this), msg);
       }
     }
   }
 }
+
+void MsgTransport::SocketConnect(ns3::Ptr<ns3::Socket>) {
+  this->connected_ = true;
+  this->SendData();
+}
+
+void MsgTransport::SocketConnectFail(ns3::Ptr<ns3::Socket>) {
+  this->evt_cb_(ns3::Ptr<MsgTransport>(this), kMTEConnectError);
+}
+
+void MsgTransport::SocketNormalClose(ns3::Ptr<ns3::Socket>) {
+  this->connected_ = false;
+  this->evt_cb_(ns3::Ptr<MsgTransport>(this), kMTEClose);
+}
+
+void MsgTransport::SocketErrorClose(ns3::Ptr<ns3::Socket>) {
+  this->connected_ = false;
+  this->evt_cb_(ns3::Ptr<MsgTransport>(this), kMTEReset);
+}
+
 
 
 };//namespace HadoopNetSim

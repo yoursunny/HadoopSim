@@ -49,20 +49,33 @@ class TransmitState : public ns3::SimpleRefCount<TransmitState> {//a sending or 
     DISALLOW_COPY_AND_ASSIGN(TransmitState);
 };
 
+enum MsgTransportEvt {
+  kMTENone,
+  kMTEConnectError,
+  kMTESendError,
+  kMTEClose,
+  kMTEReset
+};
+
 //pump messages into socket, and/or receive full messages from socket
 class MsgTransport : public ns3::SimpleRefCount<MsgTransport> {
   public:
-    MsgTransport(ns3::Ptr<ns3::Socket> socket);
+    MsgTransport(ns3::Ptr<ns3::Socket> socket, bool connected = true);
     virtual ~MsgTransport(void) {}
     ns3::Ptr<ns3::Socket> socket(void) { return this->socket_; }
+    HostName peer(void) const { return this->peer_; }//remote host of last sent/received message
     void Send(ns3::Ptr<MsgInfo> msg);//queue a message to send
-    void set_send_cb(TransmitCb value) { this->send_cb_ = value; }//register a callback when a message is sent
-    void set_recv_cb(TransmitCb value) { this->recv_cb_ = value; }//register a callback when a message is received
+    void set_send_cb(ns3::Callback<void,ns3::Ptr<MsgTransport>,ns3::Ptr<MsgInfo>> value) { this->send_cb_ = value; }//fires when a message is sent
+    void set_recv_cb(ns3::Callback<void,ns3::Ptr<MsgTransport>,ns3::Ptr<MsgInfo>> value) { this->recv_cb_ = value; }//fires when a message is received
+    void set_evt_cb(ns3::Callback<void,ns3::Ptr<MsgTransport>,MsgTransportEvt> value) { this->evt_cb_ = value; }//fires when any MsgTransportEvt happens
     
   private:
     ns3::Ptr<ns3::Socket> socket_;
-    TransmitCb send_cb_;
-    TransmitCb recv_cb_;
+    bool connected_;
+    HostName peer_;
+    ns3::Callback<void,ns3::Ptr<MsgTransport>,ns3::Ptr<MsgInfo>> send_cb_;
+    ns3::Callback<void,ns3::Ptr<MsgTransport>,ns3::Ptr<MsgInfo>> recv_cb_;
+    ns3::Callback<void,ns3::Ptr<MsgTransport>,MsgTransportEvt> evt_cb_;
     std::queue<ns3::Ptr<TransmitState>> send_queue_;
     bool send_block_;//true if send buffer is full
     std::unordered_map<MsgId,ns3::Ptr<TransmitState>> recv_map_;
@@ -71,6 +84,11 @@ class MsgTransport : public ns3::SimpleRefCount<MsgTransport> {
     void SendMaybeUnblock(void);
     void SendUnblock(ns3::Ptr<ns3::Socket>, uint32_t);
     void RecvData(ns3::Ptr<ns3::Socket>);
+    
+    void SocketConnect(ns3::Ptr<ns3::Socket>);
+    void SocketConnectFail(ns3::Ptr<ns3::Socket>);
+    void SocketNormalClose(ns3::Ptr<ns3::Socket>);
+    void SocketErrorClose(ns3::Ptr<ns3::Socket>);
     
     DISALLOW_COPY_AND_ASSIGN(MsgTransport);
 };
