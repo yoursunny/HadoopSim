@@ -38,6 +38,7 @@ TransmitState::TransmitState(ns3::Ptr<MsgInfo> msg) {
 MsgTransport::MsgTransport(ns3::Ptr<ns3::Socket> socket) {
   this->socket_ = socket;
   socket->SetRecvCallback(ns3::MakeCallback(&MsgTransport::RecvData, this));
+  this->send_cb_ = TransmitCb_null;
   this->recv_cb_ = TransmitCb_null;
   this->send_block_ = false;
 }
@@ -69,7 +70,10 @@ void MsgTransport::SendData(void) {
       this->send_block_ = ((uint32_t)send_actual < send_size);
       ts->inc_count(send_actual);
     }
-    if (ts->IsComplete()) this->send_queue_.pop();
+    if (ts->IsComplete()) {
+      this->send_queue_.pop();
+      this->send_cb_(ts->msg());
+    }
   }
 }
 

@@ -56,10 +56,12 @@ class MsgTransport : public ns3::SimpleRefCount<MsgTransport> {
     virtual ~MsgTransport(void) {}
     ns3::Ptr<ns3::Socket> socket(void) { return this->socket_; }
     void Send(ns3::Ptr<MsgInfo> msg);//queue a message to send
-    void set_recv_cb(TransmitCb value) { this->recv_cb_ = value; }//register a callback when a full message is received
+    void set_send_cb(TransmitCb value) { this->send_cb_ = value; }//register a callback when a message is sent
+    void set_recv_cb(TransmitCb value) { this->recv_cb_ = value; }//register a callback when a message is received
     
   private:
     ns3::Ptr<ns3::Socket> socket_;
+    TransmitCb send_cb_;
     TransmitCb recv_cb_;
     std::queue<ns3::Ptr<TransmitState>> send_queue_;
     bool send_block_;//true if send buffer is full
