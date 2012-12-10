@@ -94,4 +94,4 @@ class MsgTransport : public ns3::SimpleRefCount<MsgTransport> {
 };
 
 };//namespace HadoopNetSim
-#endif//HADOOPSIM_NS3_MSGTRANSPORT_H_
+#endif//HADOOPSIM_NETSIM_MSGTRANSPORT_H_

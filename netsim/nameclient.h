@@ -23,4 +23,4 @@ class NameClient : public ns3::Application {
 };
 
 };//namespace HadoopNetSim
-#endif//HADOOPSIM_NS3_NAMECLIENT_H_
+#endif//HADOOPSIM_NETSIM_NAMECLIENT_H_

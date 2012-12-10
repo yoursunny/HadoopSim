@@ -21,4 +21,4 @@ class LinkStat : ns3::SimpleRefCount<LinkStat> {
 };
 
 };//namespace HadoopNetSim
-#endif//HADOOPSIM_NS3_LINKSTAT_H_
+#endif//HADOOPSIM_NETSIM_LINKSTAT_H_

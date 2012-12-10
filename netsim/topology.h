@@ -84,4 +84,4 @@ class Topology {
 };
 
 };//namespace HadoopNetSim
-#endif//HADOOPSIM_NS3_TOPOLOGY_H_
+#endif//HADOOPSIM_NETSIM_TOPOLOGY_H_

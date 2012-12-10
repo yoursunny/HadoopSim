@@ -25,4 +25,4 @@ class NodeInfo : public ns3::Object {
 };
 
 };//namespace HadoopNetSim
-#endif//HADOOPSIM_NS3_NODEINFO_H_
+#endif//HADOOPSIM_NETSIM_NODEINFO_H_

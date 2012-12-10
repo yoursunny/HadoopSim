@@ -56,4 +56,4 @@ class MsgInfo : public ns3::SimpleRefCount<MsgInfo> {
 };
 
 };//namespace HadoopNetSim
-#endif//HADOOPSIM_NS3_MSGINFO_H_
+#endif//HADOOPSIM_NETSIM_MSGINFO_H_
