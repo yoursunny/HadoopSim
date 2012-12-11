@@ -135,7 +135,7 @@ ActionType Job::updateTaskStatus(TaskStatus &taskStatus)
                 } else {
                     localRunningMaps.erase(taskIt);
                 }
-                if (task.getTaskStatus().outputSize != 0)
+                if (task.getTaskStatus().outputSize > 0)
                     return FETCH_MAPDATA;
             }
         }

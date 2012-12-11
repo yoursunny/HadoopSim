@@ -107,8 +107,8 @@ vector<Ranking> parseRankings(json_value *value)
     for(json_value *it = value->first_child; it; Next(it)) {
         Ranking rank;
         json_value *child = it->first_child;
-        rank.relativeRanking = child->float_value; Next(child);
-        rank.datum = child->int_value;
+        rank.datum = child->int_value; Next(child);
+        rank.relativeRanking = child->float_value;
         rankingSet.push_back(rank);
     }
     return rankingSet;
@@ -121,10 +121,10 @@ vector<CDF> parseMapCDFs(json_value *value)
     for(json_value *it = value->first_child; it; Next(it)) {
         CDF cdf;
         json_value *child = it->first_child;
-        cdf.maximum = child->int_value; Next(child);
         cdf.minimum = child->int_value; Next(child);
-        cdf.rankings = parseRankings(child); Next(child);
-        cdf.numberValues = child->int_value;
+        cdf.maximum = child->int_value; Next(child);
+        cdf.numberValues = child->int_value; Next(child);
+        cdf.rankings = parseRankings(child);
         cdfSet.push_back(cdf);
     }
     return cdfSet;
@@ -136,10 +136,10 @@ vector<CDF> parseReduceCDFs(json_value *value)
     vector<CDF> cdfSet;
     CDF cdf;
     json_value *child = value->first_child;
-    cdf.maximum = child->int_value; Next(child);
     cdf.minimum = child->int_value; Next(child);
-    cdf.rankings = parseRankings(child); Next(child);
-    cdf.numberValues = child->int_value;
+    cdf.maximum = child->int_value; Next(child);
+    cdf.numberValues = child->int_value; Next(child);
+    cdf.rankings = parseRankings(child);
     cdfSet.push_back(cdf);
     return cdfSet;
 }
@@ -164,14 +164,6 @@ JobStory parseJobs(json_value *value)
     job.jobID.assign(it->string_value); Next(it);
     job.user.assign(it->string_value); Next(it);
     job.jobName.assign(it->string_value); Next(it);
-    job.mapTasks = parseTasks(it); Next(it);
-    job.finishTime = it->int_value; Next(it);
-    job.reduceTasks = parseTasks(it); Next(it);
-    job.submitTime = it->int_value; Next(it);
-    job.launchTime = it->int_value; Next(it);
-    job.totalMaps = it->int_value; Next(it);
-    job.totalReduces = it->int_value; Next(it);
-    job.otherTasks = parseTasks(it); Next(it);
     job.computonsPerMapInputByte = it->int_value; Next(it);
     job.computonsPerMapOutputByte = it->int_value; Next(it);
     job.computonsPerReduceInputByte = it->int_value; Next(it);
@@ -191,7 +183,15 @@ JobStory parseJobs(json_value *value)
     job.clusterMapMB = it->int_value; Next(it);
     job.clusterReduceMB = it->int_value; Next(it);
     job.jobMapMB = it->int_value; Next(it);
-    job.jobReduceMB = it->int_value;
+    job.jobReduceMB = it->int_value; Next(it);
+    job.mapTasks = parseTasks(it); Next(it);
+    job.finishTime = it->int_value; Next(it);
+    job.reduceTasks = parseTasks(it); Next(it);
+    job.submitTime = it->int_value; Next(it);
+    job.launchTime = it->int_value; Next(it);
+    job.totalMaps = it->int_value; Next(it);
+    job.totalReduces = it->int_value; Next(it);
+    job.otherTasks = parseTasks(it);
     return job;
 }
 
@@ -247,7 +247,7 @@ void dumpLocation(vector<Location> Locations, int ident = 0)
 {
     vector<Location>::iterator it;
     for(it = Locations.begin(); it != Locations.end(); it++) {
-        IDENT(ident); cout<<"*ip = "<<it->rack<<endl;
+        IDENT(ident); cout<<"*rack = "<<it->rack<<endl;
         IDENT(ident); cout<<"*hostName = "<<it->hostName<<endl;
     }
 }
@@ -275,8 +275,8 @@ void dumpRanking(vector<Ranking> rank, int ident = 0)
 {
    vector<Ranking>::iterator it;
     for(it = rank.begin(); it != rank.end(); it++) {
-        IDENT(ident); cout<<"relativeRanking = "<<it->relativeRanking<<endl;
         IDENT(ident); cout<<"datum = "<<it->datum<<endl;
+        IDENT(ident); cout<<"relativeRanking = "<<it->relativeRanking<<endl;
         IDENT(ident); cout<<"++++++++++++++++++++"<<endl;
     }
 }
@@ -285,10 +285,10 @@ void dumpCDF(vector<CDF> cdf, int ident = 0)
 {
     vector<CDF>::iterator it;
     for(it = cdf.begin(); it != cdf.end(); it++) {
-        IDENT(ident); cout<<"maximum = "<<it->maximum<<endl;
         IDENT(ident); cout<<"minimum = "<<it->minimum<<endl;
-        IDENT(ident); cout<<"rankings"<<endl; dumpRanking(it->rankings, ident + 1);
+        IDENT(ident); cout<<"maximum = "<<it->maximum<<endl;
         IDENT(ident); cout<<"numberValues = "<<it->numberValues<<endl;
+        IDENT(ident); cout<<"rankings"<<endl; dumpRanking(it->rankings, ident + 1);
         IDENT(ident); cout<<"~~~~~~~~~~~~~~~~~~~~~~~"<<endl;
     }
 }
@@ -299,14 +299,6 @@ void dumpJobStory(JobStory *job, int ident)
     cout<<"*jobID = "<<job->jobID<<endl;
     cout<<"user = "<<job->user<<endl;
     cout<<"jobName = "<<job->jobName<<endl;
-    cout<<"*mapTasks"<<endl; dumpTaskStorySet(job->mapTasks, ident + 1);
-    cout<<"*finishTime = "<<job->finishTime<<endl;
-    cout<<"*reduceTasks"<<endl; dumpTaskStorySet(job->reduceTasks, ident + 1);
-    cout<<"*submitTime = "<<job->submitTime<<endl;
-    cout<<"*launchTime = "<<job->launchTime<<endl;
-    cout<<"*totalMaps = "<<job->totalMaps<<endl;
-    cout<<"*totalReduces = "<<job->totalReduces<<endl;
-    cout<<"*otherTasks"<<endl; dumpTaskStorySet(job->otherTasks, ident + 1);
     cout<<"computonsPerMapInputByte = "<<job->computonsPerMapInputByte<<endl;
     cout<<"computonsPerMapOutputByte = "<<job->computonsPerMapOutputByte<<endl;
     cout<<"computonsPerReduceInputByte = "<<job->computonsPerReduceInputByte<<endl;
@@ -330,6 +322,14 @@ void dumpJobStory(JobStory *job, int ident)
     cout<<"clusterReduceMB = "<<job->clusterReduceMB<<endl;
     cout<<"jobMapMB = "<<job->jobMapMB<<endl;
     cout<<"jobReduceMB = "<<job->jobReduceMB<<endl;
+    cout<<"*mapTasks"<<endl; dumpTaskStorySet(job->mapTasks, ident + 1);
+    cout<<"*finishTime = "<<job->finishTime<<endl;
+    cout<<"*reduceTasks"<<endl; dumpTaskStorySet(job->reduceTasks, ident + 1);
+    cout<<"*submitTime = "<<job->submitTime<<endl;
+    cout<<"*launchTime = "<<job->launchTime<<endl;
+    cout<<"*totalMaps = "<<job->totalMaps<<endl;
+    cout<<"*totalReduces = "<<job->totalReduces<<endl;
+    cout<<"*otherTasks"<<endl; dumpTaskStorySet(job->otherTasks, ident + 1);
 }
 
 void dumpJobStorySet(int ident = 0)
@@ -340,14 +340,6 @@ void dumpJobStorySet(int ident = 0)
         cout<<"*jobID = "<<it->jobID<<endl;
         cout<<"user = "<<it->user<<endl;
         cout<<"jobName = "<<it->jobName<<endl;
-        cout<<"*mapTasks"<<endl; dumpTaskStorySet(it->mapTasks, ident + 1);
-        cout<<"*finishTime = "<<it->finishTime<<endl;
-        cout<<"*reduceTasks"<<endl; dumpTaskStorySet(it->reduceTasks, ident + 1);
-        cout<<"*submitTime = "<<it->submitTime<<endl;
-        cout<<"*launchTime = "<<it->launchTime<<endl;
-        cout<<"*totalMaps = "<<it->totalMaps<<endl;
-        cout<<"*totalReduces = "<<it->totalReduces<<endl;
-        cout<<"*otherTasks"<<endl; dumpTaskStorySet(it->otherTasks, ident + 1);
         cout<<"computonsPerMapInputByte = "<<it->computonsPerMapInputByte<<endl;
         cout<<"computonsPerMapOutputByte = "<<it->computonsPerMapOutputByte<<endl;
         cout<<"computonsPerReduceInputByte = "<<it->computonsPerReduceInputByte<<endl;
@@ -371,6 +363,14 @@ void dumpJobStorySet(int ident = 0)
         cout<<"clusterReduceMB = "<<it->clusterReduceMB<<endl;
         cout<<"jobMapMB = "<<it->jobMapMB<<endl;
         cout<<"jobReduceMB = "<<it->jobReduceMB<<endl;
+        cout<<"*mapTasks"<<endl; dumpTaskStorySet(it->mapTasks, ident + 1);
+        cout<<"*finishTime = "<<it->finishTime<<endl;
+        cout<<"*reduceTasks"<<endl; dumpTaskStorySet(it->reduceTasks, ident + 1);
+        cout<<"*submitTime = "<<it->submitTime<<endl;
+        cout<<"*launchTime = "<<it->launchTime<<endl;
+        cout<<"*totalMaps = "<<it->totalMaps<<endl;
+        cout<<"*totalReduces = "<<it->totalReduces<<endl;
+        cout<<"*otherTasks"<<endl; dumpTaskStorySet(it->otherTasks, ident + 1);
         IDENT(ident); cout<<"------------------------------"<<endl;
     }
 }
