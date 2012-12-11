@@ -21,5 +21,5 @@ $args = array_slice($argv,4);
 $topotype_f($g,$hostlist,$args);
 
 $output_json = $g->toJSON();
-file_put_contents($output_file,json_encode($output_json));
+file_put_contents($output_file,json_encode($output_json,JSON_PRETTY_PRINT));
 ?>
