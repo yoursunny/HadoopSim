@@ -5,6 +5,7 @@
 namespace HadoopNetSim {
 
 typedef uint64_t MsgId;
+static const MsgId MsgId_invalid = UINT64_C(0);
 
 enum MsgType {
   kMTNone,
@@ -41,6 +42,8 @@ class MsgInfo : public ns3::SimpleRefCount<MsgInfo> {
     void set_finish(ns3::Time value) { this->finish_ = value; }
     TransmitCb cb(void) const { return this->cb_; }
     void set_cb(TransmitCb value) { this->cb_ = value; }
+    void* userobj(void) const { return this->userobj_; }
+    void set_userobj(void* value) { this->userobj_ = value; }
     
   private:
     MsgId id_;//message id
@@ -52,6 +55,7 @@ class MsgInfo : public ns3::SimpleRefCount<MsgInfo> {
     ns3::Time start_;//sending start time
     ns3::Time finish_;//receiving finish time
     TransmitCb cb_;//callback after receiving finish
+    void* userobj_;//user object
     DISALLOW_COPY_AND_ASSIGN(MsgInfo);
 };
 
