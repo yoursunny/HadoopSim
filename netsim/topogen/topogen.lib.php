@@ -1,0 +1,88 @@
+<?php
+/*
+.nettopo file format
+
+{
+  "version":1,
+  "nodes":{
+    "host1":{
+      "type":"host",
+      "ip":"192.168.0.1",
+      "devices":["eth0"]
+    },
+    "host2":{
+      "type":"host",
+      "ip":"192.168.0.2",
+      "devices":["eth0"]
+    },
+    "sw1":{
+      "type":"switch",
+      "devices":["e0/0","e0/1"]
+    }
+  },
+  "links":{
+    "1":{"node1":"sw1","port1":"e0/0","node2":"host1","port2":"eth0","type":"eth1G"},
+    "2":{"node1":"sw1","port1":"e0/1","node2":"host2","port2":"eth0","type":"eth1G"}
+  }
+}
+*/
+
+class TopoGen {
+	private $last_ip;
+	private $last_linkid;
+	public $nodes;
+	public $links;
+	
+	function __construct() {
+		$this->last_ip = ip2long('10.0.0.0');
+		$this->last_linkid = 0;
+		$this->nodes = array();
+		$this->links = array();
+	}
+	public function ToJSON() {
+		return array(
+			'version'=>1,
+			'nodes'=>$this->nodes,
+			'links'=>$this->links
+		);
+	}
+	
+	public function AddHost($name) {
+		if (array_key_exists($name,$this->nodes)) die(sprintf("TopoGen::AddHost duplicate %s\n",$name));
+		$this->nodes[$name] = array(
+			'type'=>'host',
+			'ip'=>long2ip(++$this->last_ip),
+			'devices'=>array()
+		);
+	}
+	public function AddSwitch($name) {
+		if (array_key_exists($name,$this->nodes)) die(sprintf("TopoGen::AddSwitch duplicate %s\n",$name));
+		$this->nodes[$name] = array(
+			'type'=>'switch',
+			'devices'=>array()
+		);
+	}
+	protected function SelectLinkType($node1,$node2) {
+		if ($node1['type']=='switch' && $node2['type']=='switch') return 'eth10G';
+		else return 'eth1G';
+	}
+	private function AddDevice(&$node) {
+		$n = count($node['devices']);
+		$ifname = sprintf('eth%d',$n);
+		$node['devices'][] = $ifname;
+		return $ifname;
+	}
+	public function AddLink($end1,$end2) {
+		if (!array_key_exists($end1,$this->nodes) || !array_key_exists($end2,$this->nodes))  die(sprintf("TopoGen::AddLink missing %s %s\n",$end1,$end2));
+		$link = array(
+			'node1'=>$end1,
+			'port1'=>$this->AddDevice($this->nodes[$end1]),
+			'node2'=>$end2,
+			'port2'=>$this->AddDevice($this->nodes[$end2]),
+			'type'=>$this->SelectLinkType($this->nodes[$end1],$this->nodes[$end2])
+		);
+		$this->links[] = $link;
+	}
+};
+
+?>
