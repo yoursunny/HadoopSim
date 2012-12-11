@@ -106,6 +106,8 @@ void Link::FromJson(::json_value* o) {
   std::string v_type = p_type->string_value;
   if (0 == v_type.compare("eth1G")) {
     this->type_ = kLTEth1G;
+  } else if (0 == v_type.compare("eth10G")) {
+    this->type_ = kLTEth10G;
   } else {
     assert(false);//unknown link type
   }
