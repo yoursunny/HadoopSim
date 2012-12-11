@@ -75,7 +75,7 @@ void MsgTransport::SendData(void) {
     //printf("SendData size=%u actual=%d\n", send_size, send_actual);
     if (send_actual < 0) {
       this->send_block_ = true;
-      this->evt_cb_(ns3::Ptr<MsgTransport>(this), kMTESendError);
+      if (!this->evt_cb_.IsNull()) this->evt_cb_(ns3::Ptr<MsgTransport>(this), kMTESendError);
       break;
     } else {
       this->send_block_ = ((uint32_t)send_actual < send_size);
@@ -83,7 +83,7 @@ void MsgTransport::SendData(void) {
     }
     if (ts->IsComplete()) {
       this->send_queue_.pop();
-      this->send_cb_(ns3::Ptr<MsgTransport>(this), ts->msg());
+      if (!this->send_cb_.IsNull()) this->send_cb_(ns3::Ptr<MsgTransport>(this), ts->msg());
     }
   }
 }
@@ -122,8 +122,8 @@ void MsgTransport::RecvData(ns3::Ptr<ns3::Socket>) {
         msg->set_finish(ns3::Simulator::Now());
         msg->Unref();//in-flight message reference
         this->peer_ = msg->src();
-        msg->cb()(msg);
-        this->recv_cb_(ns3::Ptr<MsgTransport>(this), msg);
+        if (!msg->cb().IsNull()) msg->cb()(msg);
+        if (!this->recv_cb_.IsNull()) this->recv_cb_(ns3::Ptr<MsgTransport>(this), msg);
       }
     }
   }
@@ -135,17 +135,17 @@ void MsgTransport::SocketConnect(ns3::Ptr<ns3::Socket>) {
 }
 
 void MsgTransport::SocketConnectFail(ns3::Ptr<ns3::Socket>) {
-  this->evt_cb_(ns3::Ptr<MsgTransport>(this), kMTEConnectError);
+  if (!this->evt_cb_.IsNull()) this->evt_cb_(ns3::Ptr<MsgTransport>(this), kMTEConnectError);
 }
 
 void MsgTransport::SocketNormalClose(ns3::Ptr<ns3::Socket>) {
   this->connected_ = false;
-  this->evt_cb_(ns3::Ptr<MsgTransport>(this), kMTEClose);
+  if (!this->evt_cb_.IsNull()) this->evt_cb_(ns3::Ptr<MsgTransport>(this), kMTEClose);
 }
 
 void MsgTransport::SocketErrorClose(ns3::Ptr<ns3::Socket>) {
   this->connected_ = false;
-  this->evt_cb_(ns3::Ptr<MsgTransport>(this), kMTEReset);
+  if (!this->evt_cb_.IsNull()) this->evt_cb_(ns3::Ptr<MsgTransport>(this), kMTEReset);
 }
 
 

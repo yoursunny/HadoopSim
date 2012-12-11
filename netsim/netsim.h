@@ -12,8 +12,8 @@ class NetSim {
   public:
     NetSim(void);
     
-    const std::set<HostName>& ns_hosts(void) { return this->ns_hosts_; }//get name servers
-    void set_ns_hosts(const std::set<HostName>& value) { this->ns_hosts_ = value; }//set name servers
+    const std::vector<HostName>& name_servers(void) { return this->name_servers_; }//get name servers
+    void set_name_servers(const std::vector<HostName>& value) { this->name_servers_ = value; }//set name servers
     const ns3::Ipv4Address& host_ip(const HostName& host);//get first IPv4 address of a host
 
     //----setup----
@@ -33,7 +33,7 @@ class NetSim {
     ns3::Ptr<LinkStat> GetLinkStat(LinkId link);//get link utilization and queue usage 'now'
     
   private:
-    std::set<HostName> ns_hosts_;
+    std::vector<HostName> name_servers_;
     std::map<HostName,ns3::Ptr<ns3::Node>> nodes_;//hostname=>node
     DISALLOW_COPY_AND_ASSIGN(NetSim);
 };

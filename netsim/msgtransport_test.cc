@@ -34,7 +34,7 @@ class MsgTransportTestSink : public ns3::Application {
     void StopApplication() {}
     
     void HandleAccept(ns3::Ptr<ns3::Socket> sock, const ns3::Address& from) {
-      this->mt_ = ns3::Create<MsgTransport>(sock);
+      this->mt_ = ns3::Create<MsgTransport>(sock);this->mt_->Ref();
       this->mt_->set_recv_cb(ns3::MakeCallback(&MsgTransportTestSink::Recv, this));
     }
     void Recv(ns3::Ptr<MsgTransport>, ns3::Ptr<MsgInfo> msg) {
@@ -68,21 +68,38 @@ class MsgTransportTestSource : public ns3::Application {
   private:
     void StartApplication() {
       ns3::Ptr<ns3::Socket> sock = ns3::Socket::CreateSocket(this->GetNode(), ns3::TcpSocketFactory::GetTypeId());
-      sock->SetConnectCallback(ns3::MakeCallback(&MsgTransportTestSource::HandleConnect, this),
-                               ns3::MakeNullCallback<void,ns3::Ptr<ns3::Socket>>());
       sock->Bind();
       sock->Connect(ns3::InetSocketAddress(ns3::Ipv4Address("192.168.72.1"), 80));
+      this->msg_ = ns3::Create<MsgInfo>();
+      this->msg_->set_id(50); this->msg_->set_size(64*1<<20); this->msg_->set_src("source"); this->msg_->set_dst("sink");
+      this->msg_->set_cb(ns3::MakeCallback(&MsgTransportTestSource::TransmitCallback, this));
+      this->mt_ = ns3::Create<MsgTransport>(sock, false);
+      this->mt_->set_send_cb(ns3::MakeCallback(&MsgTransportTestSource::HandleSend, this));
+      this->mt_->Send(this->msg_);
+
+      /*
+      ns3::Ptr<ns3::Socket> sock2 = ns3::Socket::CreateSocket(this->GetNode(), ns3::TcpSocketFactory::GetTypeId());
+      sock2->Bind();
+      sock2->Connect(ns3::InetSocketAddress(ns3::Ipv4Address("192.168.72.1"), 80));
+      ns3::Ptr<MsgInfo> msg2 = ns3::Create<MsgInfo>();
+      msg2->set_id(51); msg2->set_size(64*1<<20); msg2->set_src("source"); msg2->set_dst("sink");
+      //msg2->set_cb(ns3::MakeCallback(&MsgTransportTestSource::TransmitCallback, this));
+      ns3::Ptr<MsgTransport> mt2 = ns3::Create<MsgTransport>(sock2, false);
+      mt2->Send(msg2);
+      mt2->Ref();
+      ns3::Ptr<ns3::Socket> sock3 = ns3::Socket::CreateSocket(this->GetNode(), ns3::TcpSocketFactory::GetTypeId());
+      sock3->Bind();
+      sock3->Connect(ns3::InetSocketAddress(ns3::Ipv4Address("192.168.72.1"), 80));
+      ns3::Ptr<MsgInfo> msg3 = ns3::Create<MsgInfo>();
+      msg3->set_id(52); msg3->set_size(64*1<<20);
+      //msg3->set_cb(ns3::MakeCallback(&MsgTransportTestSource::TransmitCallback, this));
+      ns3::Ptr<MsgTransport> mt3 = ns3::Create<MsgTransport>(sock3, false);
+      mt3->Send(msg3);msg3->Ref();
+      mt3->Ref();
+      */
     }
     void StopApplication() {}
     
-    void HandleConnect(ns3::Ptr<ns3::Socket> sock) {
-      this->msg_ = ns3::Create<MsgInfo>();
-      this->msg_->set_id(50); this->msg_->set_size(1<<20);
-      this->msg_->set_cb(ns3::MakeCallback(&MsgTransportTestSource::TransmitCallback, this));
-      this->mt_ = ns3::Create<MsgTransport>(sock);
-      this->mt_->set_send_cb(ns3::MakeCallback(&MsgTransportTestSource::HandleSend, this));
-      this->mt_->Send(this->msg_);
-    }
     void HandleSend(ns3::Ptr<MsgTransport>, ns3::Ptr<MsgInfo>) {
       ++this->send_called_;
     }
@@ -97,12 +114,11 @@ TEST(NetSimTest, MsgTransport) {
   EXPECT_EXIT({
     ns3::NodeContainer nodes; nodes.Create(2);
     ns3::PointToPointHelper ptp;
-    ptp.SetDeviceAttribute("DataRate", ns3::StringValue("5Mbps"));
-    //ptp.SetDeviceAttribute("Mtu", ns3::UintegerValue(9000));
-    ptp.SetChannelAttribute("Delay", ns3::TimeValue(ns3::MilliSeconds(2)));
+    ptp.SetDeviceAttribute("DataRate", ns3::StringValue("1Gbps"));
+    ptp.SetDeviceAttribute("Mtu", ns3::UintegerValue(9000));
+    ptp.SetChannelAttribute("Delay", ns3::TimeValue(ns3::NanoSeconds(6560)));
     ns3::NetDeviceContainer devices = ptp.Install(nodes);
-    //ns3::Config::SetDefault("ns3::TcpSocket::SegmentSize", ns3::UintegerValue(8500));
-    //ns3::Config::SetDefault("ns3::TcpSocket::SndBufSize", ns3::UintegerValue(800000));
+    ns3::Config::SetDefault("ns3::TcpSocket::SegmentSize", ns3::UintegerValue(8500));
     ns3::InternetStackHelper inetstack; inetstack.Install(nodes);
     ns3::Ipv4AddressHelper ip4addr; ip4addr.SetBase("192.168.72.0", "255.255.255.0");
     ns3::Ipv4InterfaceContainer ifs = ip4addr.Assign(devices);

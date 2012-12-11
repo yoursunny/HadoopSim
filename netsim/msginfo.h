@@ -41,6 +41,7 @@ class MsgInfo : public ns3::SimpleRefCount<MsgInfo> {
     void set_finish(ns3::Time value) { this->finish_ = value; }
     TransmitCb cb(void) const { return this->cb_; }
     void set_cb(TransmitCb value) { this->cb_ = value; }
+    TransmitCb cb_;//callback after receiving finish
     
   private:
     MsgId id_;//message id
@@ -51,7 +52,6 @@ class MsgInfo : public ns3::SimpleRefCount<MsgInfo> {
     bool success_;//whether transmission succeeds
     ns3::Time start_;//sending start time
     ns3::Time finish_;//receiving finish time
-    TransmitCb cb_;//callback after receiving finish
     DISALLOW_COPY_AND_ASSIGN(MsgInfo);
 };
 
