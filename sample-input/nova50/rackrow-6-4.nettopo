@@ -547,566 +547,566 @@
             ]
         }
     },
-    "links": [
-        {
+    "links": {
+        "1": {
             "node1": "coreA",
             "port1": "eth0",
             "node2": "row0A",
             "port2": "eth0",
             "type": "eth10G"
         },
-        {
+        "2": {
             "node1": "coreB",
             "port1": "eth0",
             "node2": "row0A",
             "port2": "eth1",
             "type": "eth10G"
         },
-        {
+        "3": {
             "node1": "coreA",
             "port1": "eth1",
             "node2": "row0B",
             "port2": "eth0",
             "type": "eth10G"
         },
-        {
+        "4": {
             "node1": "coreB",
             "port1": "eth1",
             "node2": "row0B",
             "port2": "eth1",
             "type": "eth10G"
         },
-        {
+        "5": {
             "node1": "coreA",
             "port1": "eth2",
             "node2": "row1A",
             "port2": "eth0",
             "type": "eth10G"
         },
-        {
+        "6": {
             "node1": "coreB",
             "port1": "eth2",
             "node2": "row1A",
             "port2": "eth1",
             "type": "eth10G"
         },
-        {
+        "7": {
             "node1": "coreA",
             "port1": "eth3",
             "node2": "row1B",
             "port2": "eth0",
             "type": "eth10G"
         },
-        {
+        "8": {
             "node1": "coreB",
             "port1": "eth3",
             "node2": "row1B",
             "port2": "eth1",
             "type": "eth10G"
         },
-        {
+        "9": {
             "node1": "coreA",
             "port1": "eth4",
             "node2": "row2A",
             "port2": "eth0",
             "type": "eth10G"
         },
-        {
+        "10": {
             "node1": "coreB",
             "port1": "eth4",
             "node2": "row2A",
             "port2": "eth1",
             "type": "eth10G"
         },
-        {
+        "11": {
             "node1": "coreA",
             "port1": "eth5",
             "node2": "row2B",
             "port2": "eth0",
             "type": "eth10G"
         },
-        {
+        "12": {
             "node1": "coreB",
             "port1": "eth5",
             "node2": "row2B",
             "port2": "eth1",
             "type": "eth10G"
         },
-        {
+        "13": {
             "node1": "row0A",
             "port1": "eth2",
             "node2": "rack0",
             "port2": "eth0",
             "type": "eth10G"
         },
-        {
+        "14": {
             "node1": "row0B",
             "port1": "eth2",
             "node2": "rack0",
             "port2": "eth1",
             "type": "eth10G"
         },
-        {
+        "15": {
             "node1": "row0A",
             "port1": "eth3",
             "node2": "rack1",
             "port2": "eth0",
             "type": "eth10G"
         },
-        {
+        "16": {
             "node1": "row0B",
             "port1": "eth3",
             "node2": "rack1",
             "port2": "eth1",
             "type": "eth10G"
         },
-        {
+        "17": {
             "node1": "row0A",
             "port1": "eth4",
             "node2": "rack2",
             "port2": "eth0",
             "type": "eth10G"
         },
-        {
+        "18": {
             "node1": "row0B",
             "port1": "eth4",
             "node2": "rack2",
             "port2": "eth1",
             "type": "eth10G"
         },
-        {
+        "19": {
             "node1": "row0A",
             "port1": "eth5",
             "node2": "rack3",
             "port2": "eth0",
             "type": "eth10G"
         },
-        {
+        "20": {
             "node1": "row0B",
             "port1": "eth5",
             "node2": "rack3",
             "port2": "eth1",
             "type": "eth10G"
         },
-        {
+        "21": {
             "node1": "row1A",
             "port1": "eth2",
             "node2": "rack4",
             "port2": "eth0",
             "type": "eth10G"
         },
-        {
+        "22": {
             "node1": "row1B",
             "port1": "eth2",
             "node2": "rack4",
             "port2": "eth1",
             "type": "eth10G"
         },
-        {
+        "23": {
             "node1": "row1A",
             "port1": "eth3",
             "node2": "rack5",
             "port2": "eth0",
             "type": "eth10G"
         },
-        {
+        "24": {
             "node1": "row1B",
             "port1": "eth3",
             "node2": "rack5",
             "port2": "eth1",
             "type": "eth10G"
         },
-        {
+        "25": {
             "node1": "row1A",
             "port1": "eth4",
             "node2": "rack6",
             "port2": "eth0",
             "type": "eth10G"
         },
-        {
+        "26": {
             "node1": "row1B",
             "port1": "eth4",
             "node2": "rack6",
             "port2": "eth1",
             "type": "eth10G"
         },
-        {
+        "27": {
             "node1": "row1A",
             "port1": "eth5",
             "node2": "rack7",
             "port2": "eth0",
             "type": "eth10G"
         },
-        {
+        "28": {
             "node1": "row1B",
             "port1": "eth5",
             "node2": "rack7",
             "port2": "eth1",
             "type": "eth10G"
         },
-        {
+        "29": {
             "node1": "row2A",
             "port1": "eth2",
             "node2": "rack8",
             "port2": "eth0",
             "type": "eth10G"
         },
-        {
+        "30": {
             "node1": "row2B",
             "port1": "eth2",
             "node2": "rack8",
             "port2": "eth1",
             "type": "eth10G"
         },
-        {
+        "31": {
             "node1": "rack0",
             "port1": "eth2",
             "node2": "server-1495\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "32": {
             "node1": "rack0",
             "port1": "eth3",
             "node2": "server-1445\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "33": {
             "node1": "rack0",
             "port1": "eth4",
             "node2": "server-1494\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "34": {
             "node1": "rack0",
             "port1": "eth5",
             "node2": "server-1488\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "35": {
             "node1": "rack0",
             "port1": "eth6",
             "node2": "server-1469\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "36": {
             "node1": "rack0",
             "port1": "eth7",
             "node2": "server-1493\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "37": {
             "node1": "rack1",
             "port1": "eth2",
             "node2": "server-1451\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "38": {
             "node1": "rack1",
             "port1": "eth3",
             "node2": "server-1456\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "39": {
             "node1": "rack1",
             "port1": "eth4",
             "node2": "server-1446\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "40": {
             "node1": "rack1",
             "port1": "eth5",
             "node2": "server-1453\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "41": {
             "node1": "rack1",
             "port1": "eth6",
             "node2": "server-1490\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "42": {
             "node1": "rack1",
             "port1": "eth7",
             "node2": "server-1483\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "43": {
             "node1": "rack2",
             "port1": "eth2",
             "node2": "server-1463\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "44": {
             "node1": "rack2",
             "port1": "eth3",
             "node2": "server-1497\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "45": {
             "node1": "rack2",
             "port1": "eth4",
             "node2": "server-1498\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "46": {
             "node1": "rack2",
             "port1": "eth5",
             "node2": "server-1444\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "47": {
             "node1": "rack2",
             "port1": "eth6",
             "node2": "server-1473\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "48": {
             "node1": "rack2",
             "port1": "eth7",
             "node2": "server-1468\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "49": {
             "node1": "rack3",
             "port1": "eth2",
             "node2": "server-1485\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "50": {
             "node1": "rack3",
             "port1": "eth3",
             "node2": "server-1480\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "51": {
             "node1": "rack3",
             "port1": "eth4",
             "node2": "server-1481\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "52": {
             "node1": "rack3",
             "port1": "eth5",
             "node2": "server-1496\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "53": {
             "node1": "rack3",
             "port1": "eth6",
             "node2": "server-1476\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "54": {
             "node1": "rack3",
             "port1": "eth7",
             "node2": "server-1486\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "55": {
             "node1": "rack4",
             "port1": "eth2",
             "node2": "server-1448\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "56": {
             "node1": "rack4",
             "port1": "eth3",
             "node2": "server-1455\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "57": {
             "node1": "rack4",
             "port1": "eth4",
             "node2": "server-1471\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "58": {
             "node1": "rack4",
             "port1": "eth5",
             "node2": "server-1492\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "59": {
             "node1": "rack4",
             "port1": "eth6",
             "node2": "server-1449\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "60": {
             "node1": "rack4",
             "port1": "eth7",
             "node2": "server-1474\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "61": {
             "node1": "rack5",
             "port1": "eth2",
             "node2": "server-1447\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "62": {
             "node1": "rack5",
             "port1": "eth3",
             "node2": "server-1457\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "63": {
             "node1": "rack5",
             "port1": "eth4",
             "node2": "server-1467\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "64": {
             "node1": "rack5",
             "port1": "eth5",
             "node2": "server-1470\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "65": {
             "node1": "rack5",
             "port1": "eth6",
             "node2": "server-1491\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "66": {
             "node1": "rack5",
             "port1": "eth7",
             "node2": "server-1450\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "67": {
             "node1": "rack6",
             "port1": "eth2",
             "node2": "server-1479\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "68": {
             "node1": "rack6",
             "port1": "eth3",
             "node2": "server-1477\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "69": {
             "node1": "rack6",
             "port1": "eth4",
             "node2": "server-1452\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "70": {
             "node1": "rack6",
             "port1": "eth5",
             "node2": "server-1489\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "71": {
             "node1": "rack6",
             "port1": "eth6",
             "node2": "server-1472\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "72": {
             "node1": "rack6",
             "port1": "eth7",
             "node2": "server-1484\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "73": {
             "node1": "rack7",
             "port1": "eth2",
             "node2": "server-1460\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "74": {
             "node1": "rack7",
             "port1": "eth3",
             "node2": "server-1464\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "75": {
             "node1": "rack7",
             "port1": "eth4",
             "node2": "server-1482\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "76": {
             "node1": "rack7",
             "port1": "eth5",
             "node2": "server-1465\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "77": {
             "node1": "rack7",
             "port1": "eth6",
             "node2": "server-1478\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "78": {
             "node1": "rack7",
             "port1": "eth7",
             "node2": "server-1475\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "79": {
             "node1": "rack8",
             "port1": "eth2",
             "node2": "server-1487\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "80": {
             "node1": "rack8",
             "port1": "eth3",
             "node2": "server-1461\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         }
-    ]
+    }
 }

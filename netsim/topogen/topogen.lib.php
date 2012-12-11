@@ -53,7 +53,7 @@ class TopoGen {
 			'port2'=>$this->AddDevice($this->nodes[$end2]),
 			'type'=>$this->SelectLinkType($this->nodes[$end1],$this->nodes[$end2])
 		);
-		$this->links[] = $link;
+		$this->links[++$this->last_linkid] = $link;
 	}
 };
 

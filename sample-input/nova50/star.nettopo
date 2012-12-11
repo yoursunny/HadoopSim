@@ -407,356 +407,356 @@
             ]
         }
     },
-    "links": [
-        {
+    "links": {
+        "1": {
             "node1": "hub",
             "port1": "eth0",
             "node2": "server-1495\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "2": {
             "node1": "hub",
             "port1": "eth1",
             "node2": "server-1445\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "3": {
             "node1": "hub",
             "port1": "eth2",
             "node2": "server-1494\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "4": {
             "node1": "hub",
             "port1": "eth3",
             "node2": "server-1488\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "5": {
             "node1": "hub",
             "port1": "eth4",
             "node2": "server-1469\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "6": {
             "node1": "hub",
             "port1": "eth5",
             "node2": "server-1493\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "7": {
             "node1": "hub",
             "port1": "eth6",
             "node2": "server-1451\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "8": {
             "node1": "hub",
             "port1": "eth7",
             "node2": "server-1456\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "9": {
             "node1": "hub",
             "port1": "eth8",
             "node2": "server-1446\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "10": {
             "node1": "hub",
             "port1": "eth9",
             "node2": "server-1453\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "11": {
             "node1": "hub",
             "port1": "eth10",
             "node2": "server-1490\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "12": {
             "node1": "hub",
             "port1": "eth11",
             "node2": "server-1483\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "13": {
             "node1": "hub",
             "port1": "eth12",
             "node2": "server-1463\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "14": {
             "node1": "hub",
             "port1": "eth13",
             "node2": "server-1497\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "15": {
             "node1": "hub",
             "port1": "eth14",
             "node2": "server-1498\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "16": {
             "node1": "hub",
             "port1": "eth15",
             "node2": "server-1444\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "17": {
             "node1": "hub",
             "port1": "eth16",
             "node2": "server-1473\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "18": {
             "node1": "hub",
             "port1": "eth17",
             "node2": "server-1468\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "19": {
             "node1": "hub",
             "port1": "eth18",
             "node2": "server-1485\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "20": {
             "node1": "hub",
             "port1": "eth19",
             "node2": "server-1480\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "21": {
             "node1": "hub",
             "port1": "eth20",
             "node2": "server-1481\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "22": {
             "node1": "hub",
             "port1": "eth21",
             "node2": "server-1496\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "23": {
             "node1": "hub",
             "port1": "eth22",
             "node2": "server-1476\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "24": {
             "node1": "hub",
             "port1": "eth23",
             "node2": "server-1486\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "25": {
             "node1": "hub",
             "port1": "eth24",
             "node2": "server-1448\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "26": {
             "node1": "hub",
             "port1": "eth25",
             "node2": "server-1455\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "27": {
             "node1": "hub",
             "port1": "eth26",
             "node2": "server-1471\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "28": {
             "node1": "hub",
             "port1": "eth27",
             "node2": "server-1492\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "29": {
             "node1": "hub",
             "port1": "eth28",
             "node2": "server-1449\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "30": {
             "node1": "hub",
             "port1": "eth29",
             "node2": "server-1474\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "31": {
             "node1": "hub",
             "port1": "eth30",
             "node2": "server-1447\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "32": {
             "node1": "hub",
             "port1": "eth31",
             "node2": "server-1457\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "33": {
             "node1": "hub",
             "port1": "eth32",
             "node2": "server-1467\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "34": {
             "node1": "hub",
             "port1": "eth33",
             "node2": "server-1470\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "35": {
             "node1": "hub",
             "port1": "eth34",
             "node2": "server-1491\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "36": {
             "node1": "hub",
             "port1": "eth35",
             "node2": "server-1450\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "37": {
             "node1": "hub",
             "port1": "eth36",
             "node2": "server-1479\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "38": {
             "node1": "hub",
             "port1": "eth37",
             "node2": "server-1477\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "39": {
             "node1": "hub",
             "port1": "eth38",
             "node2": "server-1452\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "40": {
             "node1": "hub",
             "port1": "eth39",
             "node2": "server-1489\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "41": {
             "node1": "hub",
             "port1": "eth40",
             "node2": "server-1472\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "42": {
             "node1": "hub",
             "port1": "eth41",
             "node2": "server-1484\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "43": {
             "node1": "hub",
             "port1": "eth42",
             "node2": "server-1460\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "44": {
             "node1": "hub",
             "port1": "eth43",
             "node2": "server-1464\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "45": {
             "node1": "hub",
             "port1": "eth44",
             "node2": "server-1482\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "46": {
             "node1": "hub",
             "port1": "eth45",
             "node2": "server-1465\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "47": {
             "node1": "hub",
             "port1": "eth46",
             "node2": "server-1478\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "48": {
             "node1": "hub",
             "port1": "eth47",
             "node2": "server-1475\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "49": {
             "node1": "hub",
             "port1": "eth48",
             "node2": "server-1487\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
-        {
+        "50": {
             "node1": "hub",
             "port1": "eth49",
             "node2": "server-1461\\.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         }
-    ]
+    }
 }
