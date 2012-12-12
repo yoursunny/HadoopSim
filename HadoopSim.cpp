@@ -26,11 +26,12 @@ string topologyFile;
 string traceFilePrefix;
 int numTraceFiles;
 bool needDebug = false;
+string debugDir;
 
 void initSim()
 {
     srand(time(NULL));
-    initTraceReader(traceFilePrefix, numTraceFiles, needDebug);
+    initTraceReader(traceFilePrefix, numTraceFiles, needDebug, debugDir);
     initTopologyReader(topologyFile, needDebug);
     initJobTracker(schedType);
     setupCluster(topoType);
@@ -55,14 +56,14 @@ void endSim()
 
 void helper()
 {
-    cout<<"./HadoopSim schedType[0-default, 1-netOpt] topoType[0-star, 1-dual, 2-tree, 3-fattree] topologyFile traceFilePrefix numTraceFiles needDebug\n";
+    cout<<"./HadoopSim schedType[0-default, 1-netOpt] topoType[0-star, 1-dual, 2-tree, 3-fattree] topologyFile traceFilePrefix numTraceFiles needDebug debugDir\n";
     cout<<"Each trace file represents a single job. For N trace files, the trace file name is represented "
         <<"as prefix0, prefix1, prefix2, ......\n";
 }
 
 int parseParameters(int argc, char *argv[])
 {
-    if (argc != 7) {
+    if (argc < 7) {
         helper();
         return Status::TooFewParameters;
     }
@@ -95,6 +96,8 @@ int parseParameters(int argc, char *argv[])
     }
 
     needDebug = (atoi(argv[6]) == 0) ? false : true;
+    if (needDebug)
+        debugDir.assign(argv[7]);
 
     for(int i = 0; i < numTraceFiles; i++) {
         traceFilePrefix.append(to_string(i));
@@ -120,7 +123,7 @@ int main(int argc, char *argv[])
 
     // analyze simulation result
     if (needDebug) {
-        startAnalysis(false);
+        startAnalysis(false, debugDir);
     }
 
     endSim();

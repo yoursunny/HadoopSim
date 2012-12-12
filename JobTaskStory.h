@@ -9,15 +9,15 @@ HadoopSim is a simulator for a Hadoop Runtime by replaying the collected traces.
 #include <vector>
 
 typedef struct Ranking {
-    double relativeRanking;
     long datum;
+    double relativeRanking;
 }Ranking;
 
 typedef struct CDF {
-    long maximum;
     long minimum;
-    std::vector<Ranking> rankings;
+    long maximum;
     long numberValues;
+    std::vector<Ranking> rankings;
 }CDF;
 
 typedef struct Location {
@@ -69,14 +69,6 @@ typedef struct JobStory {
     std::string jobID;
     std::string user;
     std::string jobName;
-    std::vector<TaskStory> mapTasks;
-    long finishTime;
-    std::vector<TaskStory> reduceTasks;
-    long submitTime;
-    long launchTime;
-    long totalMaps;
-    long totalReduces;
-    std::vector<TaskStory> otherTasks;
     long computonsPerMapInputByte;
     long computonsPerMapOutputByte;
     long computonsPerReduceInputByte;
@@ -97,6 +89,14 @@ typedef struct JobStory {
     long clusterReduceMB;
     long jobMapMB;
     long jobReduceMB;
+    std::vector<TaskStory> mapTasks;
+    long finishTime;
+    std::vector<TaskStory> reduceTasks;
+    long submitTime;
+    long launchTime;
+    long totalMaps;
+    long totalReduces;
+    std::vector<TaskStory> otherTasks;
 }JobStory;
 
 #endif // JOBSTORY_H
