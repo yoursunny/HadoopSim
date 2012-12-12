@@ -36,28 +36,28 @@ vector<Attempt> parseAttempts(json_value *value)
     for(json_value *it = value->first_child; it; Next(it)) {
         Attempt attempt;
         json_value *child = it->first_child;
-        attempt.location = parseSingleLocation(child); Next(child);
-        attempt.hostName.assign(child->string_value); Next(child);
-        attempt.startTime = child->int_value; Next(child);
-        attempt.result.assign(child->string_value); Next(child);
-        attempt.finishTime = child->int_value; Next(child);
         attempt.attemptID.assign(child->string_value); Next(child);
-        attempt.shuffleFinished = child->int_value; Next(child);
-        attempt.sortFinished = child->int_value; Next(child);
-        attempt.hdfsBytesRead = child->int_value; Next(child);
-        attempt.hdfsBytesWritten = child->int_value; Next(child);
+        attempt.combineInputRecords = child->int_value; Next(child);
         attempt.fileBytesRead = child->int_value; Next(child);
         attempt.fileBytesWritten = child->int_value; Next(child);
+        attempt.finishTime = child->int_value; Next(child);
+        attempt.hdfsBytesRead = child->int_value; Next(child);
+        attempt.hdfsBytesWritten = child->int_value; Next(child);
+        if (child->string_value) attempt.hostName.assign(child->string_value); Next(child);
+        if (child->first_child) attempt.location = parseSingleLocation(child); Next(child);
+        attempt.mapInputBytes = child->int_value; Next(child);
         attempt.mapInputRecords = child->int_value; Next(child);
         attempt.mapOutputBytes = child->int_value; Next(child);
         attempt.mapOutputRecords = child->int_value; Next(child);
-        attempt.combineInputRecords = child->int_value; Next(child);
         attempt.reduceInputGroups = child->int_value; Next(child);
         attempt.reduceInputRecords = child->int_value; Next(child);
-        attempt.reduceShuffleBytes = child->int_value; Next(child);
         attempt.reduceOutputRecords = child->int_value; Next(child);
+        attempt.reduceShuffleBytes = child->int_value; Next(child);
+        attempt.result.assign(child->string_value); Next(child);
+        attempt.shuffleFinished = child->int_value; Next(child);
+        attempt.sortFinished = child->int_value; Next(child);
         attempt.spilledRecords = child->int_value; Next(child);
-        attempt.mapInputBytes = child->int_value;
+        attempt.startTime = child->int_value;
         attemptSet.push_back(attempt);
     }
     return attemptSet;
@@ -84,17 +84,17 @@ vector<TaskStory> parseTasks(json_value *value)
     for(json_value *it = value->first_child; it; Next(it)) {
         TaskStory task;
         json_value *child = it->first_child;
-        task.startTime = child->int_value; Next(child);
         task.attempts = parseAttempts(child); Next(child);
         task.finishTime = child->int_value; Next(child);
-        if(child->first_child) task.preferredLocations = parseMultipleLocations(child); Next(child);
-        task.taskType.assign(child->string_value); Next(child);
-        task.taskStatus.assign(child->string_value); Next(child);
-        task.taskID.assign(child->string_value); Next(child);
         task.inputBytes = child->int_value; Next(child);
         task.inputRecords = child->int_value; Next(child);
         task.outputBytes = child->int_value; Next(child);
-        task.outputRecords = child->int_value;
+        task.outputRecords = child->int_value; Next(child);
+        if (child->first_child) task.preferredLocations = parseMultipleLocations(child); Next(child);
+        task.startTime = child->int_value; Next(child);
+        task.taskID.assign(child->string_value); Next(child);
+        task.taskStatus.assign(child->string_value); Next(child);
+        task.taskType.assign(child->string_value);
         taskSet.push_back(task);
     }
     return taskSet;
@@ -121,8 +121,8 @@ vector<CDF> parseMapCDFs(json_value *value)
     for(json_value *it = value->first_child; it; Next(it)) {
         CDF cdf;
         json_value *child = it->first_child;
-        cdf.minimum = child->int_value; Next(child);
         cdf.maximum = child->int_value; Next(child);
+        cdf.minimum = child->int_value; Next(child);
         cdf.numberValues = child->int_value; Next(child);
         cdf.rankings = parseRankings(child);
         cdfSet.push_back(cdf);
@@ -136,8 +136,8 @@ vector<CDF> parseReduceCDFs(json_value *value)
     vector<CDF> cdfSet;
     CDF cdf;
     json_value *child = value->first_child;
-    cdf.minimum = child->int_value; Next(child);
     cdf.maximum = child->int_value; Next(child);
+    cdf.minimum = child->int_value; Next(child);
     cdf.numberValues = child->int_value; Next(child);
     cdf.rankings = parseRankings(child);
     cdfSet.push_back(cdf);
@@ -160,38 +160,38 @@ JobStory parseJobs(json_value *value)
 {
     JobStory job;
     json_value *it = value->first_child;
-    job.priority.assign(it->string_value); Next(it);
-    job.jobID.assign(it->string_value); Next(it);
-    job.user.assign(it->string_value); Next(it);
-    job.jobName.assign(it->string_value); Next(it);
+    job.clusterMapMB = it->int_value; Next(it);
+    job.clusterReduceMB = it->int_value; Next(it);
     job.computonsPerMapInputByte = it->int_value; Next(it);
     job.computonsPerMapOutputByte = it->int_value; Next(it);
     job.computonsPerReduceInputByte = it->int_value; Next(it);
     job.computonsPerReduceOutputByte = it->int_value; Next(it);
-    job.heapMegabytes = it->int_value; Next(it);
-    job.outcome.assign(it->string_value); Next(it);
-    job.jobtype.assign(it->string_value); Next(it);
     assert(it->string_value == NULL); Next(it); // bypass job.directDependantJobs
-    job.successfulMapAttemptCDFs = parseMapCDFs(it); Next(it);
     job.failedMapAttemptCDFs = parseMapCDFs(it); Next(it);
-    job.successfulReduceAttemptCDF = parseReduceCDFs(it); Next(it);
-    job.failedReduceAttemptCDF = parseReduceCDFs(it); Next(it);
-    job.mapperTriesToSucceed = parseMappers(it); Next(it);
     job.failedMapperFraction = it->float_value; Next(it);
-    job.relativeTime = it->int_value; Next(it);
-    job.queuetype.assign(it->string_value); Next(it);
-    job.clusterMapMB = it->int_value; Next(it);
-    job.clusterReduceMB = it->int_value; Next(it);
-    job.jobMapMB = it->int_value; Next(it);
-    job.jobReduceMB = it->int_value; Next(it);
-    job.mapTasks = parseTasks(it); Next(it);
+    job.failedReduceAttemptCDF = parseReduceCDFs(it); Next(it);
     job.finishTime = it->int_value; Next(it);
-    job.reduceTasks = parseTasks(it); Next(it);
-    job.submitTime = it->int_value; Next(it);
+    job.heapMegabytes = it->int_value; Next(it);
+    job.jobID.assign(it->string_value); Next(it);
+    job.jobMapMB = it->int_value; Next(it);
+    job.jobName.assign(it->string_value); Next(it);
+    job.jobReduceMB = it->int_value; Next(it);
+    job.jobtype.assign(it->string_value); Next(it);
     job.launchTime = it->int_value; Next(it);
+    job.mapTasks = parseTasks(it); Next(it);
+    job.mapperTriesToSucceed = parseMappers(it); Next(it);
+    job.otherTasks = parseTasks(it); Next(it);
+    job.outcome.assign(it->string_value); Next(it);
+    job.priority.assign(it->string_value); Next(it);
+    job.queuetype.assign(it->string_value); Next(it);
+    job.reduceTasks = parseTasks(it); Next(it);
+    job.relativeTime = it->int_value; Next(it);
+    job.submitTime = it->int_value; Next(it);
+    job.successfulMapAttemptCDFs = parseMapCDFs(it); Next(it);
+    job.successfulReduceAttemptCDF = parseReduceCDFs(it); Next(it);
     job.totalMaps = it->int_value; Next(it);
     job.totalReduces = it->int_value; Next(it);
-    job.otherTasks = parseTasks(it);
+    job.user.assign(it->string_value);
     return job;
 }
 

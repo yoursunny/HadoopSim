@@ -14,8 +14,8 @@ typedef struct Ranking {
 }Ranking;
 
 typedef struct CDF {
-    long minimum;
     long maximum;
+    long minimum;
     long numberValues;
     std::vector<Ranking> rankings;
 }CDF;
@@ -26,77 +26,77 @@ typedef struct Location {
 }Location;
 
 typedef struct Attempt {
-    Location location;
-    std::string hostName;
-    long startTime;
-    std::string result;
-    long finishTime;
     std::string attemptID;
-    long shuffleFinished;
-    long sortFinished;
-    long hdfsBytesRead;
-    long hdfsBytesWritten;
+    long combineInputRecords;
     long fileBytesRead;
     long fileBytesWritten;
+    long finishTime;
+    long hdfsBytesRead;
+    long hdfsBytesWritten;
+    std::string hostName;
+    Location location;
+    long mapInputBytes;
     long mapInputRecords;
     long mapOutputBytes;
     long mapOutputRecords;
-    long combineInputRecords;
     long reduceInputGroups;
     long reduceInputRecords;
-    long reduceShuffleBytes;
     long reduceOutputRecords;
+    long reduceShuffleBytes;
+    std::string result;
+    long shuffleFinished;
+    long sortFinished;
     long spilledRecords;
-    long mapInputBytes;
+    long startTime;
 }Attempt;
 
 typedef struct TaskStory {
-    long startTime;
     std::vector<Attempt> attempts;
     long finishTime;
-    std::vector<Location> preferredLocations;
-    std::string taskType;
-    std::string taskStatus;
-    std::string taskID;
     long inputBytes;
     long inputRecords;
     long outputBytes;
     long outputRecords;
+    std::vector<Location> preferredLocations;
+    long startTime;
+    std::string taskID;
+    std::string taskStatus;
+    std::string taskType;
 }TaskStory;
 
 typedef struct JobStory {
-    std::string priority;
-    std::string jobID;
-    std::string user;
-    std::string jobName;
+    long clusterMapMB;
+    long clusterReduceMB;
     long computonsPerMapInputByte;
     long computonsPerMapOutputByte;
     long computonsPerReduceInputByte;
     long computonsPerReduceOutputByte;
-    long heapMegabytes;
-    std::string outcome;
-    std::string jobtype;
     std::string directDependantJobs;
-    std::vector<CDF> successfulMapAttemptCDFs;
     std::vector<CDF> failedMapAttemptCDFs;
-    std::vector<CDF> successfulReduceAttemptCDF;
-    std::vector<CDF> failedReduceAttemptCDF;
-    std::vector<double> mapperTriesToSucceed;
     double failedMapperFraction;
-    long relativeTime;
-    std::string queuetype;
-    long clusterMapMB;
-    long clusterReduceMB;
-    long jobMapMB;
-    long jobReduceMB;
-    std::vector<TaskStory> mapTasks;
+    std::vector<CDF> failedReduceAttemptCDF;
     long finishTime;
-    std::vector<TaskStory> reduceTasks;
-    long submitTime;
+    long heapMegabytes;
+    std::string jobID;
+    long jobMapMB;
+    std::string jobName;
+    long jobReduceMB;
+    std::string jobtype;
     long launchTime;
+    std::vector<TaskStory> mapTasks;
+    std::vector<double> mapperTriesToSucceed;
+    std::vector<TaskStory> otherTasks;
+    std::string outcome;
+    std::string priority;
+    std::string queuetype;
+    std::vector<TaskStory> reduceTasks;
+    long relativeTime;
+    long submitTime;
+    std::vector<CDF> successfulMapAttemptCDFs;
+    std::vector<CDF> successfulReduceAttemptCDF;
     long totalMaps;
     long totalReduces;
-    std::vector<TaskStory> otherTasks;
+    std::string user;
 }JobStory;
 
 #endif // JOBSTORY_H

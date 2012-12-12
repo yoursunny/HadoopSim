@@ -21,7 +21,7 @@ TEST(NetSimTest, NetSim) {
     if (netsim.GetHostIP("manager1") != ns3::Ipv4Address("10.0.0.2")) ::exit(1);
     std::unordered_set<HostName> managers; managers.insert("manager0"); managers.insert("manager1");
     netsim.InstallApps(managers);
-    printf("send %u\n",netsim.NameRequest("slave0","manager0",100000,TransmitCb_null,NULL));
+    printf("send %lu\n",netsim.NameRequest("slave0","manager0",100000,TransmitCb_null,NULL));
     ns3::Simulator::Run();
     printf("time %f\n",ns3::Simulator::Now().GetSeconds());
     ::exit(0);
