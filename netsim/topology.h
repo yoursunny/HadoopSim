@@ -53,6 +53,7 @@ class Link : public ns3::SimpleRefCount<Node> {
     virtual ~Link(void) {}
     
     LinkId id(void) const { return this->id_; }
+    LinkId rid(void) const { return -this->id_; }//LinkId from node2.port2 to node1.port1
     HostName node1(void) const { return this->node1_; }
     DeviceName port1(void) const { return this->port1_; }
     HostName node2(void) const { return this->node2_; }

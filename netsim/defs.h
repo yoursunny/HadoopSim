@@ -22,4 +22,10 @@
 #include "ns3/applications-module.h"
 #include "ns3/ipv4-global-routing-helper.h"
 
+namespace std {
+template <typename T> struct hash<ns3::Ptr<T>> {
+  size_t operator()(ns3::Ptr<T> ptr) const { std::hash<T*> hasher; return hasher(ns3::PeekPointer(ptr)); }
+};
+};
+
 #endif//HADOOPSIM_NETSIM_DEFS_H_

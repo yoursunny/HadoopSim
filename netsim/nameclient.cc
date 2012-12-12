@@ -2,21 +2,20 @@
 #include "netsim/portnumber.h"
 namespace HadoopNetSim {
 
-NameClient::NameClient(std::vector<std::pair<HostName,ns3::Ipv4Address>>* name_servers) {
+NameClient::NameClient(std::unordered_map<HostName,ns3::Ipv4Address>* name_servers) {
   assert(name_servers != NULL);
   assert(!name_servers->empty());
-  this->running_ = false;
   this->name_servers_ = name_servers;
 }
 
-static ns3::TypeId NameClient::GetTypeId(void) {
+ns3::TypeId NameClient::GetTypeId(void) {
   static ns3::TypeId tid = ns3::TypeId("HadoopNetSim::NameClient")
-                           .SetParent<ns3::Application>()
-                           .AddConstructor<NameClient>();
+                           .SetParent<ns3::Application>();
+  return tid;
 }
 
 void NameClient::StartApplication() {
-  for (std::vector<std::pair<HostName,ns3::Ipv4Address>>::const_iterator it = this->name_servers_->cbegin(); it != this->name_servers_->cend(); ++it) {
+  for (std::unordered_map<HostName,ns3::Ipv4Address>::const_iterator it = this->name_servers_->cbegin(); it != this->name_servers_->cend(); ++it) {
     ns3::Ptr<ns3::Socket> sock = ns3::Socket::CreateSocket(this->GetNode(), ns3::TcpSocketFactory::GetTypeId());
     sock->Bind();
     sock->Connect(ns3::InetSocketAddress(it->second, kNameServerPort));

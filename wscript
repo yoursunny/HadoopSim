@@ -5,6 +5,9 @@ def build(bld):
     'netsim/topology.cc',
     'netsim/msginfo.cc',
     'netsim/msgtransport.cc',
+    'netsim/nameclient.cc',
+    'netsim/nameserver.cc',
+    'netsim/netsim.cc'
   }
   
   obj = bld.create_ns3_program('HadoopSim', ['core', 'point-to-point', 'csma', 'internet', 'config-store', 'tools', 'applications'])
@@ -39,5 +42,6 @@ def build(bld):
     'gtest/gtest.cc',
     'netsim/topology_test.cc',
     'netsim/msgtransport_test.cc',
+    'netsim/netsim_test.cc'
   }
 

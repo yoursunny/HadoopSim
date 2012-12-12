@@ -4,7 +4,7 @@
 #include "netsim/topology.h"
 namespace HadoopNetSim {
 
-class LinkStat : ns3::SimpleRefCount<LinkStat> {
+class LinkStat : public ns3::SimpleRefCount<LinkStat> {
   public:
     LinkStat(LinkId id, float bw_util, float queue_util);
     virtual ~LinkStat(void) {}
@@ -12,6 +12,7 @@ class LinkStat : ns3::SimpleRefCount<LinkStat> {
     LinkId id(void) const { return this->id_; }
     float bw_util(void) const { return this->bw_util_; }
     float queue_util(void) const { return this->queue_util_; }
+
   private:
     LinkId id_;
     float bw_util_;//sent packets / link capacity
