@@ -36,7 +36,7 @@ def build(bld):
     'ns3/Ns3NameNode.cpp',
     'ns3/Ns3DataNode.cpp']
 
-  obj = bld.create_ns3_program('HadoopNetSimUnitTest', ['point-to-point','internet','applications'])
+  obj = bld.create_ns3_program('HadoopNetSimUnitTest', ['point-to-point','bridge','internet','applications'])
   obj.source = netsim_source | {
     'gtest/gtest_main.cc',
     'gtest/gtest.cc',

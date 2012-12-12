@@ -15,7 +15,7 @@ class NetSim {
 
     //----setup----
     void BuildTopology(const Topology& topo);//build network topology
-    ns3::Ipv4Address GetHostIP(HostName host);//get first IPv4 address of a host; returns ns3::Ipv4Address:GetAny() if there's no address
+    ns3::Ipv4Address GetHostIP(HostName host);//get first IPv4 address of a host; returns ns3::Ipv4Address:GetAny() if there's no address; note: NetSim currently does not honor IP addresses from Topology
     void InstallApps(const std::unordered_set<HostName>& managers);//install apps on hosts
     ns3::Time GetReadyTime(void);//time when apps are initialized
 
@@ -38,6 +38,7 @@ class NetSim {
     static const SetupStatus kSSReady = kSSInstallApps;
     
     SetupStatus setup_status_;
+    ns3::Ipv4AddressHelper ipv4addr_;
     MsgIdGenerator msgidgen_;
     std::unordered_map<HostName,ns3::Ptr<ns3::Node>> nodes_;//hostname=>node
     std::unordered_map<LinkId,ns3::Ptr<ns3::NetDevice>> links_;//linkid=>outgoing interface
@@ -48,7 +49,9 @@ class NetSim {
     void AssertSetupReady(void) { assert(this->setup_status_ == kSSReady); }
     void BuildNodes(const std::unordered_map<HostName,ns3::Ptr<Node>>& topo_nodes);
     void BuildLinks(const std::unordered_map<LinkId,ns3::Ptr<Link>>& topo_links);
-    void AssignIPs(const std::unordered_map<HostName,ns3::Ptr<Node>>& topo_nodes);
+    //void AssignIPs(const std::unordered_map<HostName,ns3::Ptr<Node>>& topo_nodes);
+    void ConfigureRouting(const std::unordered_map<HostName,ns3::Ptr<Node>>& topo_nodes);
+    void SetNetworkParameters(void);
     ns3::Ipv4Address GetNodeIP(ns3::Ptr<ns3::Node> node);
     void PopulateIPList(const std::unordered_set<HostName>& managers);
     

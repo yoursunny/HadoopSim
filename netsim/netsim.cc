@@ -11,8 +11,9 @@ void NetSim::BuildTopology(const Topology& topo) {
   assert(this->setup_status_ == kSSNone);
   this->BuildNodes(topo.nodes());
   this->BuildLinks(topo.links());
-  this->AssignIPs(topo.nodes());
-  ns3::Config::SetDefault("ns3::TcpSocket::SegmentSize", ns3::UintegerValue(8960));
+  //this->AssignIPs(topo.nodes());
+  this->ConfigureRouting(topo.nodes());
+  this->SetNetworkParameters();
   this->setup_status_ = kSSBuildTopology;
 }
 
@@ -26,37 +27,73 @@ void NetSim::BuildNodes(const std::unordered_map<HostName,ns3::Ptr<Node>>& topo_
 }
 
 void NetSim::BuildLinks(const std::unordered_map<LinkId,ns3::Ptr<Link>>& topo_links) {
+  this->ipv4addr_.SetBase(ns3::Ipv4Address("10.0.0.0"), ns3::Ipv4Mask("255.255.255.252"), ns3::Ipv4Address("0.0.0.1"));//Ipv4AddressHelper does not support /31 prefix length
   for (std::unordered_map<LinkId,ns3::Ptr<Link>>::const_iterator it = topo_links.cbegin(); it != topo_links.cend(); ++it) {
     ns3::Ptr<Link> link = it->second;
     ns3::Ptr<ns3::Node> node1 = this->nodes_[link->node1()];
-    ns3::Ptr<ns3::Node> node2 = this->nodes_[link->node1()];
-    ns3::NodeContainer nodes; nodes.Add(node1); nodes.Add(node2);
+    ns3::Ptr<ns3::Node> node2 = this->nodes_[link->node2()];
+    ns3::NodeContainer nodes(node1, node2);
     ns3::PointToPointHelper ptp;
+    //ns3::CsmaHelper csma;
     switch (link->type()) {
       case kLTEth1G:
         ptp.SetDeviceAttribute("DataRate", ns3::StringValue("1Gbps"));
+        //csma.SetChannelAttribute("DataRate", ns3::StringValue("1Gbps"));
         break;
       case kLTEth10G:
         ptp.SetDeviceAttribute("DataRate", ns3::StringValue("10Gbps"));
+        //csma.SetChannelAttribute("DataRate", ns3::StringValue("10Gbps"));
         break;
     }
     ptp.SetDeviceAttribute("Mtu", ns3::UintegerValue(9000));
+    //csma.SetDeviceAttribute("Mtu", ns3::UintegerValue(9000));
     ptp.SetChannelAttribute("Delay", ns3::TimeValue(ns3::NanoSeconds(6560)));
+    //csma.SetChannelAttribute("Delay", ns3::TimeValue(ns3::NanoSeconds(6560)));
     ns3::NetDeviceContainer devices = ptp.Install(nodes);
+    //ns3::NetDeviceContainer devices = csma.Install(nodes);
     this->links_[link->id()] = devices.Get(0);
     this->links_[link->rid()] = devices.Get(1);
+    this->ipv4addr_.Assign(devices); this->ipv4addr_.NewNetwork();
   }
 }
 
-void NetSim::AssignIPs(const std::unordered_map<HostName,ns3::Ptr<Node>>& topo_nodes) {
-  for (std::unordered_map<HostName,ns3::Ptr<Node>>::const_iterator it = topo_nodes.cbegin(); it != topo_nodes.cend(); ++it) {
-    ns3::Ptr<ns3::Node> node = this->nodes_[it->first];
-    if (it->second->ip() == ns3::Ipv4Address::GetAny()) continue;
-    ns3::Ptr<ns3::Ipv4> ipv4 = node->GetObject<ns3::Ipv4>();
-    assert(ipv4->GetNInterfaces() > 0);
-    ipv4->AddAddress(0, ns3::Ipv4InterfaceAddress(it->second->ip(), ns3::Ipv4Mask(0xff000000)));
-  }
+//void NetSim::AssignIPs(const std::unordered_map<HostName,ns3::Ptr<Node>>& topo_nodes) {
+//  for (std::unordered_map<HostName,ns3::Ptr<Node>>::const_iterator it = topo_nodes.cbegin(); it != topo_nodes.cend(); ++it) {
+//    ns3::Ptr<ns3::Node> node = this->nodes_[it->first];
+//    if (it->second->ip() == ns3::Ipv4Address::GetAny()) continue;
+//    ns3::Ptr<ns3::Ipv4> ipv4 = node->GetObject<ns3::Ipv4>();
+//    for (uint32_t dev_i = 0; dev_i < node->GetNDevices(); ++dev_i) {
+//      ns3::Ptr<ns3::NetDevice> device = node->GetDevice(dev_i);
+//      if (device->GetInstanceTypeId() == ns3::CsmaNetDevice::GetTypeId()) {
+//        int32_t if_i1 = ipv4->GetInterfaceForDevice(device);
+//        uint32_t if_i = if_i1 >= 0 ? (uint32_t)if_i1 : ipv4->AddInterface(device);
+//        ipv4->AddAddress(if_i, ns3::Ipv4InterfaceAddress(it->second->ip(), ns3::Ipv4Mask("255.0.0.0")));
+//        break;
+//      }
+//    }
+//  }
+//}
+
+void NetSim::ConfigureRouting(const std::unordered_map<HostName,ns3::Ptr<Node>>& topo_nodes) {
+//  ns3::BridgeHelper bridge;
+//  bridge.SetDeviceAttribute("Mtu", ns3::UintegerValue(9000));
+//  for (std::unordered_map<HostName,ns3::Ptr<ns3::Node>>::iterator it = this->nodes_.begin(); it != this->nodes_.end(); ++it) {
+//    if (topo_nodes.at(it->first)->type() != kNTSwitch) continue;
+//    ns3::Ptr<ns3::Node> node = it->second;
+//    ns3::NetDeviceContainer devices;
+//    for (uint32_t dev_i = 0; dev_i < node->GetNDevices(); ++dev_i) {
+//      ns3::Ptr<ns3::NetDevice> device = node->GetDevice(dev_i);
+//      if (device->GetInstanceTypeId() == ns3::CsmaNetDevice::GetTypeId()) {
+//        devices.Add(device);
+//      }
+//    }
+//    bridge.Install(it->second, devices);
+//  }
   ns3::Ipv4GlobalRoutingHelper::PopulateRoutingTables();
+}
+
+void NetSim::SetNetworkParameters(void) {
+  ns3::Config::SetDefault("ns3::TcpSocket::SegmentSize", ns3::UintegerValue(8960));
 }
 
 ns3::Ipv4Address NetSim::GetHostIP(HostName host) {
@@ -104,6 +141,7 @@ void NetSim::PopulateIPList(const std::unordered_set<HostName>& managers) {
       this->slaves_[it->first] = this->GetNodeIP(it->second);
     }
   }
+  ns3::Ipv4GlobalRoutingHelper::PopulateRoutingTables();
 }
 
 ns3::Time NetSim::GetReadyTime(void) {
@@ -112,13 +150,19 @@ ns3::Time NetSim::GetReadyTime(void) {
 
 MsgId NetSim::NameRequest(HostName src, HostName dst, size_t size, TransmitCb cb, void* userobj) {
   if (this->slaves_.count(src) == 0 || this->managers_.count(dst) == 0) return MsgId_invalid;
+  ns3::Ptr<NameClient> app = this->GetNodeApp<NameClient>(this->nodes_[src]);
+  assert(app != NULL);
   ns3::Ptr<MsgInfo> msg = this->MakeMsg(kMTNameRequest, src, dst, size, cb, userobj);
+  if (!app->NameRequest(msg)) return MsgId_invalid;
   return msg->id();
 }
 
 MsgId NetSim::NameResponse(HostName src, HostName dst, size_t size, TransmitCb cb, void* userobj) {
   if (this->managers_.count(src) == 0 || this->slaves_.count(dst) == 0) return MsgId_invalid;
+  ns3::Ptr<NameServer> app = this->GetNodeApp<NameServer>(this->nodes_[src]);
+  assert(app != NULL);
   ns3::Ptr<MsgInfo> msg = this->MakeMsg(kMTNameResponse, src, dst, size, cb, userobj);
+  if (!app->NameResponse(msg)) return MsgId_invalid;
   return msg->id();
 }
 
@@ -137,8 +181,9 @@ MsgId NetSim::DataResponse(MsgId in_reply_to, HostName src, HostName dst, size_t
 }
 
 template<typename apptype> ns3::Ptr<apptype> NetSim::GetNodeApp(ns3::Ptr<ns3::Node> node) {
+  assert(node != NULL);
   for (uint32_t app_i = 0; app_i < node->GetNApplications(); ++app_i) {
-    ns3::Ptr<ns3::Application> app = node->GetApplication(app);
+    ns3::Ptr<ns3::Application> app = node->GetApplication(app_i);
     if (apptype::GetTypeId() == app->GetInstanceTypeId()) {
       return ns3::Ptr<apptype>(static_cast<apptype*>(ns3::PeekPointer(app)));
     }

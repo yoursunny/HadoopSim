@@ -18,8 +18,6 @@ void NameServer::StartApplication() {
   ns3::InetSocketAddress addr = ns3::InetSocketAddress(ns3::Ipv4Address::GetAny(), kNameServerPort);
   this->sock_->Bind(addr);
   this->sock_->Listen();
-  this->sock_->ShutdownSend();
-
   this->sock_->SetAcceptCallback(ns3::MakeNullCallback<bool,ns3::Ptr<ns3::Socket>,const ns3::Address&>(),
                                         ns3::MakeCallback(&NameServer::HandleAccept, this));
 }
@@ -42,6 +40,7 @@ bool NameServer::NameResponse(ns3::Ptr<MsgInfo> msg) {
   ns3::Ptr<MsgTransport> mt = this->FindMTByPeer(msg->dst());
   if (mt == NULL) return false;
   mt->Send(msg);
+  return true;
 }
 
 };//namespace HadoopNetSim

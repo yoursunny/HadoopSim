@@ -56,6 +56,7 @@ void MsgTransport::Send(ns3::Ptr<MsgInfo> msg) {
   msg->Ref();//in-flight message reference
   this->peer_ = msg->dst();
   ns3::Ptr<TransmitState> ts = ns3::Create<TransmitState>(msg);
+  //printf("MsgTransport::Send id=%u size=%u\n", msg->id(), msg->size());
   this->send_queue_.push(ts);
   this->SendData();
 }
@@ -82,6 +83,7 @@ void MsgTransport::SendData(void) {
       ts->inc_count(send_actual);
     }
     if (ts->IsComplete()) {
+      //printf("MsgTransport::SendData complete\n");
       this->send_queue_.pop();
       if (!this->send_cb_.IsNull()) this->send_cb_(ns3::Ptr<MsgTransport>(this), ts->msg());
     }
@@ -130,11 +132,13 @@ void MsgTransport::RecvData(ns3::Ptr<ns3::Socket>) {
 }
 
 void MsgTransport::SocketConnect(ns3::Ptr<ns3::Socket>) {
+  //printf("MsgTransport::SocketConnect\n");
   this->connected_ = true;
   this->SendData();
 }
 
 void MsgTransport::SocketConnectFail(ns3::Ptr<ns3::Socket>) {
+  //printf("MsgTransport::SocketConnectFail\n");
   if (!this->evt_cb_.IsNull()) this->evt_cb_(ns3::Ptr<MsgTransport>(this), kMTEConnectError);
 }
 
