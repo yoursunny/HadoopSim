@@ -10,6 +10,8 @@ HadoopSim is a simulator for a Hadoop Runtime by replaying the collected traces.
 #include "TraceReader.h"
 using namespace std;
 
+static long HDFSBlockSize = (1<<26);
+
 void getTimeStatistics(map<string, long> &timeSet, long &minTime, long &maxTime, long &medianTime)
 {
     vector<long> exeTime;
@@ -30,7 +32,7 @@ void getTimeStatistics(map<string, long> &timeSet, long &minTime, long &maxTime,
     }
 }
 
-void analyzeJobTaskExeTime(map<string, Job> &completedJobs)
+void analyzeJobTaskExeTime(map<string, Job> &completedJobs, string debugDir)
 {
     map<string, long> jobTime;
     map<string, long> mapTaskTime;
@@ -45,7 +47,7 @@ void analyzeJobTaskExeTime(map<string, Job> &completedJobs)
         Job job = jobIt->second;
         jobTime.insert(pair<string, long>(job.getJobID(), job.getEndTime() - job.getStarTime()));
 
-        csvFile.open((job.getJobID() + ".csv").c_str());
+        csvFile.open((debugDir + job.getJobID() + ".csv").c_str());
         mapTaskTime.clear();
         map<string, Task> mapTasks = job.getCompletedMaps();
         for(taskIt = mapTasks.begin(); taskIt != mapTasks.end(); taskIt++) {
@@ -73,7 +75,7 @@ void analyzeJobTaskExeTime(map<string, Job> &completedJobs)
         csvFile.close();
     }
 
-    csvFile.open("job.csv");
+    csvFile.open((debugDir + "job.csv").c_str());
     getTimeStatistics(jobTime, minTime, maxTime, medianTime);
     csvFile<<"JobTime,,minTime,"<<minTime<<",,maxTime,"<<maxTime<<",,medianTime,"<<medianTime<<endl;
     for(timeIt = jobTime.begin(); timeIt != jobTime.end(); timeIt++) {
@@ -82,7 +84,7 @@ void analyzeJobTaskExeTime(map<string, Job> &completedJobs)
     csvFile.close();
 }
 
-void analyzeJobTaskExeTime(deque<JobStory> &jobSet)
+void analyzeJobTaskExeTime(deque<JobStory> &jobSet, string debugDir)
 {
     map<string, long> jobTime;
     map<string, long> mapTaskTime;
@@ -94,7 +96,7 @@ void analyzeJobTaskExeTime(deque<JobStory> &jobSet)
     for(size_t i = 0; i < jobSet.size(); i++) {
         jobTime.insert(pair<string, long>(jobSet[i].jobID, jobSet[i].finishTime - jobSet[i].launchTime));
 
-        csvFile.open((jobSet[i].jobID + "_rawtime.csv").c_str());
+        csvFile.open((debugDir + jobSet[i].jobID + "_rawtime.csv").c_str());
         mapTaskTime.clear();
         for(size_t j = 0; j < jobSet[i].mapTasks.size(); j++) {
             TaskStory task = jobSet[i].mapTasks[j];
@@ -120,7 +122,7 @@ void analyzeJobTaskExeTime(deque<JobStory> &jobSet)
         csvFile.close();
     }
 
-    csvFile.open("job_rawtime.csv");
+    csvFile.open((debugDir + "job_rawtime.csv").c_str());
     getTimeStatistics(jobTime, minTime, maxTime, medianTime);
     csvFile<<"JobTime,,minTime,"<<minTime<<",,maxTime,"<<maxTime<<",,medianTime,"<<medianTime<<endl;
     for(timeIt = jobTime.begin(); timeIt != jobTime.end(); timeIt++) {
@@ -129,13 +131,13 @@ void analyzeJobTaskExeTime(deque<JobStory> &jobSet)
     csvFile.close();
 }
 
-void analyzeJobTaskTraffic(deque<JobStory> &jobSet)
+void analyzeJobTaskTraffic(deque<JobStory> &jobSet, string debugDir)
 {
     ofstream csvFile;
     size_t k, m;
 
     for(size_t i = 0; i < jobSet.size(); i++) {
-        csvFile.open((jobSet[i].jobID + "_traffic.csv").c_str());
+        csvFile.open((debugDir + jobSet[i].jobID + "_traffic.csv").c_str());
 
         // map tasks
         for(size_t j = 0; j < jobSet[i].mapTasks.size(); j++) {
@@ -156,7 +158,7 @@ void analyzeJobTaskTraffic(deque<JobStory> &jobSet)
             if (m >= task.preferredLocations.size()) {
                 // remotely run
                 csvFile<<task.attempts[k].startTime<<","<<task.attempts[k].finishTime<<"," \
-                       <<task.taskID<<","<<task.taskType<<",67108864"<<endl;
+                       <<task.taskID<<","<<task.taskType<<","<<HDFSBlockSize<<endl;
             }
         }
 
@@ -176,15 +178,15 @@ void analyzeJobTaskTraffic(deque<JobStory> &jobSet)
     }
 }
 
-void startAnalysis(bool isRawTrace)
+void startAnalysis(bool isRawTrace, string debugDir)
 {
     if (isRawTrace) {
         deque<JobStory> allJobs = getAllJobs();
-        //analyzeJobTaskExeTime(allJobs);
-        analyzeJobTaskTraffic(allJobs);
+        //analyzeJobTaskExeTime(allJobs, debugDir);
+        analyzeJobTaskTraffic(allJobs, debugDir);
     } else {
         JobTracker *jobTracker = getJobTracker();
         if (!jobTracker->getCompletedJobs().empty())
-            analyzeJobTaskExeTime(jobTracker->getCompletedJobs());
+            analyzeJobTaskExeTime(jobTracker->getCompletedJobs(), debugDir);
     }
 }

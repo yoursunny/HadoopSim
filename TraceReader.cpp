@@ -375,7 +375,7 @@ void dumpJobStorySet(int ident = 0)
     }
 }
 
-void initTraceReader(string traceFilePrefix, int numTraceFiles, bool debug)
+void initTraceReader(string traceFilePrefix, int numTraceFiles, bool debug, string debugDir)
 {
     vector<vector<char> > traces;
     int nameLength = traceFilePrefix.size();
@@ -410,7 +410,7 @@ void initTraceReader(string traceFilePrefix, int numTraceFiles, bool debug)
     if (debug) {
         // verify the jobset
         //dumpJobStorySet();
-        startAnalysis(true);
+        startAnalysis(true, debugDir);
     }
 }
 

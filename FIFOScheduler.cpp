@@ -71,9 +71,16 @@ list<TaskAction> FIFOScheduler::assignTasks(string trackerName, long numAvailMap
             mapIt = block2Node.find(action.status.taskAttemptID);
             assert(mapIt != block2Node.end());
             vector<string> nodes = mapIt->second;
-            assert(!nodes.empty());
-            action.status.dataSource = nodes[rand() % nodes.size()];
-            job.moveWaitingMapToRunning(true, trackerName, action.status.dataSource, taskIt->first);
+
+            if (nodes.empty()) {
+                // map tasks only for generating data
+                action.status.isRemote = false;
+                action.status.dataSource = trackerName;
+                job.moveWaitingMapToRunning(false, trackerName, trackerName, taskIt->first);
+            } else {
+                action.status.dataSource = nodes[rand() % nodes.size()];
+                job.moveWaitingMapToRunning(true, trackerName, action.status.dataSource, taskIt->first);
+            }
         }
         jobIt->second = job;
         taskAction.push_back(action);
