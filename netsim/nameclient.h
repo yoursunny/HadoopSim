@@ -17,8 +17,6 @@ class NameClient : public ns3::Application {
     void StartApplication();
     void StopApplication() {}
     
-    void HandleRecv(ns3::Ptr<MsgTransport> mt, ns3::Ptr<MsgInfo> msg);
-
     DISALLOW_COPY_AND_ASSIGN(NameClient);
 };
 

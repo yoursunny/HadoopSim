@@ -61,6 +61,7 @@ MsgTransport::~MsgTransport(void) {
 }
 
 void MsgTransport::Send(ns3::Ptr<MsgInfo> msg) {
+  assert(msg->size() > 0);
   msg->set_start(ns3::Simulator::Now());
   msg->Ref();//in-flight message reference
   ns3::Ptr<TransmitState> ts = ns3::Create<TransmitState>(msg);

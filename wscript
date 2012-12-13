@@ -7,6 +7,8 @@ def build(bld):
     'netsim/msgtransport.cc',
     'netsim/nameclient.cc',
     'netsim/nameserver.cc',
+    'netsim/dataclient.cc',
+    'netsim/dataserver.cc',
     'netsim/netsim.cc'
   }
   

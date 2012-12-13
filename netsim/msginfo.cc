@@ -2,7 +2,8 @@
 namespace HadoopNetSim {
 
 MsgInfo::MsgInfo(void) {
-  this->id_ = 0;
+  this->id_ = MsgId_invalid;
+  this->in_reply_to_ = MsgId_invalid;
   this->type_ = kMTNone;
   this->size_ = 0;
   this->success_ = false;

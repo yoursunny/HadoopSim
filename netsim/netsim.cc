@@ -1,10 +1,13 @@
 #include "netsim/netsim.h"
 #include "netsim/nameserver.h"
 #include "netsim/nameclient.h"
+#include "netsim/dataserver.h"
+#include "netsim/dataclient.h"
 namespace HadoopNetSim {
 
 NetSim::NetSim(void) {
   this->setup_status_ = kSSNone;
+  this->ready_cb_ = ns3::MakeNullCallback<void,NetSim*>();
 }
 
 void NetSim::BuildTopology(const Topology& topo) {
@@ -126,9 +129,14 @@ void NetSim::InstallApps(const std::unordered_set<HostName>& managers) {
     ns3::Ptr<ns3::Node> node = this->nodes_[it->first];
     ns3::Ptr<NameClient> nc_app = ns3::CreateObject<NameClient>(&this->managers_);
     node->AddApplication(nc_app); c_apps.Add(nc_app);
+    ns3::Ptr<DataServer> ds_app = ns3::CreateObject<DataServer>();
+    node->AddApplication(ds_app); s_apps.Add(ds_app);
+    ns3::Ptr<DataClient> dc_app = ns3::CreateObject<DataClient>(&this->slaves_);
+    node->AddApplication(dc_app); c_apps.Add(dc_app);
   }
   s_apps.Start(ns3::Seconds(0.0));
   c_apps.Start(ns3::Seconds(1.0));
+  ns3::Simulator::Schedule(ns3::Seconds(5.0), &NetSim::FireReadyCb, this);
   
   this->setup_status_ = kSSInstallApps;
 }
@@ -141,14 +149,16 @@ void NetSim::PopulateIPList(const std::unordered_set<HostName>& managers) {
       this->slaves_[it->first] = this->GetNodeIP(it->second);
     }
   }
-  ns3::Ipv4GlobalRoutingHelper::PopulateRoutingTables();
 }
 
-ns3::Time NetSim::GetReadyTime(void) {
-  return ns3::Seconds(5.0);
+void NetSim::FireReadyCb(void) {
+  assert(this->setup_status_ == kSSInstallApps);
+  if (!this->ready_cb_.IsNull()) this->ready_cb_(this);
+  this->setup_status_ = kSSReady;
 }
 
 MsgId NetSim::NameRequest(HostName src, HostName dst, size_t size, TransmitCb cb, void* userobj) {
+  this->AssertReady();
   if (this->slaves_.count(src) == 0 || this->managers_.count(dst) == 0) return MsgId_invalid;
   ns3::Ptr<NameClient> app = this->GetNodeApp<NameClient>(this->nodes_[src]);
   assert(app != NULL);
@@ -158,6 +168,7 @@ MsgId NetSim::NameRequest(HostName src, HostName dst, size_t size, TransmitCb cb
 }
 
 MsgId NetSim::NameResponse(HostName src, HostName dst, size_t size, TransmitCb cb, void* userobj) {
+  this->AssertReady();
   if (this->managers_.count(src) == 0 || this->slaves_.count(dst) == 0) return MsgId_invalid;
   ns3::Ptr<NameServer> app = this->GetNodeApp<NameServer>(this->nodes_[src]);
   assert(app != NULL);
@@ -167,16 +178,23 @@ MsgId NetSim::NameResponse(HostName src, HostName dst, size_t size, TransmitCb c
 }
 
 MsgId NetSim::DataRequest(HostName src, HostName dst, size_t size, TransmitCb cb, void* userobj) {
-  assert(false);//unimplemented
-  if (this->slaves_.count(src) == 0 || this->managers_.count(dst) == 0) return MsgId_invalid;
+  this->AssertReady();
+  if (this->slaves_.count(src) == 0 || this->slaves_.count(dst) == 0) return MsgId_invalid;
+  ns3::Ptr<DataClient> app = this->GetNodeApp<DataClient>(this->nodes_[src]);
+  assert(app != NULL);
   ns3::Ptr<MsgInfo> msg = this->MakeMsg(kMTDataRequest, src, dst, size, cb, userobj);
+  if (!app->DataRequest(msg)) return MsgId_invalid;
   return msg->id();
 }
 
 MsgId NetSim::DataResponse(MsgId in_reply_to, HostName src, HostName dst, size_t size, TransmitCb cb, void* userobj) {
-  assert(false);//unimplemented
-  if (this->managers_.count(src) == 0 || this->slaves_.count(dst) == 0) return MsgId_invalid;
+  this->AssertReady();
+  if (this->slaves_.count(src) == 0 || this->slaves_.count(dst) == 0) return MsgId_invalid;
+  ns3::Ptr<DataServer> app = this->GetNodeApp<DataServer>(this->nodes_[src]);
+  assert(app != NULL);
   ns3::Ptr<MsgInfo> msg = this->MakeMsg(kMTDataResponse, src, dst, size, cb, userobj);
+  msg->set_in_reply_to(in_reply_to);
+  if (!app->DataResponse(msg)) return MsgId_invalid;
   return msg->id();
 }
 
