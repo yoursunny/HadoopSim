@@ -47,7 +47,7 @@ void analyzeJobTaskExeTime(map<string, Job> &completedJobs, string debugDir)
         Job job = jobIt->second;
         jobTime.insert(pair<string, long>(job.getJobID(), job.getEndTime() - job.getStarTime()));
 
-        csvFile.open((debugDir + job.getJobID() + ".csv").c_str());
+        csvFile.open((debugDir + job.getJobID() + "_RealExeTime.csv").c_str());
         mapTaskTime.clear();
         map<string, Task> mapTasks = job.getCompletedMaps();
         for(taskIt = mapTasks.begin(); taskIt != mapTasks.end(); taskIt++) {
@@ -75,7 +75,7 @@ void analyzeJobTaskExeTime(map<string, Job> &completedJobs, string debugDir)
         csvFile.close();
     }
 
-    csvFile.open((debugDir + "job.csv").c_str());
+    csvFile.open((debugDir + "AllJobs_RealExeTime.csv").c_str());
     getTimeStatistics(jobTime, minTime, maxTime, medianTime);
     csvFile<<"JobTime,,minTime,"<<minTime<<",,maxTime,"<<maxTime<<",,medianTime,"<<medianTime<<endl;
     for(timeIt = jobTime.begin(); timeIt != jobTime.end(); timeIt++) {
@@ -96,7 +96,7 @@ void analyzeJobTaskExeTime(deque<JobStory> &jobSet, string debugDir)
     for(size_t i = 0; i < jobSet.size(); i++) {
         jobTime.insert(pair<string, long>(jobSet[i].jobID, jobSet[i].finishTime - jobSet[i].launchTime));
 
-        csvFile.open((debugDir + jobSet[i].jobID + "_rawtime.csv").c_str());
+        csvFile.open((debugDir + jobSet[i].jobID + "_RawExeTime.csv").c_str());
         mapTaskTime.clear();
         for(size_t j = 0; j < jobSet[i].mapTasks.size(); j++) {
             TaskStory task = jobSet[i].mapTasks[j];
@@ -122,7 +122,7 @@ void analyzeJobTaskExeTime(deque<JobStory> &jobSet, string debugDir)
         csvFile.close();
     }
 
-    csvFile.open((debugDir + "job_rawtime.csv").c_str());
+    csvFile.open((debugDir + "AllJobs_RawExeTime.csv").c_str());
     getTimeStatistics(jobTime, minTime, maxTime, medianTime);
     csvFile<<"JobTime,,minTime,"<<minTime<<",,maxTime,"<<maxTime<<",,medianTime,"<<medianTime<<endl;
     for(timeIt = jobTime.begin(); timeIt != jobTime.end(); timeIt++) {
@@ -137,7 +137,7 @@ void analyzeJobTaskTraffic(deque<JobStory> &jobSet, string debugDir)
     size_t k, m;
 
     for(size_t i = 0; i < jobSet.size(); i++) {
-        csvFile.open((debugDir + jobSet[i].jobID + "_traffic.csv").c_str());
+        csvFile.open((debugDir + jobSet[i].jobID + "_RawTraffic.csv").c_str());
 
         // map tasks
         for(size_t j = 0; j < jobSet[i].mapTasks.size(); j++) {
@@ -161,7 +161,6 @@ void analyzeJobTaskTraffic(deque<JobStory> &jobSet, string debugDir)
                        <<task.taskID<<","<<task.taskType<<","<<HDFSBlockSize<<endl;
             }
         }
-
         // reduce tasks
         for(size_t j = 0; j < jobSet[i].reduceTasks.size(); j++) {
             TaskStory task = jobSet[i].reduceTasks[j];

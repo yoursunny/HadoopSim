@@ -58,11 +58,11 @@
           "finishTime" : 1355091928411,
           "hdfsBytesRead" : 214184,
           "hdfsBytesWritten" : -1,
-          "hostName" : "/default-rack/server-1450\\.novalocal",
+          "hostName" : "/default-rack/server-1450.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1450\\.novalocal"
+              "server-1450.novalocal"
             ]
           },
           "mapInputBytes" : -1,
@@ -89,19 +89,19 @@
         {
           "layers" : [
             "default-rack",
-            "server-1467\\.novalocal"
+            "server-1467.novalocal"
           ]
         },
         {
           "layers" : [
             "default-rack",
-            "server-1487\\.novalocal"
+            "server-1487.novalocal"
           ]
         },
         {
           "layers" : [
             "default-rack",
-            "server-1449\\.novalocal"
+            "server-1449.novalocal"
           ]
         }
       ],
@@ -125,11 +125,11 @@
           "finishTime" : 1355091924139,
           "hdfsBytesRead" : -1,
           "hdfsBytesWritten" : -1,
-          "hostName" : "/default-rack/server-1450\\.novalocal",
+          "hostName" : "/default-rack/server-1450.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1450\\.novalocal"
+              "server-1450.novalocal"
             ]
           },
           "mapInputBytes" : -1,
@@ -168,11 +168,11 @@
           "finishTime" : 1355091946469,
           "hdfsBytesRead" : -1,
           "hdfsBytesWritten" : -1,
-          "hostName" : "/default-rack/server-1450\\.novalocal",
+          "hostName" : "/default-rack/server-1450.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1450\\.novalocal"
+              "server-1450.novalocal"
             ]
           },
           "mapInputBytes" : -1,
@@ -216,11 +216,11 @@
           "finishTime" : 1355091940501,
           "hdfsBytesRead" : -1,
           "hdfsBytesWritten" : 214455,
-          "hostName" : "/default-rack/server-1450\\.novalocal",
+          "hostName" : "/default-rack/server-1450.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1450\\.novalocal"
+              "server-1450.novalocal"
             ]
           },
           "mapInputBytes" : -1,

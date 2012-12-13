@@ -58,11 +58,11 @@
           "finishTime" : 1355181792915,
           "hdfsBytesRead" : 601,
           "hdfsBytesWritten" : -1,
-          "hostName" : "/default-rack/server-1483\\.novalocal",
+          "hostName" : "/default-rack/server-1483.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1483\\.novalocal"
+              "server-1483.novalocal"
             ]
           },
           "mapInputBytes" : 0,
@@ -89,7 +89,7 @@
         {
           "layers" : [
             "default-rack",
-            "server-1489\\.novalocal"
+            "server-1489.novalocal"
           ]
         }
       ],
@@ -113,11 +113,11 @@
           "finishTime" : 1355181787374,
           "hdfsBytesRead" : -1,
           "hdfsBytesWritten" : -1,
-          "hostName" : "/default-rack/server-1483\\.novalocal",
+          "hostName" : "/default-rack/server-1483.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1483\\.novalocal"
+              "server-1483.novalocal"
             ]
           },
           "mapInputBytes" : -1,
@@ -156,11 +156,11 @@
           "finishTime" : 1355181810971,
           "hdfsBytesRead" : -1,
           "hdfsBytesWritten" : -1,
-          "hostName" : "/default-rack/server-1483\\.novalocal",
+          "hostName" : "/default-rack/server-1483.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1483\\.novalocal"
+              "server-1483.novalocal"
             ]
           },
           "mapInputBytes" : -1,
@@ -204,11 +204,11 @@
           "finishTime" : 1355181805001,
           "hdfsBytesRead" : -1,
           "hdfsBytesWritten" : 225,
-          "hostName" : "/default-rack/server-1483\\.novalocal",
+          "hostName" : "/default-rack/server-1483.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1483\\.novalocal"
+              "server-1483.novalocal"
             ]
           },
           "mapInputBytes" : -1,

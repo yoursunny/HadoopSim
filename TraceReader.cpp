@@ -5,6 +5,7 @@ HadoopSim is a simulator for a Hadoop Runtime by replaying the collected traces.
 #include <assert.h>
 #include <stdio.h>
 #include <iostream>
+#include <fstream>
 #include "Misc.h"
 #include "TraceAnalyzer.h"
 #include "TraceReader.h"
@@ -16,7 +17,7 @@ static deque<JobStory> jobSet;
 static deque<JobStory> runningJobSet;
 static deque<JobStory> completedJobSet;
 
-#define IDENT(n) for (int i = 0; i < n; ++i) printf("    ")
+#define IDENT(n) for (int i = 0; i < n; ++i) jsonFile<<"  "
 #define Next(n) ((n) = ((n)->next_sibling))
 
 Location parseSingleLocation(json_value *value)
@@ -212,166 +213,259 @@ JobStory parseJSON(char *source)
 	return job;
 }
 
-void dumpTaskAttempt(vector<Attempt> attempts, int ident = 0)
+void dumpTaskAttempt(ofstream &jsonFile, vector<Attempt> &attempts, int ident)
 {
-    vector<Attempt>::iterator it;
-    for(it = attempts.begin(); it != attempts.end(); it++) {
-        IDENT(ident); cout<<"*location"<<endl;
-        IDENT(ident + 1); cout<<"rack = "<<it->location.rack<<endl;
-        IDENT(ident + 1); cout<<"hostName = "<<it->location.hostName<<endl;
-        IDENT(ident); cout<<"*hostName = "<<it->hostName<<endl;
-        IDENT(ident); cout<<"*startTime = "<<it->startTime<<endl;
-        IDENT(ident); cout<<"result = "<<it->result<<endl;
-        IDENT(ident); cout<<"*finishTime = "<<it->finishTime<<endl;
-        IDENT(ident); cout<<"*attemptID = "<<it->attemptID<<endl;
-        IDENT(ident); cout<<"shuffleFinished = "<<it->shuffleFinished<<endl;
-        IDENT(ident); cout<<"sortFinished = "<<it->sortFinished<<endl;
-        IDENT(ident); cout<<"hdfsBytesRead = "<<it->hdfsBytesRead<<endl;
-        IDENT(ident); cout<<"hdfsBytesWritten = "<<it->hdfsBytesWritten<<endl;
-        IDENT(ident); cout<<"fileBytesRead = "<<it->fileBytesRead<<endl;
-        IDENT(ident); cout<<"fileBytesWritten = "<<it->fileBytesWritten<<endl;
-        IDENT(ident); cout<<"mapInputRecords = "<<it->mapInputRecords<<endl;
-        IDENT(ident); cout<<"mapOutputBytes = "<<it->mapOutputBytes<<endl;
-        IDENT(ident); cout<<"mapOutputRecords = "<<it->mapOutputRecords<<endl;
-        IDENT(ident); cout<<"combineInputRecords = "<<it->combineInputRecords<<endl;
-        IDENT(ident); cout<<"reduceInputGroups = "<<it->reduceInputGroups<<endl;
-        IDENT(ident); cout<<"reduceInputRecords = "<<it->reduceInputRecords<<endl;
-        IDENT(ident); cout<<"reduceShuffleBytes = "<<it->reduceShuffleBytes<<endl;
-        IDENT(ident); cout<<"reduceOutputRecords = "<<it->reduceOutputRecords<<endl;
-        IDENT(ident); cout<<"spilledRecords = "<<it->spilledRecords<<endl;
-        IDENT(ident); cout<<"mapInputBytes = "<<it->mapInputBytes<<endl;
-    }
-}
-
-void dumpLocation(vector<Location> Locations, int ident = 0)
-{
-    vector<Location>::iterator it;
-    for(it = Locations.begin(); it != Locations.end(); it++) {
-        IDENT(ident); cout<<"*rack = "<<it->rack<<endl;
-        IDENT(ident); cout<<"*hostName = "<<it->hostName<<endl;
-    }
-}
-
-void dumpTaskStorySet(vector<TaskStory> taskSet, int ident = 0)
-{
-    vector<TaskStory>::iterator it;
-    for(it = taskSet.begin(); it != taskSet.end(); it++) {
-        IDENT(ident); cout<<"*startTime = "<<it->startTime<<endl;
-        IDENT(ident); cout<<"*attempts"<<endl; dumpTaskAttempt(it->attempts, ident + 1);
-        IDENT(ident); cout<<"*finishTime = "<<it->finishTime<<endl;
-        IDENT(ident); cout<<"*preferredLocations"<<endl; dumpLocation(it->preferredLocations, ident + 1);
-        IDENT(ident); cout<<"taskType = "<<it->taskType<<endl;
-        IDENT(ident); cout<<"taskStatus = "<<it->taskStatus<<endl;
-        IDENT(ident); cout<<"*taskID = "<<it->taskID<<endl;
-        IDENT(ident); cout<<"inputBytes = "<<it->inputBytes<<endl;
-        IDENT(ident); cout<<"inputRecords = "<<it->inputRecords<<endl;
-        IDENT(ident); cout<<"outputBytes = "<<it->outputBytes<<endl;
-        IDENT(ident); cout<<"outputRecords = "<<it->outputRecords<<endl;
-        IDENT(ident); cout<<"======================"<<endl;
-    }
-}
-
-void dumpRanking(vector<Ranking> rank, int ident = 0)
-{
-   vector<Ranking>::iterator it;
-    for(it = rank.begin(); it != rank.end(); it++) {
-        IDENT(ident); cout<<"datum = "<<it->datum<<endl;
-        IDENT(ident); cout<<"relativeRanking = "<<it->relativeRanking<<endl;
-        IDENT(ident); cout<<"++++++++++++++++++++"<<endl;
-    }
-}
-
-void dumpCDF(vector<CDF> cdf, int ident = 0)
-{
-    vector<CDF>::iterator it;
-    for(it = cdf.begin(); it != cdf.end(); it++) {
-        IDENT(ident); cout<<"minimum = "<<it->minimum<<endl;
-        IDENT(ident); cout<<"maximum = "<<it->maximum<<endl;
-        IDENT(ident); cout<<"numberValues = "<<it->numberValues<<endl;
-        IDENT(ident); cout<<"rankings"<<endl; dumpRanking(it->rankings, ident + 1);
-        IDENT(ident); cout<<"~~~~~~~~~~~~~~~~~~~~~~~"<<endl;
-    }
-}
-
-void dumpJobStory(JobStory *job, int ident)
-{
-    cout<<"priority = "<<job->priority<<endl;
-    cout<<"*jobID = "<<job->jobID<<endl;
-    cout<<"user = "<<job->user<<endl;
-    cout<<"jobName = "<<job->jobName<<endl;
-    cout<<"computonsPerMapInputByte = "<<job->computonsPerMapInputByte<<endl;
-    cout<<"computonsPerMapOutputByte = "<<job->computonsPerMapOutputByte<<endl;
-    cout<<"computonsPerReduceInputByte = "<<job->computonsPerReduceInputByte<<endl;
-    cout<<"computonsPerReduceOutputByte = "<<job->computonsPerReduceOutputByte<<endl;
-    cout<<"heapMegabytes = "<<job->heapMegabytes<<endl;
-    cout<<"*outcome = "<<job->outcome<<endl;
-    cout<<"*jobtype = "<<job->jobtype<<endl;
-    cout<<"*directDependantJobs = "<<job->directDependantJobs<<endl;
-    cout<<"successfulMapAttemptCDFs"<<endl; dumpCDF(job->successfulMapAttemptCDFs, ident + 1);
-    cout<<"failedMapAttemptCDFs"<<endl; dumpCDF(job->failedMapAttemptCDFs, ident + 1);
-    cout<<"successfulReduceAttemptCDF"<<endl; dumpCDF(job->successfulReduceAttemptCDF, ident + 1);
-    cout<<"failedReduceAttemptCDF"<<endl; dumpCDF(job->failedReduceAttemptCDF, ident + 1);
-    cout<<"mapperTriesToSucceed"<<endl;
-    for(size_t j = 0; j < job->mapperTriesToSucceed.size(); j++) {
-        IDENT(ident + 1); cout<<job->mapperTriesToSucceed[j]<<endl;
-    }
-    cout<<"failedMapperFraction = "<<job->failedMapperFraction<<endl;
-    cout<<"relativeTime = "<<job->relativeTime<<endl;
-    cout<<"queuetype = "<<job->queuetype<<endl;
-    cout<<"clusterMapMB = "<<job->clusterMapMB<<endl;
-    cout<<"clusterReduceMB = "<<job->clusterReduceMB<<endl;
-    cout<<"jobMapMB = "<<job->jobMapMB<<endl;
-    cout<<"jobReduceMB = "<<job->jobReduceMB<<endl;
-    cout<<"*mapTasks"<<endl; dumpTaskStorySet(job->mapTasks, ident + 1);
-    cout<<"*finishTime = "<<job->finishTime<<endl;
-    cout<<"*reduceTasks"<<endl; dumpTaskStorySet(job->reduceTasks, ident + 1);
-    cout<<"*submitTime = "<<job->submitTime<<endl;
-    cout<<"*launchTime = "<<job->launchTime<<endl;
-    cout<<"*totalMaps = "<<job->totalMaps<<endl;
-    cout<<"*totalReduces = "<<job->totalReduces<<endl;
-    cout<<"*otherTasks"<<endl; dumpTaskStorySet(job->otherTasks, ident + 1);
-}
-
-void dumpJobStorySet(int ident = 0)
-{
-     deque<JobStory>::iterator it;
-     for(it = jobSet.begin(); it != jobSet.end(); it++) {
-        cout<<"priority = "<<it->priority<<endl;
-        cout<<"*jobID = "<<it->jobID<<endl;
-        cout<<"user = "<<it->user<<endl;
-        cout<<"jobName = "<<it->jobName<<endl;
-        cout<<"computonsPerMapInputByte = "<<it->computonsPerMapInputByte<<endl;
-        cout<<"computonsPerMapOutputByte = "<<it->computonsPerMapOutputByte<<endl;
-        cout<<"computonsPerReduceInputByte = "<<it->computonsPerReduceInputByte<<endl;
-        cout<<"computonsPerReduceOutputByte = "<<it->computonsPerReduceOutputByte<<endl;
-        cout<<"heapMegabytes = "<<it->heapMegabytes<<endl;
-        cout<<"*outcome = "<<it->outcome<<endl;
-        cout<<"*jobtype = "<<it->jobtype<<endl;
-        cout<<"*directDependantJobs = "<<it->directDependantJobs<<endl;
-        cout<<"successfulMapAttemptCDFs"<<endl; dumpCDF(it->successfulMapAttemptCDFs, ident + 1);
-        cout<<"failedMapAttemptCDFs"<<endl; dumpCDF(it->failedMapAttemptCDFs, ident + 1);
-        cout<<"successfulReduceAttemptCDF"<<endl; dumpCDF(it->successfulReduceAttemptCDF, ident + 1);
-        cout<<"failedReduceAttemptCDF"<<endl; dumpCDF(it->failedReduceAttemptCDF, ident + 1);
-        cout<<"mapperTriesToSucceed"<<endl;
-        for(size_t j = 0; j < it->mapperTriesToSucceed.size(); j++) {
-            IDENT(ident + 1); cout<<it->mapperTriesToSucceed[j]<<endl;
+    for(size_t i = 0; i < attempts.size(); i++) {
+        IDENT(ident); jsonFile<<"{"<<endl;
+        IDENT(ident+1); jsonFile<<"\"attemptID\" : \""<<attempts[i].attemptID<<"\","<<endl;
+        IDENT(ident+1); jsonFile<<"\"combineInputRecords\" : "<<attempts[i].combineInputRecords<<","<<endl;
+        IDENT(ident+1); jsonFile<<"\"fileBytesRead\" : "<<attempts[i].fileBytesRead<<","<<endl;
+        IDENT(ident+1); jsonFile<<"\"fileBytesWritten\" : "<<attempts[i].fileBytesWritten<<","<<endl;
+        IDENT(ident+1); jsonFile<<"\"finishTime\" : "<<attempts[i].finishTime<<","<<endl;
+        IDENT(ident+1); jsonFile<<"\"hdfsBytesRead\" : "<<attempts[i].hdfsBytesRead<<","<<endl;
+        IDENT(ident+1); jsonFile<<"\"hdfsBytesWritten\" : "<<attempts[i].hdfsBytesWritten<<","<<endl;
+        if (attempts[i].hostName.empty()) {
+            IDENT(ident+1); jsonFile<<"\"hostName\" : null,"<<endl;
+        } else {
+            IDENT(ident+1); jsonFile<<"\"hostName\" : \""<<attempts[i].hostName<<"\","<<endl;
         }
-        cout<<"failedMapperFraction = "<<it->failedMapperFraction<<endl;
-        cout<<"relativeTime = "<<it->relativeTime<<endl;
-        cout<<"queuetype = "<<it->queuetype<<endl;
-        cout<<"clusterMapMB = "<<it->clusterMapMB<<endl;
-        cout<<"clusterReduceMB = "<<it->clusterReduceMB<<endl;
-        cout<<"jobMapMB = "<<it->jobMapMB<<endl;
-        cout<<"jobReduceMB = "<<it->jobReduceMB<<endl;
-        cout<<"*mapTasks"<<endl; dumpTaskStorySet(it->mapTasks, ident + 1);
-        cout<<"*finishTime = "<<it->finishTime<<endl;
-        cout<<"*reduceTasks"<<endl; dumpTaskStorySet(it->reduceTasks, ident + 1);
-        cout<<"*submitTime = "<<it->submitTime<<endl;
-        cout<<"*launchTime = "<<it->launchTime<<endl;
-        cout<<"*totalMaps = "<<it->totalMaps<<endl;
-        cout<<"*totalReduces = "<<it->totalReduces<<endl;
-        cout<<"*otherTasks"<<endl; dumpTaskStorySet(it->otherTasks, ident + 1);
-        IDENT(ident); cout<<"------------------------------"<<endl;
+
+        if (attempts[i].location.rack.empty() && attempts[i].location.hostName.empty()) {
+            IDENT(ident+1); jsonFile<<"\"location\" : null,"<<endl;
+        } else {
+            IDENT(ident+1); jsonFile<<"\"location\" : {"<<endl;
+            IDENT(ident+2); jsonFile<<"\"layers\" : ["<<endl;
+            IDENT(ident+3); jsonFile<<"\""<<attempts[i].location.rack<<"\","<<endl;
+            IDENT(ident+3); jsonFile<<"\""<<attempts[i].location.hostName<<"\""<<endl;
+            IDENT(ident+2); jsonFile<<"]"<<endl;
+            IDENT(ident+1); jsonFile<<"},"<<endl;
+        }
+        IDENT(ident+1); jsonFile<<"\"mapInputBytes\" : "<<attempts[i].mapInputBytes<<","<<endl;
+        IDENT(ident+1); jsonFile<<"\"mapInputRecords\" : "<<attempts[i].mapInputRecords<<","<<endl;
+        IDENT(ident+1); jsonFile<<"\"mapOutputBytes\" : "<<attempts[i].mapOutputBytes<<","<<endl;
+        IDENT(ident+1); jsonFile<<"\"mapOutputRecords\" : "<<attempts[i].mapOutputRecords<<","<<endl;
+        IDENT(ident+1); jsonFile<<"\"reduceInputGroups\" : "<<attempts[i].reduceInputGroups<<","<<endl;
+        IDENT(ident+1); jsonFile<<"\"reduceInputRecords\" : "<<attempts[i].reduceInputRecords<<","<<endl;
+        IDENT(ident+1); jsonFile<<"\"reduceOutputRecords\" : "<<attempts[i].reduceOutputRecords<<","<<endl;
+        IDENT(ident+1); jsonFile<<"\"reduceShuffleBytes\" : "<<attempts[i].reduceShuffleBytes<<","<<endl;
+        IDENT(ident+1); jsonFile<<"\"result\" : \""<<attempts[i].result<<"\","<<endl;
+        IDENT(ident+1); jsonFile<<"\"shuffleFinished\" : "<<attempts[i].shuffleFinished<<","<<endl;
+        IDENT(ident+1); jsonFile<<"\"sortFinished\" : "<<attempts[i].sortFinished<<","<<endl;
+        IDENT(ident+1); jsonFile<<"\"spilledRecords\" : "<<attempts[i].spilledRecords<<","<<endl;
+        IDENT(ident+1); jsonFile<<"\"startTime\" : "<<attempts[i].startTime<<endl;
+        IDENT(ident); jsonFile<<"}";
+        if (i != attempts.size() - 1)
+            jsonFile<<","<<endl;
+        else
+            jsonFile<<endl;
+    }
+}
+
+void dumpLocation(ofstream &jsonFile, vector<Location> &locations, int ident)
+{
+    for(size_t i = 0; i < locations.size(); i++) {
+        IDENT(ident); jsonFile<<"{"<<endl;
+        IDENT(ident+1); jsonFile<<"\"layers\" : ["<<endl;
+        IDENT(ident+2); jsonFile<<"\""<<locations[i].rack<<"\","<<endl;
+        IDENT(ident+2); jsonFile<<"\""<<locations[i].hostName<<"\""<<endl;
+        IDENT(ident+1); jsonFile<<"]"<<endl;
+        IDENT(ident); jsonFile<<"}";
+        if (i != locations.size() - 1)
+            jsonFile<<","<<endl;
+        else
+            jsonFile<<endl;
+    }
+}
+
+void dumpTaskStorySet(ofstream &jsonFile, vector<TaskStory> &taskSet, int ident)
+{
+    for(size_t i = 0; i < taskSet.size(); i++) {
+        IDENT(ident); jsonFile<<"{"<<endl;
+        if (taskSet[i].attempts.empty()) {
+            IDENT(ident+1); jsonFile<<"\"attempts\" : [],"<<endl;
+        } else {
+            IDENT(ident+1); jsonFile<<"\"attempts\" : ["<<endl;
+            dumpTaskAttempt(jsonFile, taskSet[i].attempts, ident+2);
+            IDENT(ident+1); jsonFile<<"],"<<endl;
+        }
+        IDENT(ident+1); jsonFile<<"\"finishTime\" : "<<taskSet[i].finishTime<<","<<endl;
+        IDENT(ident+1); jsonFile<<"\"inputBytes\" : "<<taskSet[i].inputBytes<<","<<endl;
+        IDENT(ident+1); jsonFile<<"\"inputRecords\" : "<<taskSet[i].inputRecords<<","<<endl;
+        IDENT(ident+1); jsonFile<<"\"outputBytes\" : "<<taskSet[i].outputBytes<<","<<endl;
+        IDENT(ident+1); jsonFile<<"\"outputRecords\" : "<<taskSet[i].outputRecords<<","<<endl;
+        if (taskSet[i].preferredLocations.empty()) {
+            IDENT(ident+1); jsonFile<<"\"preferredLocations\" : [],"<<endl;
+        } else {
+            IDENT(ident+1); jsonFile<<"\"preferredLocations\" : ["<<endl;
+            dumpLocation(jsonFile, taskSet[i].preferredLocations, ident+2);
+            IDENT(ident+1); jsonFile<<"],"<<endl;
+        }
+        IDENT(ident+1); jsonFile<<"\"startTime\" : "<<taskSet[i].startTime<<","<<endl;
+        IDENT(ident+1); jsonFile<<"\"taskID\" : \""<<taskSet[i].taskID<<"\","<<endl;
+        IDENT(ident+1); jsonFile<<"\"taskStatus\" : \""<<taskSet[i].taskStatus<<"\","<<endl;
+        IDENT(ident+1); jsonFile<<"\"taskType\" : \""<<taskSet[i].taskType<<"\""<<endl;
+        IDENT(ident); jsonFile<<"}";
+        if (i != taskSet.size() - 1)
+            jsonFile<<","<<endl;
+        else
+            jsonFile<<endl;
+    }
+}
+
+void dumpRanking(ofstream &jsonFile, vector<Ranking> &rank, int ident)
+{
+    for(size_t i = 0; i < rank.size(); i++) {
+        IDENT(ident); jsonFile<<"{"<<endl;
+        IDENT(ident+1); jsonFile<<"\"datum\" : "<<rank[i].datum<<","<<endl;
+        IDENT(ident+1); jsonFile<<"\"relativeRanking\" : "<<rank[i].relativeRanking<<endl;
+        IDENT(ident); jsonFile<<"}";
+        if (i != rank.size() - 1)
+            jsonFile<<","<<endl;
+        else
+            jsonFile<<endl;
+    }
+}
+
+void dumpCDF(ofstream &jsonFile, vector<CDF> &cdf, int ident, bool bracket)
+{
+    for(size_t i = 0; i < cdf.size(); i++) {
+        if (bracket) {
+            IDENT(ident); jsonFile<<"{"<<endl;
+        }
+        IDENT(ident+1); jsonFile<<"\"maximum\" : "<<cdf[i].maximum<<","<<endl;
+        IDENT(ident+1); jsonFile<<"\"minimum\" : "<<cdf[i].minimum<<","<<endl;
+        IDENT(ident+1); jsonFile<<"\"numberValues\" : "<<cdf[i].numberValues<<","<<endl;
+        if (cdf[i].rankings.empty()) {
+            IDENT(ident+1); jsonFile<<"\"rankings\" : []"<<endl;
+        } else {
+            IDENT(ident+1); jsonFile<<"\"rankings\" : ["<<endl;
+            dumpRanking(jsonFile, cdf[i].rankings, ident+2);
+            IDENT(ident+1); jsonFile<<"]"<<endl;
+        }
+        if (bracket) {
+            IDENT(ident); jsonFile<<"}";
+            if (i != cdf.size() - 1)
+                jsonFile<<","<<endl;
+            else
+                jsonFile<<endl;
+        }
+    }
+}
+
+void dumpJobStory(ofstream &jsonFile, JobStory &job, int ident = 1)
+{
+    jsonFile<<"{"<<endl;
+    IDENT(ident); jsonFile<<"\"clusterMapMB\" : "<<job.clusterMapMB<<","<<endl;
+    IDENT(ident); jsonFile<<"\"clusterReduceMB\" : "<<job.clusterReduceMB<<","<<endl;
+    IDENT(ident); jsonFile<<"\"computonsPerMapInputByte\" : "<<job.computonsPerMapInputByte<<","<<endl;
+    IDENT(ident); jsonFile<<"\"computonsPerMapOutputByte\" : "<<job.computonsPerMapOutputByte<<","<<endl;
+    IDENT(ident); jsonFile<<"\"computonsPerReduceInputByte\" : "<<job.computonsPerReduceInputByte<<","<<endl;
+    IDENT(ident); jsonFile<<"\"computonsPerReduceOutputByte\" : "<<job.computonsPerReduceOutputByte<<","<<endl;
+    IDENT(ident); jsonFile<<"\"directDependantJobs\" : [],"<<endl;
+
+    if (job.failedMapAttemptCDFs.empty()) {
+        IDENT(ident); jsonFile<<"\"failedMapAttemptCDFs\" : [],"<<endl;
+    } else {
+        IDENT(ident); jsonFile<<"\"failedMapAttemptCDFs\" : ["<<endl;
+        dumpCDF(jsonFile, job.failedMapAttemptCDFs, ident+1, true);
+        IDENT(ident); jsonFile<<"],"<<endl;
+    }
+    IDENT(ident); jsonFile<<"\"failedMapperFraction\" : "<<job.failedMapperFraction<<","<<endl;
+
+    assert(job.failedReduceAttemptCDF.size() == 1);
+    IDENT(ident); jsonFile<<"\"failedReduceAttemptCDF\" : {"<<endl;
+    dumpCDF(jsonFile, job.failedReduceAttemptCDF, ident, false);
+    IDENT(ident); jsonFile<<"},"<<endl;
+
+    IDENT(ident); jsonFile<<"\"finishTime\" : "<<job.finishTime<<","<<endl;
+    IDENT(ident); jsonFile<<"\"heapMegabytes\" : "<<job.heapMegabytes<<","<<endl;
+    IDENT(ident); jsonFile<<"\"jobID\" : \""<<job.jobID<<"\","<<endl;
+    IDENT(ident); jsonFile<<"\"jobMapMB\" : "<<job.jobMapMB<<","<<endl;
+    IDENT(ident); jsonFile<<"\"jobName\" : \""<<job.jobName<<"\","<<endl;
+    IDENT(ident); jsonFile<<"\"jobReduceMB\" : "<<job.jobReduceMB<<","<<endl;
+    IDENT(ident); jsonFile<<"\"jobtype\" : \""<<job.jobtype<<"\","<<endl;
+    IDENT(ident); jsonFile<<"\"launchTime\" : "<<job.launchTime<<","<<endl;
+
+    if (job.mapTasks.empty()) {
+        IDENT(ident); jsonFile<<"\"mapTasks\" : [],"<<endl;
+    } else {
+        IDENT(ident); jsonFile<<"\"mapTasks\" : ["<<endl;
+        dumpTaskStorySet(jsonFile, job.mapTasks, ident+1);
+        IDENT(ident); jsonFile<<"],"<<endl;
+    }
+
+    if (job.mapperTriesToSucceed.empty()) {
+        IDENT(ident); jsonFile<<"\"mapperTriesToSucceed\" : [],"<<endl;
+    } else {
+        IDENT(ident); jsonFile<<"\"mapperTriesToSucceed\" : ["<<endl;
+        for(size_t i = 0; i < job.mapperTriesToSucceed.size(); i++) {
+            IDENT(ident+1); jsonFile<<job.mapperTriesToSucceed[i];
+            if (i != job.mapperTriesToSucceed.size() - 1)
+                jsonFile<<","<<endl;
+            else
+                jsonFile<<endl;
+        }
+        IDENT(ident); jsonFile<<"],"<<endl;
+    }
+
+    if (job.otherTasks.empty()) {
+        IDENT(ident); jsonFile<<"\"otherTasks\" : [],"<<endl;
+    } else {
+        IDENT(ident); jsonFile<<"\"otherTasks\" : ["<<endl;
+        dumpTaskStorySet(jsonFile, job.otherTasks, ident+1);
+        IDENT(ident); jsonFile<<"],"<<endl;
+    }
+
+    IDENT(ident); jsonFile<<"\"outcome\" : \""<<job.outcome<<"\","<<endl;
+    IDENT(ident); jsonFile<<"\"priority\" : \""<<job.priority<<"\","<<endl;
+    IDENT(ident); jsonFile<<"\"queue\" : \""<<job.queuetype<<"\","<<endl;
+
+    if (job.reduceTasks.empty()) {
+        IDENT(ident); jsonFile<<"\"reduceTasks\" : [],"<<endl;
+    } else {
+        IDENT(ident); jsonFile<<"\"reduceTasks\" : ["<<endl;
+        dumpTaskStorySet(jsonFile, job.reduceTasks, ident+1);
+        IDENT(ident); jsonFile<<"],"<<endl;
+    }
+    IDENT(ident); jsonFile<<"\"relativeTime\" : "<<job.relativeTime<<","<<endl;
+    IDENT(ident); jsonFile<<"\"submitTime\" : "<<job.submitTime<<","<<endl;
+
+    if (job.successfulMapAttemptCDFs.empty()) {
+        IDENT(ident); jsonFile<<"\"successfulMapAttemptCDFs\" : [],"<<endl;
+    } else {
+        IDENT(ident); jsonFile<<"\"successfulMapAttemptCDFs\" : ["<<endl;
+        dumpCDF(jsonFile, job.successfulMapAttemptCDFs, ident+1, true);
+        IDENT(ident); jsonFile<<"],"<<endl;
+    }
+
+    assert(job.successfulReduceAttemptCDF.size() == 1);
+    IDENT(ident); jsonFile<<"\"successfulReduceAttemptCDF\" : {"<<endl;
+    dumpCDF(jsonFile, job.successfulReduceAttemptCDF, ident, false);
+    IDENT(ident); jsonFile<<"},"<<endl;
+
+    IDENT(ident); jsonFile<<"\"totalMaps\" : "<<job.totalMaps<<","<<endl;
+    IDENT(ident); jsonFile<<"\"totalReduces\" : "<<job.totalReduces<<","<<endl;
+    IDENT(ident); jsonFile<<"\"user\" : \""<<job.user<<"\""<<endl;
+    jsonFile<<"}";
+}
+
+void dumpJobStory(JobStory &job, string debugDir)
+{
+    ofstream jsonFile;
+    jsonFile.open((debugDir + job.jobID + "_Runtime.json").c_str());
+    dumpJobStory(jsonFile, job);
+    jsonFile.close();
+}
+
+void dumpJobStorySet(string debugDir)
+{
+    ofstream jsonFile;
+    deque<JobStory>::iterator it;
+    int i;
+    for(i = 0, it = jobSet.begin(); it != jobSet.end(); i++, it++) {
+        jsonFile.open((debugDir + it->jobID + ".json").c_str());
+        dumpJobStory(jsonFile, *it);
+        jsonFile.close();
     }
 }
 
@@ -409,7 +503,7 @@ void initTraceReader(string traceFilePrefix, int numTraceFiles, bool debug, stri
 
     if (debug) {
         // verify the jobset
-        //dumpJobStorySet();
+        dumpJobStorySet(debugDir);
         startAnalysis(true, debugDir);
     }
 }

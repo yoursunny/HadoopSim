@@ -58,11 +58,11 @@
           "finishTime" : 1355181668470,
           "hdfsBytesRead" : 53093380,
           "hdfsBytesWritten" : -1,
-          "hostName" : "/default-rack/server-1489\\.novalocal",
+          "hostName" : "/default-rack/server-1489.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1489\\.novalocal"
+              "server-1489.novalocal"
             ]
           },
           "mapInputBytes" : 26564601,
@@ -89,7 +89,7 @@
         {
           "layers" : [
             "default-rack",
-            "server-1489\\.novalocal"
+            "server-1489.novalocal"
           ]
         }
       ],
@@ -108,11 +108,11 @@
           "finishTime" : 1355181668503,
           "hdfsBytesRead" : 53082498,
           "hdfsBytesWritten" : -1,
-          "hostName" : "/default-rack/server-1451\\.novalocal",
+          "hostName" : "/default-rack/server-1451.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1451\\.novalocal"
+              "server-1451.novalocal"
             ]
           },
           "mapInputBytes" : 26540805,
@@ -139,7 +139,7 @@
         {
           "layers" : [
             "default-rack",
-            "server-1451\\.novalocal"
+            "server-1451.novalocal"
           ]
         }
       ],
@@ -158,11 +158,11 @@
           "finishTime" : 1355181677950,
           "hdfsBytesRead" : 132710001,
           "hdfsBytesWritten" : -1,
-          "hostName" : "/default-rack/server-1446\\.novalocal",
+          "hostName" : "/default-rack/server-1446.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1446\\.novalocal"
+              "server-1446.novalocal"
             ]
           },
           "mapInputBytes" : 106205293,
@@ -189,7 +189,7 @@
         {
           "layers" : [
             "default-rack",
-            "server-1495\\.novalocal"
+            "server-1495.novalocal"
           ]
         }
       ],
@@ -208,11 +208,11 @@
           "finishTime" : 1355181665493,
           "hdfsBytesRead" : 26528484,
           "hdfsBytesWritten" : -1,
-          "hostName" : "/default-rack/server-1448\\.novalocal",
+          "hostName" : "/default-rack/server-1448.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1448\\.novalocal"
+              "server-1448.novalocal"
             ]
           },
           "mapInputBytes" : 0,
@@ -239,7 +239,7 @@
         {
           "layers" : [
             "default-rack",
-            "server-1448\\.novalocal"
+            "server-1448.novalocal"
           ]
         }
       ],
@@ -258,11 +258,11 @@
           "finishTime" : 1355181678937,
           "hdfsBytesRead" : 106266293,
           "hdfsBytesWritten" : -1,
-          "hostName" : "/default-rack/server-1464\\.novalocal",
+          "hostName" : "/default-rack/server-1464.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1464\\.novalocal"
+              "server-1464.novalocal"
             ]
           },
           "mapInputBytes" : 79736673,
@@ -289,7 +289,7 @@
         {
           "layers" : [
             "default-rack",
-            "server-1455\\.novalocal"
+            "server-1455.novalocal"
           ]
         }
       ],
@@ -308,11 +308,11 @@
           "finishTime" : 1355181672606,
           "hdfsBytesRead" : 79720900,
           "hdfsBytesWritten" : -1,
-          "hostName" : "/default-rack/server-1491\\.novalocal",
+          "hostName" : "/default-rack/server-1491.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1491\\.novalocal"
+              "server-1491.novalocal"
             ]
           },
           "mapInputBytes" : 53141470,
@@ -339,7 +339,7 @@
         {
           "layers" : [
             "default-rack",
-            "server-1480\\.novalocal"
+            "server-1480.novalocal"
           ]
         }
       ],
@@ -358,11 +358,11 @@
           "finishTime" : 1355181672076,
           "hdfsBytesRead" : 79615421,
           "hdfsBytesWritten" : -1,
-          "hostName" : "/default-rack/server-1444\\.novalocal",
+          "hostName" : "/default-rack/server-1444.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1444\\.novalocal"
+              "server-1444.novalocal"
             ]
           },
           "mapInputBytes" : 53110023,
@@ -389,7 +389,7 @@
         {
           "layers" : [
             "default-rack",
-            "server-1490\\.novalocal"
+            "server-1490.novalocal"
           ]
         }
       ],
@@ -408,11 +408,11 @@
           "finishTime" : 1355181665975,
           "hdfsBytesRead" : 26532206,
           "hdfsBytesWritten" : -1,
-          "hostName" : "/default-rack/server-1461\\.novalocal",
+          "hostName" : "/default-rack/server-1461.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1461\\.novalocal"
+              "server-1461.novalocal"
             ]
           },
           "mapInputBytes" : 0,
@@ -439,7 +439,7 @@
         {
           "layers" : [
             "default-rack",
-            "server-1461\\.novalocal"
+            "server-1461.novalocal"
           ]
         }
       ],
@@ -458,11 +458,11 @@
           "finishTime" : 1355181668945,
           "hdfsBytesRead" : 53211765,
           "hdfsBytesWritten" : -1,
-          "hostName" : "/default-rack/server-1478\\.novalocal",
+          "hostName" : "/default-rack/server-1478.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1478\\.novalocal"
+              "server-1478.novalocal"
             ]
           },
           "mapInputBytes" : 26579451,
@@ -489,7 +489,7 @@
         {
           "layers" : [
             "default-rack",
-            "server-1472\\.novalocal"
+            "server-1472.novalocal"
           ]
         }
       ],
@@ -508,11 +508,11 @@
           "finishTime" : 1355181668806,
           "hdfsBytesRead" : 53111920,
           "hdfsBytesWritten" : -1,
-          "hostName" : "/default-rack/server-1498\\.novalocal",
+          "hostName" : "/default-rack/server-1498.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1498\\.novalocal"
+              "server-1498.novalocal"
             ]
           },
           "mapInputBytes" : 26581314,
@@ -539,7 +539,7 @@
         {
           "layers" : [
             "default-rack",
-            "server-1498\\.novalocal"
+            "server-1498.novalocal"
           ]
         }
       ],
@@ -558,11 +558,11 @@
           "finishTime" : 1355181668678,
           "hdfsBytesRead" : 53150451,
           "hdfsBytesWritten" : -1,
-          "hostName" : "/default-rack/server-1453\\.novalocal",
+          "hostName" : "/default-rack/server-1453.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1453\\.novalocal"
+              "server-1453.novalocal"
             ]
           },
           "mapInputBytes" : 26547183,
@@ -589,7 +589,7 @@
         {
           "layers" : [
             "default-rack",
-            "server-1477\\.novalocal"
+            "server-1477.novalocal"
           ]
         }
       ],
@@ -608,11 +608,11 @@
           "finishTime" : 1355181668885,
           "hdfsBytesRead" : 53097380,
           "hdfsBytesWritten" : -1,
-          "hostName" : "/default-rack/server-1447\\.novalocal",
+          "hostName" : "/default-rack/server-1447.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1447\\.novalocal"
+              "server-1447.novalocal"
             ]
           },
           "mapInputBytes" : 26507552,
@@ -639,7 +639,7 @@
         {
           "layers" : [
             "default-rack",
-            "server-1447\\.novalocal"
+            "server-1447.novalocal"
           ]
         }
       ],
@@ -658,11 +658,11 @@
           "finishTime" : 1355181669456,
           "hdfsBytesRead" : 53110836,
           "hdfsBytesWritten" : -1,
-          "hostName" : "/default-rack/server-1486\\.novalocal",
+          "hostName" : "/default-rack/server-1486.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1486\\.novalocal"
+              "server-1486.novalocal"
             ]
           },
           "mapInputBytes" : 26487180,
@@ -689,7 +689,7 @@
         {
           "layers" : [
             "default-rack",
-            "server-1449\\.novalocal"
+            "server-1449.novalocal"
           ]
         }
       ],
@@ -708,11 +708,11 @@
           "finishTime" : 1355181669315,
           "hdfsBytesRead" : 53033617,
           "hdfsBytesWritten" : -1,
-          "hostName" : "/default-rack/server-1479\\.novalocal",
+          "hostName" : "/default-rack/server-1479.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1479\\.novalocal"
+              "server-1479.novalocal"
             ]
           },
           "mapInputBytes" : 26527454,
@@ -739,7 +739,7 @@
         {
           "layers" : [
             "default-rack",
-            "server-1456\\.novalocal"
+            "server-1456.novalocal"
           ]
         }
       ],
@@ -758,11 +758,11 @@
           "finishTime" : 1355181668897,
           "hdfsBytesRead" : 53011671,
           "hdfsBytesWritten" : -1,
-          "hostName" : "/default-rack/server-1455\\.novalocal",
+          "hostName" : "/default-rack/server-1455.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1455\\.novalocal"
+              "server-1455.novalocal"
             ]
           },
           "mapInputBytes" : 26476635,
@@ -789,7 +789,7 @@
         {
           "layers" : [
             "default-rack",
-            "server-1497\\.novalocal"
+            "server-1497.novalocal"
           ]
         }
       ],
@@ -808,11 +808,11 @@
           "finishTime" : 1355181669317,
           "hdfsBytesRead" : 52938440,
           "hdfsBytesWritten" : -1,
-          "hostName" : "/default-rack/server-1497\\.novalocal",
+          "hostName" : "/default-rack/server-1497.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1497\\.novalocal"
+              "server-1497.novalocal"
             ]
           },
           "mapInputBytes" : 26451823,
@@ -839,7 +839,7 @@
         {
           "layers" : [
             "default-rack",
-            "server-1457\\.novalocal"
+            "server-1457.novalocal"
           ]
         }
       ],
@@ -858,11 +858,11 @@
           "finishTime" : 1355181665799,
           "hdfsBytesRead" : 26550262,
           "hdfsBytesWritten" : -1,
-          "hostName" : "/default-rack/server-1484\\.novalocal",
+          "hostName" : "/default-rack/server-1484.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1484\\.novalocal"
+              "server-1484.novalocal"
             ]
           },
           "mapInputBytes" : 0,
@@ -889,7 +889,7 @@
         {
           "layers" : [
             "default-rack",
-            "server-1484\\.novalocal"
+            "server-1484.novalocal"
           ]
         }
       ],
@@ -908,11 +908,11 @@
           "finishTime" : 1355181666584,
           "hdfsBytesRead" : 26578894,
           "hdfsBytesWritten" : -1,
-          "hostName" : "/default-rack/server-1488\\.novalocal",
+          "hostName" : "/default-rack/server-1488.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1488\\.novalocal"
+              "server-1488.novalocal"
             ]
           },
           "mapInputBytes" : 0,
@@ -939,7 +939,7 @@
         {
           "layers" : [
             "default-rack",
-            "server-1473\\.novalocal"
+            "server-1473.novalocal"
           ]
         }
       ],
@@ -958,11 +958,11 @@
           "finishTime" : 1355181666459,
           "hdfsBytesRead" : 26489637,
           "hdfsBytesWritten" : -1,
-          "hostName" : "/default-rack/server-1445\\.novalocal",
+          "hostName" : "/default-rack/server-1445.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1445\\.novalocal"
+              "server-1445.novalocal"
             ]
           },
           "mapInputBytes" : 0,
@@ -989,7 +989,7 @@
         {
           "layers" : [
             "default-rack",
-            "server-1445\\.novalocal"
+            "server-1445.novalocal"
           ]
         }
       ],
@@ -1008,11 +1008,11 @@
           "finishTime" : 1355181666604,
           "hdfsBytesRead" : 26561801,
           "hdfsBytesWritten" : -1,
-          "hostName" : "/default-rack/server-1477\\.novalocal",
+          "hostName" : "/default-rack/server-1477.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1477\\.novalocal"
+              "server-1477.novalocal"
             ]
           },
           "mapInputBytes" : 0,
@@ -1039,7 +1039,7 @@
         {
           "layers" : [
             "default-rack",
-            "server-1463\\.novalocal"
+            "server-1463.novalocal"
           ]
         }
       ],
@@ -1058,11 +1058,11 @@
           "finishTime" : 1355181666553,
           "hdfsBytesRead" : 26528209,
           "hdfsBytesWritten" : -1,
-          "hostName" : "/default-rack/server-1468\\.novalocal",
+          "hostName" : "/default-rack/server-1468.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1468\\.novalocal"
+              "server-1468.novalocal"
             ]
           },
           "mapInputBytes" : 0,
@@ -1089,7 +1089,7 @@
         {
           "layers" : [
             "default-rack",
-            "server-1468\\.novalocal"
+            "server-1468.novalocal"
           ]
         }
       ],
@@ -1108,11 +1108,11 @@
           "finishTime" : 1355181666446,
           "hdfsBytesRead" : 26539171,
           "hdfsBytesWritten" : -1,
-          "hostName" : "/default-rack/server-1475\\.novalocal",
+          "hostName" : "/default-rack/server-1475.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1475\\.novalocal"
+              "server-1475.novalocal"
             ]
           },
           "mapInputBytes" : 0,
@@ -1139,7 +1139,7 @@
         {
           "layers" : [
             "default-rack",
-            "server-1465\\.novalocal"
+            "server-1465.novalocal"
           ]
         }
       ],
@@ -1158,11 +1158,11 @@
           "finishTime" : 1355181666074,
           "hdfsBytesRead" : 26499571,
           "hdfsBytesWritten" : -1,
-          "hostName" : "/default-rack/server-1470\\.novalocal",
+          "hostName" : "/default-rack/server-1470.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1470\\.novalocal"
+              "server-1470.novalocal"
             ]
           },
           "mapInputBytes" : 0,
@@ -1189,7 +1189,7 @@
         {
           "layers" : [
             "default-rack",
-            "server-1470\\.novalocal"
+            "server-1470.novalocal"
           ]
         }
       ],
@@ -1208,11 +1208,11 @@
           "finishTime" : 1355181666182,
           "hdfsBytesRead" : 26524650,
           "hdfsBytesWritten" : -1,
-          "hostName" : "/default-rack/server-1485\\.novalocal",
+          "hostName" : "/default-rack/server-1485.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1485\\.novalocal"
+              "server-1485.novalocal"
             ]
           },
           "mapInputBytes" : 0,
@@ -1239,7 +1239,7 @@
         {
           "layers" : [
             "default-rack",
-            "server-1492\\.novalocal"
+            "server-1492.novalocal"
           ]
         }
       ],
@@ -1258,11 +1258,11 @@
           "finishTime" : 1355181666107,
           "hdfsBytesRead" : 26519638,
           "hdfsBytesWritten" : -1,
-          "hostName" : "/default-rack/server-1474\\.novalocal",
+          "hostName" : "/default-rack/server-1474.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1474\\.novalocal"
+              "server-1474.novalocal"
             ]
           },
           "mapInputBytes" : 0,
@@ -1289,7 +1289,7 @@
         {
           "layers" : [
             "default-rack",
-            "server-1467\\.novalocal"
+            "server-1467.novalocal"
           ]
         }
       ],
@@ -1308,11 +1308,11 @@
           "finishTime" : 1355181666290,
           "hdfsBytesRead" : 26471181,
           "hdfsBytesWritten" : -1,
-          "hostName" : "/default-rack/server-1482\\.novalocal",
+          "hostName" : "/default-rack/server-1482.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1482\\.novalocal"
+              "server-1482.novalocal"
             ]
           },
           "mapInputBytes" : 0,
@@ -1339,7 +1339,7 @@
         {
           "layers" : [
             "default-rack",
-            "server-1482\\.novalocal"
+            "server-1482.novalocal"
           ]
         }
       ],
@@ -1358,11 +1358,11 @@
           "finishTime" : 1355181669435,
           "hdfsBytesRead" : 26516194,
           "hdfsBytesWritten" : -1,
-          "hostName" : "/default-rack/server-1472\\.novalocal",
+          "hostName" : "/default-rack/server-1472.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1472\\.novalocal"
+              "server-1472.novalocal"
             ]
           },
           "mapInputBytes" : 0,
@@ -1389,7 +1389,7 @@
         {
           "layers" : [
             "default-rack",
-            "server-1493\\.novalocal"
+            "server-1493.novalocal"
           ]
         }
       ],
@@ -1413,11 +1413,11 @@
           "finishTime" : 1355181656823,
           "hdfsBytesRead" : -1,
           "hdfsBytesWritten" : -1,
-          "hostName" : "/default-rack/server-1489\\.novalocal",
+          "hostName" : "/default-rack/server-1489.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1489\\.novalocal"
+              "server-1489.novalocal"
             ]
           },
           "mapInputBytes" : -1,
@@ -1456,11 +1456,11 @@
           "finishTime" : 1355181701968,
           "hdfsBytesRead" : -1,
           "hdfsBytesWritten" : -1,
-          "hostName" : "/default-rack/server-1482\\.novalocal",
+          "hostName" : "/default-rack/server-1482.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1482\\.novalocal"
+              "server-1482.novalocal"
             ]
           },
           "mapInputBytes" : -1,
@@ -1504,11 +1504,11 @@
           "finishTime" : 1355181689720,
           "hdfsBytesRead" : -1,
           "hdfsBytesWritten" : 23468229,
-          "hostName" : "/default-rack/server-1461\\.novalocal",
+          "hostName" : "/default-rack/server-1461.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1461\\.novalocal"
+              "server-1461.novalocal"
             ]
           },
           "mapInputBytes" : -1,
@@ -1547,11 +1547,11 @@
           "finishTime" : 1355181694335,
           "hdfsBytesRead" : -1,
           "hdfsBytesWritten" : 23486647,
-          "hostName" : "/default-rack/server-1478\\.novalocal",
+          "hostName" : "/default-rack/server-1478.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1478\\.novalocal"
+              "server-1478.novalocal"
             ]
           },
           "mapInputBytes" : -1,
@@ -1590,11 +1590,11 @@
           "finishTime" : 1355181689410,
           "hdfsBytesRead" : -1,
           "hdfsBytesWritten" : 23512414,
-          "hostName" : "/default-rack/server-1498\\.novalocal",
+          "hostName" : "/default-rack/server-1498.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1498\\.novalocal"
+              "server-1498.novalocal"
             ]
           },
           "mapInputBytes" : -1,
@@ -1633,11 +1633,11 @@
           "finishTime" : 1355181689289,
           "hdfsBytesRead" : -1,
           "hdfsBytesWritten" : 23574818,
-          "hostName" : "/default-rack/server-1453\\.novalocal",
+          "hostName" : "/default-rack/server-1453.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1453\\.novalocal"
+              "server-1453.novalocal"
             ]
           },
           "mapInputBytes" : -1,
@@ -1676,11 +1676,11 @@
           "finishTime" : 1355181689506,
           "hdfsBytesRead" : -1,
           "hdfsBytesWritten" : 23463685,
-          "hostName" : "/default-rack/server-1447\\.novalocal",
+          "hostName" : "/default-rack/server-1447.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1447\\.novalocal"
+              "server-1447.novalocal"
             ]
           },
           "mapInputBytes" : -1,
@@ -1719,11 +1719,11 @@
           "finishTime" : 1355181689495,
           "hdfsBytesRead" : -1,
           "hdfsBytesWritten" : 23476772,
-          "hostName" : "/default-rack/server-1486\\.novalocal",
+          "hostName" : "/default-rack/server-1486.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1486\\.novalocal"
+              "server-1486.novalocal"
             ]
           },
           "mapInputBytes" : -1,
@@ -1762,11 +1762,11 @@
           "finishTime" : 1355181690095,
           "hdfsBytesRead" : -1,
           "hdfsBytesWritten" : 23525677,
-          "hostName" : "/default-rack/server-1479\\.novalocal",
+          "hostName" : "/default-rack/server-1479.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1479\\.novalocal"
+              "server-1479.novalocal"
             ]
           },
           "mapInputBytes" : -1,
@@ -1805,11 +1805,11 @@
           "finishTime" : 1355181689553,
           "hdfsBytesRead" : -1,
           "hdfsBytesWritten" : 23465282,
-          "hostName" : "/default-rack/server-1455\\.novalocal",
+          "hostName" : "/default-rack/server-1455.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1455\\.novalocal"
+              "server-1455.novalocal"
             ]
           },
           "mapInputBytes" : -1,
@@ -1848,11 +1848,11 @@
           "finishTime" : 1355181690357,
           "hdfsBytesRead" : -1,
           "hdfsBytesWritten" : 23503305,
-          "hostName" : "/default-rack/server-1497\\.novalocal",
+          "hostName" : "/default-rack/server-1497.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1497\\.novalocal"
+              "server-1497.novalocal"
             ]
           },
           "mapInputBytes" : -1,
@@ -1891,11 +1891,11 @@
           "finishTime" : 1355181689430,
           "hdfsBytesRead" : -1,
           "hdfsBytesWritten" : 23495049,
-          "hostName" : "/default-rack/server-1484\\.novalocal",
+          "hostName" : "/default-rack/server-1484.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1484\\.novalocal"
+              "server-1484.novalocal"
             ]
           },
           "mapInputBytes" : -1,
@@ -1934,11 +1934,11 @@
           "finishTime" : 1355181692602,
           "hdfsBytesRead" : -1,
           "hdfsBytesWritten" : 23472865,
-          "hostName" : "/default-rack/server-1488\\.novalocal",
+          "hostName" : "/default-rack/server-1488.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1488\\.novalocal"
+              "server-1488.novalocal"
             ]
           },
           "mapInputBytes" : -1,
@@ -1977,11 +1977,11 @@
           "finishTime" : 1355181693096,
           "hdfsBytesRead" : -1,
           "hdfsBytesWritten" : 23454381,
-          "hostName" : "/default-rack/server-1445\\.novalocal",
+          "hostName" : "/default-rack/server-1445.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1445\\.novalocal"
+              "server-1445.novalocal"
             ]
           },
           "mapInputBytes" : -1,
@@ -2020,11 +2020,11 @@
           "finishTime" : 1355181690260,
           "hdfsBytesRead" : -1,
           "hdfsBytesWritten" : 23441996,
-          "hostName" : "/default-rack/server-1477\\.novalocal",
+          "hostName" : "/default-rack/server-1477.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1477\\.novalocal"
+              "server-1477.novalocal"
             ]
           },
           "mapInputBytes" : -1,
@@ -2063,11 +2063,11 @@
           "finishTime" : 1355181690105,
           "hdfsBytesRead" : -1,
           "hdfsBytesWritten" : 23475099,
-          "hostName" : "/default-rack/server-1475\\.novalocal",
+          "hostName" : "/default-rack/server-1475.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1475\\.novalocal"
+              "server-1475.novalocal"
             ]
           },
           "mapInputBytes" : -1,
@@ -2106,11 +2106,11 @@
           "finishTime" : 1355181690139,
           "hdfsBytesRead" : -1,
           "hdfsBytesWritten" : 23516476,
-          "hostName" : "/default-rack/server-1468\\.novalocal",
+          "hostName" : "/default-rack/server-1468.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1468\\.novalocal"
+              "server-1468.novalocal"
             ]
           },
           "mapInputBytes" : -1,
@@ -2149,11 +2149,11 @@
           "finishTime" : 1355181690153,
           "hdfsBytesRead" : -1,
           "hdfsBytesWritten" : 23454124,
-          "hostName" : "/default-rack/server-1470\\.novalocal",
+          "hostName" : "/default-rack/server-1470.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1470\\.novalocal"
+              "server-1470.novalocal"
             ]
           },
           "mapInputBytes" : -1,
@@ -2192,11 +2192,11 @@
           "finishTime" : 1355181689940,
           "hdfsBytesRead" : -1,
           "hdfsBytesWritten" : 23558226,
-          "hostName" : "/default-rack/server-1485\\.novalocal",
+          "hostName" : "/default-rack/server-1485.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1485\\.novalocal"
+              "server-1485.novalocal"
             ]
           },
           "mapInputBytes" : -1,
@@ -2235,11 +2235,11 @@
           "finishTime" : 1355181692831,
           "hdfsBytesRead" : -1,
           "hdfsBytesWritten" : 23538559,
-          "hostName" : "/default-rack/server-1474\\.novalocal",
+          "hostName" : "/default-rack/server-1474.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1474\\.novalocal"
+              "server-1474.novalocal"
             ]
           },
           "mapInputBytes" : -1,
@@ -2278,11 +2278,11 @@
           "finishTime" : 1355181695835,
           "hdfsBytesRead" : -1,
           "hdfsBytesWritten" : 23472436,
-          "hostName" : "/default-rack/server-1482\\.novalocal",
+          "hostName" : "/default-rack/server-1482.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1482\\.novalocal"
+              "server-1482.novalocal"
             ]
           },
           "mapInputBytes" : -1,
@@ -2321,11 +2321,11 @@
           "finishTime" : 1355181690068,
           "hdfsBytesRead" : -1,
           "hdfsBytesWritten" : 23477436,
-          "hostName" : "/default-rack/server-1472\\.novalocal",
+          "hostName" : "/default-rack/server-1472.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1472\\.novalocal"
+              "server-1472.novalocal"
             ]
           },
           "mapInputBytes" : -1,
@@ -2364,11 +2364,11 @@
           "finishTime" : 1355181690386,
           "hdfsBytesRead" : -1,
           "hdfsBytesWritten" : 23477070,
-          "hostName" : "/default-rack/server-1457\\.novalocal",
+          "hostName" : "/default-rack/server-1457.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1457\\.novalocal"
+              "server-1457.novalocal"
             ]
           },
           "mapInputBytes" : -1,
@@ -2407,11 +2407,11 @@
           "finishTime" : 1355181693823,
           "hdfsBytesRead" : -1,
           "hdfsBytesWritten" : 23434039,
-          "hostName" : "/default-rack/server-1456\\.novalocal",
+          "hostName" : "/default-rack/server-1456.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1456\\.novalocal"
+              "server-1456.novalocal"
             ]
           },
           "mapInputBytes" : -1,
@@ -2450,11 +2450,11 @@
           "finishTime" : 1355181693804,
           "hdfsBytesRead" : -1,
           "hdfsBytesWritten" : 23471094,
-          "hostName" : "/default-rack/server-1460\\.novalocal",
+          "hostName" : "/default-rack/server-1460.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1460\\.novalocal"
+              "server-1460.novalocal"
             ]
           },
           "mapInputBytes" : -1,
@@ -2493,11 +2493,11 @@
           "finishTime" : 1355181690599,
           "hdfsBytesRead" : -1,
           "hdfsBytesWritten" : 23479078,
-          "hostName" : "/default-rack/server-1452\\.novalocal",
+          "hostName" : "/default-rack/server-1452.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1452\\.novalocal"
+              "server-1452.novalocal"
             ]
           },
           "mapInputBytes" : -1,
@@ -2536,11 +2536,11 @@
           "finishTime" : 1355181690191,
           "hdfsBytesRead" : -1,
           "hdfsBytesWritten" : 23465911,
-          "hostName" : "/default-rack/server-1463\\.novalocal",
+          "hostName" : "/default-rack/server-1463.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1463\\.novalocal"
+              "server-1463.novalocal"
             ]
           },
           "mapInputBytes" : -1,
@@ -2579,11 +2579,11 @@
           "finishTime" : 1355181693627,
           "hdfsBytesRead" : -1,
           "hdfsBytesWritten" : 23455480,
-          "hostName" : "/default-rack/server-1476\\.novalocal",
+          "hostName" : "/default-rack/server-1476.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1476\\.novalocal"
+              "server-1476.novalocal"
             ]
           },
           "mapInputBytes" : -1,
@@ -2622,11 +2622,11 @@
           "finishTime" : 1355181694556,
           "hdfsBytesRead" : -1,
           "hdfsBytesWritten" : 23518430,
-          "hostName" : "/default-rack/server-1467\\.novalocal",
+          "hostName" : "/default-rack/server-1467.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1467\\.novalocal"
+              "server-1467.novalocal"
             ]
           },
           "mapInputBytes" : -1,
@@ -2665,11 +2665,11 @@
           "finishTime" : 1355181693526,
           "hdfsBytesRead" : -1,
           "hdfsBytesWritten" : 23468768,
-          "hostName" : "/default-rack/server-1481\\.novalocal",
+          "hostName" : "/default-rack/server-1481.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1481\\.novalocal"
+              "server-1481.novalocal"
             ]
           },
           "mapInputBytes" : -1,
@@ -2708,11 +2708,11 @@
           "finishTime" : 1355181691282,
           "hdfsBytesRead" : -1,
           "hdfsBytesWritten" : 23526289,
-          "hostName" : "/default-rack/server-1494\\.novalocal",
+          "hostName" : "/default-rack/server-1494.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1494\\.novalocal"
+              "server-1494.novalocal"
             ]
           },
           "mapInputBytes" : -1,
@@ -2751,11 +2751,11 @@
           "finishTime" : 1355181694564,
           "hdfsBytesRead" : -1,
           "hdfsBytesWritten" : 23470774,
-          "hostName" : "/default-rack/server-1496\\.novalocal",
+          "hostName" : "/default-rack/server-1496.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1496\\.novalocal"
+              "server-1496.novalocal"
             ]
           },
           "mapInputBytes" : -1,
@@ -2794,11 +2794,11 @@
           "finishTime" : 1355181693941,
           "hdfsBytesRead" : -1,
           "hdfsBytesWritten" : 23482881,
-          "hostName" : "/default-rack/server-1493\\.novalocal",
+          "hostName" : "/default-rack/server-1493.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1493\\.novalocal"
+              "server-1493.novalocal"
             ]
           },
           "mapInputBytes" : -1,
@@ -2837,11 +2837,11 @@
           "finishTime" : 1355181691088,
           "hdfsBytesRead" : -1,
           "hdfsBytesWritten" : 23462254,
-          "hostName" : "/default-rack/server-1469\\.novalocal",
+          "hostName" : "/default-rack/server-1469.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1469\\.novalocal"
+              "server-1469.novalocal"
             ]
           },
           "mapInputBytes" : -1,
@@ -2880,11 +2880,11 @@
           "finishTime" : 1355181694373,
           "hdfsBytesRead" : -1,
           "hdfsBytesWritten" : 23506047,
-          "hostName" : "/default-rack/server-1483\\.novalocal",
+          "hostName" : "/default-rack/server-1483.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1483\\.novalocal"
+              "server-1483.novalocal"
             ]
           },
           "mapInputBytes" : -1,
@@ -2923,11 +2923,11 @@
           "finishTime" : 1355181691560,
           "hdfsBytesRead" : -1,
           "hdfsBytesWritten" : 23552582,
-          "hostName" : "/default-rack/server-1471\\.novalocal",
+          "hostName" : "/default-rack/server-1471.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1471\\.novalocal"
+              "server-1471.novalocal"
             ]
           },
           "mapInputBytes" : -1,
@@ -2966,11 +2966,11 @@
           "finishTime" : 1355181694445,
           "hdfsBytesRead" : -1,
           "hdfsBytesWritten" : 23495320,
-          "hostName" : "/default-rack/server-1480\\.novalocal",
+          "hostName" : "/default-rack/server-1480.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1480\\.novalocal"
+              "server-1480.novalocal"
             ]
           },
           "mapInputBytes" : -1,
@@ -3009,11 +3009,11 @@
           "finishTime" : 1355181694522,
           "hdfsBytesRead" : -1,
           "hdfsBytesWritten" : 23475429,
-          "hostName" : "/default-rack/server-1487\\.novalocal",
+          "hostName" : "/default-rack/server-1487.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1487\\.novalocal"
+              "server-1487.novalocal"
             ]
           },
           "mapInputBytes" : -1,
@@ -3052,11 +3052,11 @@
           "finishTime" : 1355181694674,
           "hdfsBytesRead" : -1,
           "hdfsBytesWritten" : 23494902,
-          "hostName" : "/default-rack/server-1465\\.novalocal",
+          "hostName" : "/default-rack/server-1465.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1465\\.novalocal"
+              "server-1465.novalocal"
             ]
           },
           "mapInputBytes" : -1,
@@ -3095,11 +3095,11 @@
           "finishTime" : 1355181694269,
           "hdfsBytesRead" : -1,
           "hdfsBytesWritten" : 23462186,
-          "hostName" : "/default-rack/server-1473\\.novalocal",
+          "hostName" : "/default-rack/server-1473.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1473\\.novalocal"
+              "server-1473.novalocal"
             ]
           },
           "mapInputBytes" : -1,
@@ -3138,11 +3138,11 @@
           "finishTime" : 1355181691773,
           "hdfsBytesRead" : -1,
           "hdfsBytesWritten" : 23520886,
-          "hostName" : "/default-rack/server-1495\\.novalocal",
+          "hostName" : "/default-rack/server-1495.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1495\\.novalocal"
+              "server-1495.novalocal"
             ]
           },
           "mapInputBytes" : -1,
@@ -3181,11 +3181,11 @@
           "finishTime" : 1355181691402,
           "hdfsBytesRead" : -1,
           "hdfsBytesWritten" : 23510639,
-          "hostName" : "/default-rack/server-1450\\.novalocal",
+          "hostName" : "/default-rack/server-1450.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1450\\.novalocal"
+              "server-1450.novalocal"
             ]
           },
           "mapInputBytes" : -1,
@@ -3224,11 +3224,11 @@
           "finishTime" : 1355181692067,
           "hdfsBytesRead" : -1,
           "hdfsBytesWritten" : 23505455,
-          "hostName" : "/default-rack/server-1490\\.novalocal",
+          "hostName" : "/default-rack/server-1490.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1490\\.novalocal"
+              "server-1490.novalocal"
             ]
           },
           "mapInputBytes" : -1,
@@ -3267,11 +3267,11 @@
           "finishTime" : 1355181691958,
           "hdfsBytesRead" : -1,
           "hdfsBytesWritten" : 23521864,
-          "hostName" : "/default-rack/server-1449\\.novalocal",
+          "hostName" : "/default-rack/server-1449.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1449\\.novalocal"
+              "server-1449.novalocal"
             ]
           },
           "mapInputBytes" : -1,
@@ -3310,11 +3310,11 @@
           "finishTime" : 1355181692299,
           "hdfsBytesRead" : -1,
           "hdfsBytesWritten" : 23478625,
-          "hostName" : "/default-rack/server-1492\\.novalocal",
+          "hostName" : "/default-rack/server-1492.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1492\\.novalocal"
+              "server-1492.novalocal"
             ]
           },
           "mapInputBytes" : -1,
@@ -3353,11 +3353,11 @@
           "finishTime" : 1355181692537,
           "hdfsBytesRead" : -1,
           "hdfsBytesWritten" : 23468084,
-          "hostName" : "/default-rack/server-1489\\.novalocal",
+          "hostName" : "/default-rack/server-1489.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1489\\.novalocal"
+              "server-1489.novalocal"
             ]
           },
           "mapInputBytes" : -1,
@@ -3396,11 +3396,11 @@
           "finishTime" : 1355181691738,
           "hdfsBytesRead" : -1,
           "hdfsBytesWritten" : 23474914,
-          "hostName" : "/default-rack/server-1451\\.novalocal",
+          "hostName" : "/default-rack/server-1451.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1451\\.novalocal"
+              "server-1451.novalocal"
             ]
           },
           "mapInputBytes" : -1,
@@ -3439,11 +3439,11 @@
           "finishTime" : 1355181692169,
           "hdfsBytesRead" : -1,
           "hdfsBytesWritten" : 23457075,
-          "hostName" : "/default-rack/server-1446\\.novalocal",
+          "hostName" : "/default-rack/server-1446.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1446\\.novalocal"
+              "server-1446.novalocal"
             ]
           },
           "mapInputBytes" : -1,
@@ -3482,11 +3482,11 @@
           "finishTime" : 1355181692149,
           "hdfsBytesRead" : -1,
           "hdfsBytesWritten" : 23422261,
-          "hostName" : "/default-rack/server-1448\\.novalocal",
+          "hostName" : "/default-rack/server-1448.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1448\\.novalocal"
+              "server-1448.novalocal"
             ]
           },
           "mapInputBytes" : -1,
@@ -3525,11 +3525,11 @@
           "finishTime" : 1355181695161,
           "hdfsBytesRead" : -1,
           "hdfsBytesWritten" : 23480367,
-          "hostName" : "/default-rack/server-1464\\.novalocal",
+          "hostName" : "/default-rack/server-1464.novalocal",
           "location" : {
             "layers" : [
               "default-rack",
-              "server-1464\\.novalocal"
+              "server-1464.novalocal"
             ]
           },
           "mapInputBytes" : -1,

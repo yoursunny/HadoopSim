@@ -36,7 +36,7 @@ void initSim()
     initJobTracker(schedType);
     setupCluster(topoType);
     long firstJobSubmitTime = initTaskTrackers(0);
-    initJobClient(Replay, firstJobSubmitTime);
+    initJobClient(Replay, firstJobSubmitTime, needDebug, debugDir);
 }
 
 void runSim()

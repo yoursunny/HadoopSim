@@ -14,6 +14,8 @@ using namespace std;
 
 /* JobTracker Variables */
 static JobClient *client;
+static string debugDirectory;
+static bool debugOption = false;
 
 JobClient::JobClient(JobSubmissionPolicy policy)
 {
@@ -31,7 +33,11 @@ void JobClient::submitJob(long evtTime)
 
         JobTracker *jobTracker = getJobTracker();
         jobTracker->acceptNewJob(&jobStory, evtTime);
-        dumpJobStory(&jobStory);
+
+        if (debugOption) {
+            dumpJobStory(jobStory, debugDirectory);
+        }
+
         // setup next event according to the specified policy
         if (this->policy == Replay) {
             if (isMoreJobs()) {
@@ -79,10 +85,15 @@ void JobClient::handleNewEvent(long timestamp, EvtType type)
     }
 }
 
-void initJobClient(JobSubmissionPolicy policy, long firstJobSubmitTime)
+void initJobClient(JobSubmissionPolicy policy, long firstJobSubmitTime, bool needDebug, string debugDir)
 {
     assert(Replay <= policy && policy <= Stress);
     client = new JobClient(policy);
+
+    if (needDebug) {
+        debugOption = needDebug;
+        debugDirectory = debugDir;
+    }
 
     // add first Job Submission event to the EventQueue
     HEvent evt(client, EVT_JobSubmit, firstJobSubmitTime);
