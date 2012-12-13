@@ -1,7 +1,7 @@
 #ifndef HADOOPSIM_NETSIM_NAMESERVER_H_
 #define HADOOPSIM_NETSIM_NAMESERVER_H_
 #include "netsim/defs.h"
-#include <unordered_set>
+#include <list>
 #include <unordered_map>
 #include "netsim/msgtransport.h"
 namespace HadoopNetSim {
@@ -14,7 +14,8 @@ class NameServer : public ns3::Application {
     
   private:
     ns3::Ptr<ns3::Socket> sock_;
-    std::unordered_set<ns3::Ptr<MsgTransport>> mts_;//mt
+    std::list<ns3::Ptr<MsgTransport>> new_mts_;//mt that has not received a message
+    std::unordered_map<HostName,ns3::Ptr<MsgTransport>> mts_;//peer=>active mt
     void StartApplication();
     void StopApplication() {}
     

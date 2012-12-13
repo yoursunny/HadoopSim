@@ -34,7 +34,7 @@ class MsgTransportTestSink : public ns3::Application {
     void StopApplication() {}
     
     void HandleAccept(ns3::Ptr<ns3::Socket> sock, const ns3::Address& from) {
-      this->mt_ = ns3::Create<MsgTransport>(sock);this->mt_->Ref();
+      this->mt_ = ns3::Create<MsgTransport>(sock);
       this->mt_->set_recv_cb(ns3::MakeCallback(&MsgTransportTestSink::Recv, this));
     }
     void Recv(ns3::Ptr<MsgTransport>, ns3::Ptr<MsgInfo> msg) {

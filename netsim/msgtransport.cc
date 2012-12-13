@@ -36,7 +36,8 @@ TransmitState::TransmitState(ns3::Ptr<MsgInfo> msg) {
 }
 
 MsgTransport::MsgTransport(ns3::Ptr<ns3::Socket> socket, bool connected) {
-  this->socket_ = socket;
+  assert(socket != NULL);
+  this->sock_ = socket;
   this->connected_ = connected;
   socket->SetRecvCallback(ns3::MakeCallback(&MsgTransport::RecvData, this));
   if (!connected) {
@@ -51,20 +52,27 @@ MsgTransport::MsgTransport(ns3::Ptr<ns3::Socket> socket, bool connected) {
   this->send_block_ = false;
 }
 
+MsgTransport::~MsgTransport(void) {
+  this->sock_->SetRecvCallback(ns3::MakeNullCallback<void,ns3::Ptr<ns3::Socket>>());
+  this->sock_->SetConnectCallback(ns3::MakeNullCallback<void,ns3::Ptr<ns3::Socket>>(),
+                                  ns3::MakeNullCallback<void,ns3::Ptr<ns3::Socket>>());
+  this->sock_->SetCloseCallbacks(ns3::MakeNullCallback<void,ns3::Ptr<ns3::Socket>>(),
+                                 ns3::MakeNullCallback<void,ns3::Ptr<ns3::Socket>>());
+}
+
 void MsgTransport::Send(ns3::Ptr<MsgInfo> msg) {
   msg->set_start(ns3::Simulator::Now());
   msg->Ref();//in-flight message reference
-  this->peer_ = msg->dst();
   ns3::Ptr<TransmitState> ts = ns3::Create<TransmitState>(msg);
   //printf("MsgTransport::Send id=%u size=%u\n", msg->id(), msg->size());
   this->send_queue_.push(ts);
-  this->SendData();
+  ns3::Simulator::ScheduleNow(&MsgTransport::SendData, this);
 }
 
 void MsgTransport::SendData(void) {
   while (this->connected_ && !this->send_block_ && !this->send_queue_.empty()) {
     ns3::Ptr<TransmitState> ts = this->send_queue_.front();
-    uint32_t send_size = std::min((uint32_t)ts->remaining(), (uint32_t)this->socket_->GetTxAvailable());
+    uint32_t send_size = std::min((uint32_t)ts->remaining(), (uint32_t)this->sock_->GetTxAvailable());
     if (send_size == 0) {
       this->send_block_ = true;
       ns3::Simulator::Schedule(ns3::Seconds(0.005), &MsgTransport::SendMaybeUnblock, this);
@@ -72,7 +80,7 @@ void MsgTransport::SendData(void) {
     }
     ns3::Ptr<ns3::Packet> pkt = ns3::Create<ns3::Packet>(send_size);
     pkt->AddByteTag(ts->tag());
-    int send_actual = this->socket_->Send(pkt);
+    int send_actual = this->sock_->Send(pkt);
     //printf("SendData size=%u actual=%d\n", send_size, send_actual);
     if (send_actual < 0) {
       this->send_block_ = true;
@@ -102,7 +110,7 @@ void MsgTransport::SendUnblock(ns3::Ptr<ns3::Socket>, uint32_t) {
 
 void MsgTransport::RecvData(ns3::Ptr<ns3::Socket>) {
   ns3::Ptr<ns3::Packet> pkt;
-  while (NULL != (pkt = this->socket_->Recv())) {
+  while (NULL != (pkt = this->sock_->Recv())) {
     ns3::ByteTagIterator it = pkt->GetByteTagIterator();
     while (it.HasNext()) {
       ns3::ByteTagIterator::Item item = it.Next();
@@ -123,9 +131,8 @@ void MsgTransport::RecvData(ns3::Ptr<ns3::Socket>) {
         this->recv_map_.erase(msg->id());
         msg->set_finish(ns3::Simulator::Now());
         msg->Unref();//in-flight message reference
-        this->peer_ = msg->src();
-        if (!msg->cb().IsNull()) msg->cb()(msg);
         if (!this->recv_cb_.IsNull()) this->recv_cb_(ns3::Ptr<MsgTransport>(this), msg);
+        if (!msg->cb().IsNull()) msg->cb()(msg);
       }
     }
   }
