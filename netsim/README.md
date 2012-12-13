@@ -2,9 +2,9 @@
 
 ## steps to use
 
-1. [generate .nettopo from HiBench topology](topogen/)
-2. load network topology with `Topology::Load`
-3. build topology in simulator with `NetSim::BuildTopology`
+1. generate .nettopo from HiBench topology using a `topogen/` script
+2. load .nettopo with `Topology::Load`
+3. build topology in ns3 with `NetSim::BuildTopology`
 4. register the `NetSim::set_ready_cb` callback;
    transmit functions are available after this callback
 5. start ns3 with `ns3::Simulator::Run`
