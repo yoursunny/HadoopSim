@@ -133,9 +133,10 @@ TEST(NetSimTest, MsgTransport) {
     ns3::Simulator::Run();
     ns3::Simulator::Destroy();
 
-    if (ns3::PeekPointer(sink->msg_) != ns3::PeekPointer(source->msg_)) ::exit(1);
-    if (source->send_called_ != 1) ::exit(2);
-    if (source->transmit_cb_called_ != 1) ::exit(3);
+    assert(sink->msg_ == source->msg_);
+    assert(source->send_called_ == 1);
+    assert(source->transmit_cb_called_ == 1);
+    assert(sink->msg_->success());
     ::exit(0);
   }, ::testing::ExitedWithCode(0), "");
 }

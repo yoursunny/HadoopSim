@@ -130,6 +130,7 @@ void MsgTransport::RecvData(ns3::Ptr<ns3::Socket>) {
       //printf("RecvData id=%u count=%u remain=%u\n", msg->id(), count, ts->remaining());
       if (ts->IsComplete()) {
         this->recv_map_.erase(msg->id());
+        msg->set_success(true);
         msg->set_finish(ns3::Simulator::Now());
         msg->Unref();//in-flight message reference
         if (!this->recv_cb_.IsNull()) this->recv_cb_(ns3::Ptr<MsgTransport>(this), msg);
