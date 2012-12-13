@@ -53,11 +53,11 @@ class NetSimTestRunner {
     NetSim* netsim_;
     std::unordered_map<MsgId,MsgType> sent_;
     std::unordered_map<MsgId,ns3::Ptr<MsgInfo>> received_;
+    int remaining_namerequestall_;
     
     void Ready(NetSim*) {
+      this->remaining_namerequestall_ = 2;
       ns3::Simulator::Schedule(ns3::Seconds(0.0), &NetSimTestRunner::NameRequestAll, this);
-      ns3::Simulator::Schedule(ns3::Seconds(3.0), &NetSimTestRunner::NameRequestAll, this);
-      ns3::Simulator::Schedule(ns3::Seconds(6.0), &NetSimTestRunner::NameRequestAll, this);
       ns3::Simulator::Schedule(ns3::Seconds(2.0), &NetSimTestRunner::DataRequestAll, this);
     }
     
@@ -81,6 +81,11 @@ class NetSimTestRunner {
       id = this->netsim_->NameRequest("slave2", "manager1", 1<<10, ns3::MakeCallback(&NetSimTestRunner::NameResponse, this), this->userobj_);
       assert(id != MsgId_invalid);
       this->sent_[id] = kMTNameRequest;
+      
+      if (--this->remaining_namerequestall_ >= 0) {
+        //schedule another batch 3 seconds later
+        ns3::Simulator::Schedule(ns3::Seconds(3.0), &NetSimTestRunner::NameRequestAll, this);
+      }
     }
     void NameResponse(ns3::Ptr<MsgInfo> request_msg) {
       assert(this->sent_[request_msg->id()] == kMTNameRequest);
@@ -151,6 +156,7 @@ TEST(NetSimTest, NetSim) {
     
     NetSimTestRunner runner(&netsim);
     ns3::Simulator::Run();
+    ns3::Simulator::Destroy();
     runner.Verify(true);
     ::exit(0);
   }, ::testing::ExitedWithCode(0), "");
