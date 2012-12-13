@@ -29,6 +29,7 @@ bool NameClient::NameRequest(ns3::Ptr<MsgInfo> msg) {
   if (this->mts_.count(msg->dst()) == 0) return false;
   ns3::Ptr<MsgTransport> mt = this->mts_[msg->dst()];
   mt->Send(msg);
+  return true;
 }
 
 };//namespace HadoopNetSim

@@ -18,30 +18,29 @@ void NameServer::StartApplication() {
   ns3::InetSocketAddress addr = ns3::InetSocketAddress(ns3::Ipv4Address::GetAny(), kNameServerPort);
   this->sock_->Bind(addr);
   this->sock_->Listen();
-  this->sock_->ShutdownSend();
-
   this->sock_->SetAcceptCallback(ns3::MakeNullCallback<bool,ns3::Ptr<ns3::Socket>,const ns3::Address&>(),
-                                        ns3::MakeCallback(&NameServer::HandleAccept, this));
+                                 ns3::MakeCallback(&NameServer::HandleAccept, this));
 }
 
 void NameServer::HandleAccept(ns3::Ptr<ns3::Socket> sock, const ns3::Address& from) {
   ns3::Ptr<MsgTransport> mt = ns3::Create<MsgTransport>(sock);
-  this->mts_.insert(mt);
+  mt->set_recv_cb(ns3::MakeCallback(&NameServer::HandleRecv, this));
+  this->new_mts_.push_back(mt);
 }
 
-ns3::Ptr<MsgTransport> NameServer::FindMTByPeer(HostName peer) const {
-  for (std::unordered_set<ns3::Ptr<MsgTransport>>::const_iterator it = this->mts_.cbegin(); it != this->mts_.cend(); ++it) {
-    ns3::Ptr<MsgTransport> mt = *it;
-    if (mt->peer() == peer) return mt;
-  }
-  return NULL;
+void NameServer::HandleRecv(ns3::Ptr<MsgTransport> mt, ns3::Ptr<MsgInfo> msg) {
+  ns3::Ptr<MsgTransport> old_mt = this->mts_[msg->src()];
+  if (old_mt == mt) return;
+  this->mts_[msg->src()] = mt;
+  this->new_mts_.remove(mt);
 }
 
 bool NameServer::NameResponse(ns3::Ptr<MsgInfo> msg) {
   assert(msg->type() == kMTNameResponse);
-  ns3::Ptr<MsgTransport> mt = this->FindMTByPeer(msg->dst());
-  if (mt == NULL) return false;
+  if (this->mts_.count(msg->dst()) == 0) return false;
+  ns3::Ptr<MsgTransport> mt = this->mts_[msg->dst()];
   mt->Send(msg);
+  return true;
 }
 
 };//namespace HadoopNetSim

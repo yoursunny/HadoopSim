@@ -7,6 +7,8 @@ def build(bld):
     'netsim/msgtransport.cc',
     'netsim/nameclient.cc',
     'netsim/nameserver.cc',
+    'netsim/dataclient.cc',
+    'netsim/dataserver.cc',
     'netsim/netsim.cc'
   }
   
@@ -36,7 +38,7 @@ def build(bld):
     'ns3/Ns3NameNode.cpp',
     'ns3/Ns3DataNode.cpp']
 
-  obj = bld.create_ns3_program('HadoopNetSimUnitTest', ['point-to-point','internet','applications'])
+  obj = bld.create_ns3_program('HadoopNetSimUnitTest', ['point-to-point','bridge','internet','applications'])
   obj.source = netsim_source | {
     'gtest/gtest_main.cc',
     'gtest/gtest.cc',

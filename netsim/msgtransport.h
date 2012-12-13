@@ -61,18 +61,16 @@ enum MsgTransportEvt {
 class MsgTransport : public ns3::SimpleRefCount<MsgTransport> {
   public:
     MsgTransport(ns3::Ptr<ns3::Socket> socket, bool connected = true);
-    virtual ~MsgTransport(void) {}
-    ns3::Ptr<ns3::Socket> socket(void) { return this->socket_; }
-    HostName peer(void) const { return this->peer_; }//remote host of last sent/received message
+    virtual ~MsgTransport(void);
+    ns3::Ptr<ns3::Socket> sock(void) { return this->sock_; }
     void Send(ns3::Ptr<MsgInfo> msg);//queue a message to send
     void set_send_cb(ns3::Callback<void,ns3::Ptr<MsgTransport>,ns3::Ptr<MsgInfo>> value) { this->send_cb_ = value; }//fires when a message is sent
     void set_recv_cb(ns3::Callback<void,ns3::Ptr<MsgTransport>,ns3::Ptr<MsgInfo>> value) { this->recv_cb_ = value; }//fires when a message is received
     void set_evt_cb(ns3::Callback<void,ns3::Ptr<MsgTransport>,MsgTransportEvt> value) { this->evt_cb_ = value; }//fires when any MsgTransportEvt happens
     
   private:
-    ns3::Ptr<ns3::Socket> socket_;
+    ns3::Ptr<ns3::Socket> sock_;
     bool connected_;
-    HostName peer_;
     ns3::Callback<void,ns3::Ptr<MsgTransport>,ns3::Ptr<MsgInfo>> send_cb_;
     ns3::Callback<void,ns3::Ptr<MsgTransport>,ns3::Ptr<MsgInfo>> recv_cb_;
     ns3::Callback<void,ns3::Ptr<MsgTransport>,MsgTransportEvt> evt_cb_;

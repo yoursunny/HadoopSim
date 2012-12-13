@@ -26,6 +26,8 @@ class MsgInfo : public ns3::SimpleRefCount<MsgInfo> {
     virtual ~MsgInfo(void) {}
     MsgId id(void) const { return this->id_; }
     void set_id(MsgId value) { this->id_ = value; }
+    MsgId in_reply_to(void) const { return this->in_reply_to_; }
+    void set_in_reply_to(MsgId value) { this->in_reply_to_ = value; }
     MsgType type(void) const { return this->type_; }
     void set_type(MsgType value) { this->type_ = value; }
     HostName src(void) const { return this->src_; }
@@ -47,6 +49,7 @@ class MsgInfo : public ns3::SimpleRefCount<MsgInfo> {
     
   private:
     MsgId id_;//message id
+    MsgId in_reply_to_;//in reply to message id, applicable for kMTDataResponse only
     MsgType type_;//message type
     HostName src_;//source node
     HostName dst_;//destination node

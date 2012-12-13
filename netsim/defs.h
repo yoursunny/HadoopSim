@@ -7,6 +7,7 @@
 #include <cstddef>
 #include <cinttypes>
 #include <string>
+#include <type_traits>
 
 // A macro to disallow the copy constructor and operator= functions
 // This should be used in the private: declarations for a class
@@ -18,6 +19,7 @@
 #include "ns3/network-module.h"
 //#include "ns3/csma-module.h"
 #include "ns3/point-to-point-module.h"
+#include "ns3/bridge-module.h"
 #include "ns3/internet-module.h"
 #include "ns3/applications-module.h"
 #include "ns3/ipv4-global-routing-helper.h"

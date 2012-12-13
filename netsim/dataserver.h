@@ -1,30 +1,29 @@
-#ifndef HADOOPSIM_NETSIM_NAMESERVER_H_
-#define HADOOPSIM_NETSIM_NAMESERVER_H_
+#ifndef HADOOPSIM_NETSIM_DATASERVER_H_
+#define HADOOPSIM_NETSIM_DATASERVER_H_
 #include "netsim/defs.h"
-#include <list>
 #include <unordered_map>
 #include "netsim/msgtransport.h"
 namespace HadoopNetSim {
 
-class NameServer : public ns3::Application {
+class DataServer : public ns3::Application {
   public:
-    NameServer(void);
+    DataServer(void);
     static ns3::TypeId GetTypeId(void);
-    bool NameResponse(ns3::Ptr<MsgInfo> msg);
+    bool DataResponse(ns3::Ptr<MsgInfo> msg);
     
   private:
     ns3::Ptr<ns3::Socket> sock_;
     std::list<ns3::Ptr<MsgTransport>> new_mts_;//mt that has not received a message
-    std::unordered_map<HostName,ns3::Ptr<MsgTransport>> mts_;//peer=>active mt
+    std::unordered_map<MsgId,ns3::Ptr<MsgTransport>> mts_;//data request msgid=>active mt
     void StartApplication();
     void StopApplication() {}
     
     void HandleAccept(ns3::Ptr<ns3::Socket> sock, const ns3::Address& from);
     void HandleRecv(ns3::Ptr<MsgTransport> mt, ns3::Ptr<MsgInfo> msg);
-    ns3::Ptr<MsgTransport> FindMTByPeer(HostName peer) const;
+    void HandleSend(ns3::Ptr<MsgTransport> mt, ns3::Ptr<MsgInfo> msg);
     
-    DISALLOW_COPY_AND_ASSIGN(NameServer);
+    DISALLOW_COPY_AND_ASSIGN(DataServer);
 };
 
 };//namespace HadoopNetSim
-#endif//HADOOPSIM_NETSIM_NAMESERVER_H_
+#endif//HADOOPSIM_NETSIM_DATASERVER_H_
