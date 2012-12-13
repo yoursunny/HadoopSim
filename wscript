@@ -11,6 +11,11 @@ def build(bld):
     'netsim/dataserver.cc',
     'netsim/netsim.cc'
   }
+  netsim_dependency = {
+    'point-to-point',
+    'internet',
+    'applications'
+  }
   
   obj = bld.create_ns3_program('HadoopSim', ['core', 'point-to-point', 'csma', 'internet', 'config-store', 'tools', 'applications'])
   obj.source = ['HadoopSim.cpp',
@@ -38,7 +43,7 @@ def build(bld):
     'ns3/Ns3NameNode.cpp',
     'ns3/Ns3DataNode.cpp']
 
-  obj = bld.create_ns3_program('HadoopNetSimUnitTest', ['point-to-point','bridge','internet','applications'])
+  obj = bld.create_ns3_program('HadoopNetSimUnitTest', netsim_dependency)
   obj.source = netsim_source | {
     'gtest/gtest_main.cc',
     'gtest/gtest.cc',
