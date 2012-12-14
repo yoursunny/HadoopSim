@@ -39,6 +39,7 @@ float LinkStat::ReadQueueUtilization(ns3::Ptr<ns3::NetDevice> device) {
 
 BandwidthUtilizationCollector::BandwidthUtilizationCollector(void) {
   this->last_total_bytes_ = UINT32_MAX;
+  this->scheduled_ = false;
 }
 
 ns3::TypeId BandwidthUtilizationCollector::GetTypeId(void) {
