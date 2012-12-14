@@ -135,6 +135,13 @@ ActionType Job::updateTaskStatus(TaskStatus &taskStatus)
                 } else {
                     localRunningMaps.erase(taskIt);
                 }
+
+                // consider about Map tasks only generating data
+                if (isAllMapsDone() && isAllReducesDone()) {
+                    setState(JOBSUCCEEDED);
+                    return NO_ACTION;
+                }
+
                 if (task.getTaskStatus().outputSize > 0)
                     return FETCH_MAPDATA;
             }

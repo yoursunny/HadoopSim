@@ -8,8 +8,7 @@ HadoopSim is a simulator for a Hadoop Runtime by replaying the collected traces.
 #include "JobClient.h"
 #include "JobTracker.h"
 #include "TraceReader.h"
-#include "ns3/Ns3.h"
-using namespace ns3;
+#include "netsim/netsim.h"
 using namespace std;
 
 /* JobTracker Variables */
@@ -43,7 +42,7 @@ void JobClient::submitJob(long evtTime)
             if (isMoreJobs()) {
                 long timeStamp = nextJobSubmitTime() - lastSubmissionTime + evtTime;
                 HEvent evt(this, EVT_JobSubmit, timeStamp);
-                Simulator::Schedule(Seconds((double)timeStamp/1000.0), &hadoopEventCallback, evt);
+                ns3::Simulator::Schedule(ns3::Seconds((double)timeStamp/1000.0), &hadoopEventCallback, evt);
             }
         }
         else if (this->policy == Stress) {
@@ -97,7 +96,7 @@ void initJobClient(JobSubmissionPolicy policy, long firstJobSubmitTime, bool nee
 
     // add first Job Submission event to the EventQueue
     HEvent evt(client, EVT_JobSubmit, ns3::Simulator::Now().GetMilliSeconds() + firstJobSubmitTime);
-    Simulator::Schedule(Seconds((double)firstJobSubmitTime/1000.0), &hadoopEventCallback, evt);
+    ns3::Simulator::Schedule(ns3::Seconds((double)firstJobSubmitTime/1000.0), &hadoopEventCallback, evt);
 }
 
 void killJobClient()

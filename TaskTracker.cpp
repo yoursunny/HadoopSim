@@ -213,42 +213,68 @@ void TaskTracker::hbResponse(ns3::Ptr<MsgInfo> response_msg)
 
 void TaskTracker::dataRequest(ns3::Ptr<MsgInfo> request_msg)
 {
+    assert(request_msg->type() == kMTDataRequest);
+    assert(request_msg->src().compare(this->hostName) == 0);
+    NetSim *netsim = getNetSim();
+    assert(netsim != NULL);
 
+    if (pendingTaskAction.find(request_msg->id()) != pendingTaskAction.end()) {
+        TaskAction action = pendingTaskAction[request_msg->id()];
+        assert(request_msg->dst().compare(action.status.dataSource) == 0);
+        MsgId id = netsim->DataResponse(request_msg->id(), request_msg->dst(),
+                                         request_msg->src(), action.status.dataSize,
+                                         ns3::MakeCallback(&TaskTracker::dataResponse, this), this);
+        assert(id != MsgId_invalid);
+    } else if (pendingMapDataAction.find(request_msg->id()) != pendingMapDataAction.end()) {
+        MapDataAction action = pendingMapDataAction[request_msg->id()];
+        assert(request_msg->dst().compare(action.dataSource) == 0);
+        MsgId id = netsim->DataResponse(request_msg->id(), request_msg->dst(),
+                                         request_msg->src(), action.dataSize,
+                                         ns3::MakeCallback(&TaskTracker::dataResponse, this), this);
+        assert(id != MsgId_invalid);
+    } else {
+        cout<<"Error in TaskTracker::dataRequest.\n";
+        exit(1);
+    }
 }
 
 void TaskTracker::dataResponse(ns3::Ptr<MsgInfo> response_msg)
 {
-//    string hostName = "";//findHostName4IP(hostIPAddr);
-//    int i;
-//    for(i = 0; i < numTaskTrackers; i++) {
-//        if (taskTrackers[i].getHostName() == hostName)
-//            break;
-//    }
-//    assert(i < numTaskTrackers);
-//
-//    if (dataType == MAPTASK) {
-//        TaskAction action = taskTrackers[i].getPendingTaskAction(dataRequestID);
-//        Task task;
-//        action.status.startTime = ns3::Simulator::Now().GetMilliSeconds();
-//        action.status.finishTime = ns3::Simulator::Now().GetMilliSeconds() + action.status.duration;
-//        task.updateTaskStatus(action.status);
-//        map<string, Task> runningTasks = taskTrackers[i].getRunningTasks();
-//        map<string, Task>::iterator taskIt = runningTasks.find(action.status.taskAttemptID);
-//        assert(taskIt == runningTasks.end());
-//        assert(task.getTaskStatus().type == MAPTASK);
-//        taskTrackers[i].setUsedMapSlots(taskTrackers[i].getUsedMapSlots() + 1);
-//        taskTrackers[i].addRunningTask(action.status.taskAttemptID, task);
-//    } else {
-//        MapDataAction action = taskTrackers[i].getPendingMapDataAction(dataRequestID);
-//        map<string, Task> runningTasks = taskTrackers[i].getRunningTasks();
-//        map<string, Task>::iterator taskIt = runningTasks.find(action.reduceTaskID);
-//        assert(taskIt != runningTasks.end());
-//        Task task = taskIt->second;
-//        TaskStatus status = task.getTaskStatus();
-//        status.mapDataCouter++;
-//        task.updateTaskStatus(status);
-//        taskTrackers[i].updateRunningTask(taskIt->first, task);
-//    }
+    assert(response_msg->type() == kMTDataResponse);
+    assert(response_msg->dst().compare(this->hostName) == 0);
+    Task task;
+
+    if (pendingTaskAction.find(response_msg->id()) != pendingTaskAction.end()) {
+        TaskAction action = pendingTaskAction[response_msg->id()];
+        pendingTaskAction.erase(response_msg->id());
+        assert(action.status.type == MAPTASK);
+        assert(response_msg->src().compare(action.status.dataSource) == 0);
+
+        action.status.startTime = ns3::Simulator::Now().GetMilliSeconds();
+        action.status.finishTime = ns3::Simulator::Now().GetMilliSeconds() + action.status.duration;
+        task.updateTaskStatus(action.status);
+
+        map<string, Task>::iterator taskIt = runningTasks.find(action.status.taskAttemptID);
+        assert(taskIt == runningTasks.end());
+        assert(task.getTaskStatus().type == MAPTASK);
+        setUsedMapSlots(getUsedMapSlots() + 1);
+        addRunningTask(action.status.taskAttemptID, task);
+    } else if (pendingMapDataAction.find(response_msg->id()) != pendingMapDataAction.end()) {
+        MapDataAction action = pendingMapDataAction[response_msg->id()];
+        pendingMapDataAction.erase(response_msg->id());
+        assert(response_msg->src().compare(action.dataSource) == 0);
+
+        map<string, Task>::iterator taskIt = runningTasks.find(action.reduceTaskID);
+        assert(taskIt != runningTasks.end());
+        Task task = taskIt->second;
+        TaskStatus status = task.getTaskStatus();
+        status.mapDataCouter++;
+        task.updateTaskStatus(status);
+        updateRunningTask(taskIt->first, task);
+    } else {
+        cout<<"Error in TaskTracker::dataResponse.\n";
+        exit(1);
+    }
 }
 
 void TaskTracker::sendHeartbeat(long evtTime)
@@ -278,6 +304,9 @@ void TaskTracker::handleHeartbeatResponse(HeartBeatResponse *response, long evtT
     assert(response->type == HBResponse);
     Task task;
     map<string, Task>::iterator taskIt;
+    MsgId id;
+    NetSim *netsim = getNetSim();
+    assert(netsim != NULL);
 
     // handle TaskAction
     list<TaskAction>::iterator actionIt = response->taskActions.begin();
@@ -285,7 +314,7 @@ void TaskTracker::handleHeartbeatResponse(HeartBeatResponse *response, long evtT
         assert(actionIt->type != NO_ACTION);
         switch(actionIt->type) {
             case LAUNCH_TASK:
-                if (!actionIt->status.isRemote || actionIt->status.type == REDUCETASK) {    // todo modify for reduce task
+                if (!actionIt->status.isRemote || actionIt->status.type == REDUCETASK) {
                     actionIt->status.startTime = evtTime;
                     actionIt->status.finishTime = evtTime + actionIt->status.duration;
                     task.updateTaskStatus(actionIt->status);
@@ -297,12 +326,11 @@ void TaskTracker::handleHeartbeatResponse(HeartBeatResponse *response, long evtT
                         this->usedReduceSlots++;
                     runningTasks.insert(pair<string, Task>(actionIt->status.taskAttemptID, task));
                 } else {
-                    pendingTaskAction.insert(pair<unsigned long, TaskAction>(pendingTaskActionID, *actionIt));
-//                    fetchRawData("",//findIPAddr4Host(actionIt->status.dataSource),
-//                                 "",//findIPAddr4Host(this->hostName),
-//                                 actionIt->status.dataSize,
-//                                 MAPTASK, pendingTaskActionID, ns3::MilliSeconds(evtTime));
-                    pendingTaskActionID++;
+                    id = netsim->DataRequest(this->hostName, actionIt->status.dataSource, 64/*blockID size*/, ns3::MakeCallback(&TaskTracker::dataRequest, this), this);
+                    assert(id != MsgId_invalid);
+                    assert(pendingTaskAction.find(id) == pendingTaskAction.end());
+                    assert(actionIt->status.type == MAPTASK);
+                    pendingTaskAction[id] = *actionIt;
                 }
                 break;
             case KILL_TASK:
@@ -320,8 +348,6 @@ void TaskTracker::handleHeartbeatResponse(HeartBeatResponse *response, long evtT
                 killedTasks.insert(pair<string, Task>(actionIt->status.taskAttemptID, task));
                 break;
             case START_REDUCEPHASE:
-                // todo consider data transfer time from all map tasks
-
                 taskIt = runningTasks.find(actionIt->status.taskAttemptID);
                 assert(taskIt != runningTasks.end() && actionIt->status.runPhase == REDUCE);
                 task = taskIt->second;
@@ -339,12 +365,10 @@ void TaskTracker::handleHeartbeatResponse(HeartBeatResponse *response, long evtT
     for(size_t i = 0; i < response->mapDataActions.size(); i++) {
         taskIt = runningTasks.find(response->mapDataActions[i].reduceTaskID);
         assert(taskIt != runningTasks.end());
-        pendingMapDataAction.insert(pair<unsigned long, MapDataAction>(pendingMapDataActionID, response->mapDataActions[i]));
-//        fetchMapData(findIPAddr4Host(response->mapDataActions[i].dataSource),
-//                     findIPAddr4Host(this->hostName),
-//                     response->mapDataActions[i].dataSize,
-//                     REDUCETASK, pendingMapDataActionID, MilliSeconds(evtTime));
-        pendingMapDataActionID++;
+        id = netsim->DataRequest(this->hostName, response->mapDataActions[i].dataSource, 64/*blockID size*/, ns3::MakeCallback(&TaskTracker::dataRequest, this), this);
+        assert(id != MsgId_invalid);
+        assert(pendingMapDataAction.find(id) == pendingMapDataAction.end());
+        pendingMapDataAction[id] = response->mapDataActions[i];
     }
 }
 

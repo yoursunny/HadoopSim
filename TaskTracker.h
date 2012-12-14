@@ -16,7 +16,7 @@ HadoopSim is a simulator for a Hadoop Runtime by replaying the collected traces.
 
 class TaskTracker: public EventListener{
 public:
-    TaskTracker():usedMapSlots(0), usedReduceSlots(0), lastReportTime(0), pendingTaskActionID(0), pendingMapDataActionID(0) { }
+    TaskTracker():usedMapSlots(0), usedReduceSlots(0), lastReportTime(0) { }
     void setHostName(std::string hostName);
     const std::string getHostName() const;
     const long getUsedMapSlots() const;
@@ -51,10 +51,8 @@ private:
     std::string hostName;
     std::map<HadoopNetSim::MsgId, HeartBeatReport> reportMap;
     std::map<HadoopNetSim::MsgId, HeartBeatResponse> responseMap;
-    std::map<unsigned long, TaskAction> pendingTaskAction;
-    unsigned long pendingTaskActionID;      // self-increasing only
-    std::map<unsigned long, MapDataAction> pendingMapDataAction;
-    unsigned long pendingMapDataActionID;   // self-increasing only
+    std::map<HadoopNetSim::MsgId, TaskAction> pendingTaskAction;
+    std::map<HadoopNetSim::MsgId, MapDataAction> pendingMapDataAction;
 };
 
 long initTaskTrackers(void);
