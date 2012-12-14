@@ -2,23 +2,26 @@
 class TopoGen {
 	private $last_ip;
 	private $last_linkid;
+	public $type;
 	public $nodes;
 	public $links;
-	
-	function __construct() {
+
+	function __construct($topotype) {
 		$this->last_ip = ip2long('10.0.0.0');
 		$this->last_linkid = 0;
+		$this->type = $topotype;
 		$this->nodes = array();
 		$this->links = array();
 	}
 	public function ToJSON() {
 		return array(
 			'version'=>1,
+			'type'=>$this->type,
 			'nodes'=>$this->nodes,
 			'links'=>$this->links
 		);
 	}
-	
+
 	public function AddHost($name) {
 		if (array_key_exists($name,$this->nodes)) die(sprintf("TopoGen::AddHost duplicate %s\n",$name));
 		$this->nodes[$name] = array(

@@ -7,26 +7,28 @@ HadoopSim is a simulator for a Hadoop Runtime by replaying the collected traces.
 
 #include <string>
 #include <vector>
+#include "netsim/netsim.h"
 
 const int MaxMapSlots = 2;
 const int MaxReduceSlots = 2;
+const int ClusterTopoTypes = 3;
+const std::string TopoTypeArray[ClusterTopoTypes] = {"star", "rackrow", "fattree"};
 
 class MachineNode {
 public:
-    MachineNode(std::string rackName, std::string hostName, std::string ipAddr);
-    std::string getRackName();
-    std::string getHostName();
-    std::string getIpAddr();
-    void setIpAddr(std::string ipAddr);
+    MachineNode(void) {}
+    virtual ~MachineNode(void) {}
+    void configMachineNode(std::string hostName, std::string rackName = "");
+    const std::string getRackName(void) const;
+    const std::string getHostName(void) const;
 private:
-    std::string rackName;
     std::string hostName;
-    std::string ipAddr;
+    std::string rackName;
 };
 
-void setupCluster(int topoType);
-std::vector<MachineNode> getClusterNodes();
-std::string findIPAddr4Host(std::string hostName);
-std::string findHostName4IP(std::string hostIPAddr);
+void setupCluster(int topoType, std::string topologyFile);
+const MachineNode& getClusterMasterNodes(void);
+const std::vector<MachineNode>& getClusterSlaveNodes(void);
+HadoopNetSim::NetSim& getNetSim(void);
 
 #endif // CLUSTER_H

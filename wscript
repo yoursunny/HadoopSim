@@ -11,18 +11,18 @@ def build(bld):
     'netsim/dataserver.cc',
     'netsim/netsim.cc'
   }
+
   netsim_dependency = {
     'point-to-point',
     'internet',
     'applications'
   }
-  
-  obj = bld.create_ns3_program('HadoopSim', ['core', 'point-to-point', 'csma', 'internet', 'config-store', 'tools', 'applications'])
+
+  obj = bld.create_ns3_program('HadoopSim', netsim_dependency)
   obj.source = ['HadoopSim.cpp',
     'json/block_allocator.cpp',
     'json/json.cpp',
     'Cluster.cpp',
-    'TopologyReader.cpp',
     'HEvent.cpp',
     'EventQueue.cpp',
     'HeartBeat.cpp',
@@ -39,9 +39,14 @@ def build(bld):
     'FIFOScheduler.cpp',
     'Task.cpp',
     'Job.cpp',
-    'ns3/Ns3Topo.cpp',
-    'ns3/Ns3NameNode.cpp',
-    'ns3/Ns3DataNode.cpp']
+    'netsim/topology.cc',
+    'netsim/msginfo.cc',
+    'netsim/msgtransport.cc',
+    'netsim/nameclient.cc',
+    'netsim/nameserver.cc',
+    'netsim/dataclient.cc',
+    'netsim/dataserver.cc',
+    'netsim/netsim.cc']
 
   obj = bld.create_ns3_program('HadoopNetSimUnitTest', netsim_dependency)
   obj.source = netsim_source | {
@@ -51,4 +56,3 @@ def build(bld):
     'netsim/msgtransport_test.cc',
     'netsim/netsim_test.cc'
   }
-

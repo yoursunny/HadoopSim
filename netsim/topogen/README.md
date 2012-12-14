@@ -4,6 +4,7 @@
 
 	{
 	  "version":1,
+	  "type":"star"
 	  "nodes":{
 		"host1":{
 		  "type":"host",
@@ -28,11 +29,11 @@
 
 ## topology generators
 
-Star topology  
+Star topology
 `topogen.php topo.json star.nettopo star`
 
-Data Center rack-row topology  
-`topogen.php topo.json rackrow-6-4.nettopo rackrow 6 4`  
+Data Center rack-row topology
+`topogen.php topo.json rackrow-6-4.nettopo rackrow 6 4`
 (6 hosts per rack with 1 top-of-rack switch, 4 racks per row with 2 end-of-row switches, 2 core switches)
 
 PHP 5.4 is required. HOWTO [install PHP 5.4 on Ubuntu 12.04](https://launchpad.net/~ondrej/+archive/php5)

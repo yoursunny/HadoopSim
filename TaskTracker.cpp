@@ -11,8 +11,6 @@ HadoopSim is a simulator for a Hadoop Runtime by replaying the collected traces.
 #include "EventQueue.h"
 #include "JobTracker.h"
 #include "TaskTracker.h"
-#include "ns3/Ns3.h"
-using namespace ns3;
 using namespace std;
 
 /* TaskTracker Variables */
@@ -176,7 +174,7 @@ void TaskTracker::updateRunningTask(string taskID, Task task)
 
 void dataArrive(unsigned long dataType, unsigned long dataRequestID, string hostIPAddr)
 {
-    string hostName = findHostName4IP(hostIPAddr);
+    string hostName = "";//findHostName4IP(hostIPAddr);
     int i;
     for(i = 0; i < numTaskTrackers; i++) {
         if (taskTrackers[i].getHostName() == hostName)
@@ -187,8 +185,8 @@ void dataArrive(unsigned long dataType, unsigned long dataRequestID, string host
     if (dataType == MAPTASK) {
         TaskAction action = taskTrackers[i].getPendingTaskAction(dataRequestID);
         Task task;
-        action.status.startTime = Simulator::Now().GetMilliSeconds();
-        action.status.finishTime = Simulator::Now().GetMilliSeconds() + action.status.duration;
+        action.status.startTime = ns3::Simulator::Now().GetMilliSeconds();
+        action.status.finishTime = ns3::Simulator::Now().GetMilliSeconds() + action.status.duration;
         task.updateTaskStatus(action.status);
         map<string, Task> runningTasks = taskTrackers[i].getRunningTasks();
         map<string, Task>::iterator taskIt = runningTasks.find(action.status.taskAttemptID);
@@ -234,10 +232,10 @@ void TaskTracker::handleHeartbeatResponse(HeartBeatResponse *response, long evtT
                     runningTasks.insert(pair<string, Task>(actionIt->status.taskAttemptID, task));
                 } else {
                     pendingTaskAction.insert(pair<unsigned long, TaskAction>(pendingTaskActionID, *actionIt));
-                    fetchRawData(findIPAddr4Host(actionIt->status.dataSource),
-                                 findIPAddr4Host(this->hostName),
-                                 actionIt->status.dataSize,
-                                 MAPTASK, pendingTaskActionID, MilliSeconds(evtTime));
+//                    fetchRawData("",//findIPAddr4Host(actionIt->status.dataSource),
+//                                 "",//findIPAddr4Host(this->hostName),
+//                                 actionIt->status.dataSize,
+//                                 MAPTASK, pendingTaskActionID, ns3::MilliSeconds(evtTime));
                     pendingTaskActionID++;
                 }
                 break;
@@ -276,10 +274,10 @@ void TaskTracker::handleHeartbeatResponse(HeartBeatResponse *response, long evtT
         taskIt = runningTasks.find(response->mapDataActions[i].reduceTaskID);
         assert(taskIt != runningTasks.end());
         pendingMapDataAction.insert(pair<unsigned long, MapDataAction>(pendingMapDataActionID, response->mapDataActions[i]));
-        fetchMapData(findIPAddr4Host(response->mapDataActions[i].dataSource),
-                     findIPAddr4Host(this->hostName),
-                     response->mapDataActions[i].dataSize,
-                     REDUCETASK, pendingMapDataActionID, MilliSeconds(evtTime));
+//        fetchMapData(findIPAddr4Host(response->mapDataActions[i].dataSource),
+//                     findIPAddr4Host(this->hostName),
+//                     response->mapDataActions[i].dataSize,
+//                     REDUCETASK, pendingMapDataActionID, MilliSeconds(evtTime));
         pendingMapDataActionID++;
     }
 }
@@ -307,7 +305,7 @@ HeartBeatResponse TaskTracker::getResponse()
 
 size_t reportArrive(string hostIPAddr)
 {
-    string hostName = findHostName4IP(hostIPAddr);
+    string hostName = "";//findHostName4IP(hostIPAddr);
     int i;
     for(i = 0; i < numTaskTrackers; i++) {
         if (taskTrackers[i].getHostName() == hostName)
@@ -318,14 +316,14 @@ size_t reportArrive(string hostIPAddr)
     HeartBeatReport report = taskTrackers[i].getReport();
     dumpHeartBeatReport(report);
     JobTracker *jobTracker = getJobTracker();
-    HeartBeatResponse response = jobTracker->processHeartbeat(report, Simulator::Now().GetMilliSeconds());
+    HeartBeatResponse response = jobTracker->processHeartbeat(report, ns3::Simulator::Now().GetMilliSeconds());
     taskTrackers[i].addResponse(response);
     return getHBResponseSize(response);
 }
 
 void responseArrive(string hostIPAddr)
 {
-    string hostName = findHostName4IP(hostIPAddr);
+    string hostName = "";// findHostName4IP(hostIPAddr);
     int i;
     for(i = 0; i < numTaskTrackers; i++) {
         if (taskTrackers[i].getHostName() == hostName)
@@ -335,26 +333,27 @@ void responseArrive(string hostIPAddr)
 
     HeartBeatResponse response = taskTrackers[i].getResponse();
     dumpHeartBeatResponse(response);
-    taskTrackers[i].handleHeartbeatResponse(&response, Simulator::Now().GetMilliSeconds());
+    taskTrackers[i].handleHeartbeatResponse(&response, ns3::Simulator::Now().GetMilliSeconds());
 
     // add next HeartBeat event from this task tracker to the EventQueue
-    long timeStamp = Simulator::Now().GetMilliSeconds() + nextHeartbeatInterval;
+    long timeStamp = ns3::Simulator::Now().GetMilliSeconds() + nextHeartbeatInterval;
     HEvent evt(&taskTrackers[i], EVT_HBReport, timeStamp);
-    Simulator::Schedule(Seconds((double)timeStamp/1000.0), &hadoopEventCallback, evt);
+    ns3::Simulator::Schedule(ns3::Seconds((double)timeStamp/1000.0), &hadoopEventCallback, evt);
 }
 
 void TaskTracker::sendHeartbeat(long evtTime)
 {
     cout<<getHostName()<<" sendHeartbeat "<<evtTime<<endl;
-    HeartBeatReport report;
-    report.type = HBReport;
-    report.hostName = this->hostName;
-    report.taskStatus = collectTaskStatus(evtTime);
-    report.numAvailMapSlots = MaxMapSlots - getUsedMapSlots();
-    report.numAvailReduceSlots = MaxReduceSlots - getUsedReduceSlots();
-    reportQueue.push(report);
-    transferHeartBeat(findIPAddr4Host(getHostName()), getHBReportSize(report), MilliSeconds(evtTime));
-    setLastReportTime(evtTime);
+
+//    HeartBeatReport report;
+//    report.type = HBReport;
+//    report.hostName = this->hostName;
+//    report.taskStatus = collectTaskStatus(evtTime);
+//    report.numAvailMapSlots = MaxMapSlots - getUsedMapSlots();
+//    report.numAvailReduceSlots = MaxReduceSlots - getUsedReduceSlots();
+//    reportQueue.push(report);
+//    transferHeartBeat(findIPAddr4Host(getHostName()), getHBReportSize(report), MilliSeconds(evtTime));
+//    setLastReportTime(evtTime);
 }
 
 void TaskTracker::completeMapTask(long evtTime)
@@ -385,10 +384,10 @@ void dumpTaskTrackers()
     }
 }
 
-/* Start task trackers, and return time stamp by which the entire cluster is booted up */
-long initTaskTrackers(long startTime)
+/* Start task trackers, and return relative time stamp by which the entire cluster is booted up */
+long initTaskTrackers(void)
 {
-    vector<MachineNode> nodes = getClusterNodes();
+    vector<MachineNode> nodes = getClusterSlaveNodes();
     numTaskTrackers = (int)nodes.size();
     nextHeartbeatInterval = max((long)(1000 * ceil((double)numTaskTrackers / CLUSTER_INCREMENT)), HEARTBEAT_INTERVAL_MIN);
 
@@ -398,12 +397,12 @@ long initTaskTrackers(long startTime)
         taskTrackers[index].setHostName(it->getHostName());
 
         // add first HeartBeat event from all task trackers to the EventQueue
-        long timeStamp = startTime + rand() % clusterStartupDuration;
+        long timeStamp = rand() % clusterStartupDuration;
         HEvent evt(&taskTrackers[index], EVT_HBReport, timeStamp);
-        Simulator::Schedule(Seconds((double)timeStamp/1000.0), &hadoopEventCallback, evt);
+        ns3::Simulator::Schedule(ns3::Seconds((double)timeStamp/1000.0), &hadoopEventCallback, evt);
         index++;
     }
-    return startTime + clusterStartupDuration + nextHeartbeatInterval;
+    return clusterStartupDuration + nextHeartbeatInterval;
 }
 
 void killTaskTrackers()

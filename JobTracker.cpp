@@ -9,15 +9,17 @@ HadoopSim is a simulator for a Hadoop Runtime by replaying the collected traces.
 #include "JobClient.h"
 #include "JobTracker.h"
 #include "TraceReader.h"
-#include "ns3/Ns3.h"
-using namespace ns3;
+#include "netsim/netsim.h"
 using namespace std;
 
 /* JobTracker Variables */
 static JobTracker *jobTracker;
+static FIFOScheduler fifoSched("FIFOScheduler");
+static DataLocalityScheduler dataLocalitySched("DataLocalityScheduler");
 
-JobTracker::JobTracker(HScheduler *sched)
+JobTracker::JobTracker(string hostName, HScheduler *sched)
 {
+    this->hostName = hostName;
     this->sched = sched;
 }
 
@@ -140,7 +142,7 @@ void JobTracker::updateTaskStatus(HeartBeatReport report, long now)
             // ask for a new job
             JobClient *client = getJobClient();
             HEvent evt(client, EVT_JobDone, now);
-            Simulator::Schedule(Seconds((double)now/1000.0), &hadoopEventCallback, evt);
+            ns3::Simulator::Schedule(ns3::Seconds((double)now/1000.0), &hadoopEventCallback, evt);
         }
     }
 }
@@ -224,15 +226,18 @@ map<string, vector<string> > JobTracker::getBlock2Node()
     return this->block2Node;
 }
 
-FIFOScheduler fifoSched("FIFOScheduler");
-DataLocalityScheduler dataLocalitySched("DataLocalityScheduler");
-void initJobTracker(int schedType)
+const std::string JobTracker::getJobTrackerName(void) const
+{
+    return this->hostName;
+}
+
+void initJobTracker(string hostName, int schedType)
 {
     assert(schedType == 0 || schedType == 1);
     if (schedType == 0) {
-        jobTracker = new JobTracker(&fifoSched);
+        jobTracker = new JobTracker(hostName, &fifoSched);
     } else {
-        jobTracker = new JobTracker(&dataLocalitySched);
+        jobTracker = new JobTracker(hostName, &dataLocalitySched);
     }
 }
 

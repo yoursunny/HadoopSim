@@ -19,7 +19,7 @@ class Node : public ns3::SimpleRefCount<Node> {
   public:
     Node(void);
     virtual ~Node(void) {}
-    
+
     HostName name(void) const { return this->name_; }
     NodeType type(void) const { return this->type_; }
     const ns3::Ipv4Address& ip(void) const { return this->ip_; }
@@ -51,7 +51,7 @@ class Link : public ns3::SimpleRefCount<Node> {
   public:
     Link(void);
     virtual ~Link(void) {}
-    
+
     LinkId id(void) const { return this->id_; }
     LinkId rid(void) const { return -this->id_; }//LinkId from node2.port2 to node1.port1
     HostName node1(void) const { return this->node1_; }
@@ -59,7 +59,7 @@ class Link : public ns3::SimpleRefCount<Node> {
     HostName node2(void) const { return this->node2_; }
     DeviceName port2(void) const { return this->port2_; }
     LinkType type(void) const { return this->type_; }
-    
+
     void FromJson(::json_value* o);
 
   private:
@@ -76,13 +76,15 @@ class Link : public ns3::SimpleRefCount<Node> {
 class Topology {
   public:
     Topology(void) {}
+    const std::string& topotype(void) const { return this->topotype_; }
     const std::unordered_map<HostName,ns3::Ptr<Node>>& nodes(void) const { return this->nodes_; }
     const std::unordered_map<LinkId,ns3::Ptr<Link>>& links(void) const { return this->links_; }
 
     void Load(const std::string& filename);
     void LoadString(char* json);
-    
+
   private:
+    std::string topotype_;
     std::unordered_map<HostName,ns3::Ptr<Node>> nodes_;//name=>Node
     std::unordered_map<LinkId,ns3::Ptr<Link>> links_;//positive LinkId=>Link
     DISALLOW_COPY_AND_ASSIGN(Topology);

@@ -3,82 +3,82 @@ Lei Ye <leiy@cs.arizona.edu>
 HadoopSim is a simulator for a Hadoop Runtime by replaying the collected traces.
 */
 #include <assert.h>
+#include <stdlib.h>
+#include <iostream>
+#include <unordered_map>
+#include <unordered_set>
 #include "Cluster.h"
-#include "TopologyReader.h"
-#include "ns3/Ns3.h"
+#include "HadoopSim.h"
+using namespace HadoopNetSim;
 using namespace std;
 
-vector<MachineNode> nodeSet;
+/* static variables */
+static NetSim netSim;
+static MachineNode masterNode;
+static vector<MachineNode> slaveNodeSet;
 
-MachineNode::MachineNode(string rackName, string hostName, string ipAddr)
+void MachineNode::configMachineNode(string hostName, string rackName)
 {
-    this->rackName = rackName;
     this->hostName = hostName;
-    this->ipAddr = ipAddr;
+    this->rackName = rackName;
 }
 
-string MachineNode::getRackName()
+const string MachineNode::getRackName(void) const
 {
     return this->rackName;
 }
 
-string MachineNode::getHostName()
+const string MachineNode::getHostName(void) const
 {
     return this->hostName;
 }
 
-string MachineNode::getIpAddr()
+void setupCluster(int topoType, string topologyFile)
 {
-    return this->ipAddr;
-}
-
-void MachineNode::setIpAddr(string ipAddr)
-{
-    this->ipAddr = ipAddr;
-}
-
-void setupCluster(int topoType)
-{
-    vector<HadoopHost> hostSet = getHostTopology();
-    for(size_t i = 0; i < hostSet.size(); i++) {
-        MachineNode n(hostSet[i].rackName, hostSet[i].hostName, hostSet[i].ipAddr);
-        nodeSet.push_back(n);
+    Topology topology;
+    topology.Load(topologyFile);
+    if (topoType >= ClusterTopoTypes || topology.topotype().compare(TopoTypeArray[topoType]) != 0) {
+        cout<<"Cluster topology type does not match topo json file.\n";
+        exit(1);
     }
-    setTopology(topoType, nodeSet);
-    for(size_t j = 0; j < nodeSet.size(); j++) {
-        cout<<"rackName = "<<nodeSet[j].getRackName()<<", hostName = "<<nodeSet[j].getHostName()<<", ipAddr = "<<nodeSet[j].getIpAddr()<<endl;
-    }
-}
 
-vector<MachineNode> getClusterNodes()
-{
-    return nodeSet;
-}
+    // One NameNode&JobTracker in HadoopSim
+    unordered_set<HostName> manager;
+    manager.insert("manager");
 
-string findIPAddr4Host(string hostName)
-{
-    string ipAddr;
-    size_t i;
-    for(i = 0; i < nodeSet.size(); i++) {
-        if (nodeSet[i].getHostName() == hostName) {
-            ipAddr = nodeSet[i].getIpAddr();
-            break;
+    // construct MachineNode vector
+    unordered_map<HostName,ns3::Ptr<Node>> netSimNode = topology.nodes();
+    unordered_map<HostName,ns3::Ptr<Node>>::iterator it = netSimNode.begin();
+    while(it != netSimNode.end()) {
+        if (it->second->type() == kNTHost) {
+            if (it->second->name().compare("manager") == 0) {
+                masterNode.configMachineNode(it->second->name());
+            } else {
+                MachineNode node;
+                node.configMachineNode(it->second->name());
+                slaveNodeSet.push_back(node);
+            }
         }
+        ++it;
     }
-    assert(i < nodeSet.size());
-    return ipAddr;
+
+    // setup NetSim network topology
+    netSim.BuildTopology(topology);
+    netSim.InstallApps(manager);
+    netSim.set_ready_cb(ns3::MakeCallback(&completeCluster));
 }
 
-string findHostName4IP(string hostIPAddr)
+const MachineNode& getClusterMasterNodes(void)
 {
-    string hostName;
-    size_t i;
-    for(i = 0; i < nodeSet.size(); i++) {
-        if (nodeSet[i].getIpAddr() == hostIPAddr) {
-            hostName = nodeSet[i].getHostName();
-            break;
-        }
-    }
-    assert(i < nodeSet.size());
-    return hostName;
+    return masterNode;
+}
+
+const vector<MachineNode>& getClusterSlaveNodes(void)
+{
+    return slaveNodeSet;
+}
+
+HadoopNetSim::NetSim& getNetSim(void)
+{
+    return netSim;
 }

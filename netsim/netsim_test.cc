@@ -39,7 +39,7 @@ class NetSimTestRunner {
       assert(calcs[kMTNameResponse]->getCount() == 18);
       assert(calcs[kMTDataRequest]->getCount() == 6);
       assert(calcs[kMTDataResponse]->getCount() == 6);
-      
+
       if (show_timing) {
         printf("NameRequest %f,%f,%f\n", calcs[kMTNameRequest]->getMin(), calcs[kMTNameRequest]->getMean(), calcs[kMTNameRequest]->getMax());
         printf("NameResponse %f,%f,%f\n", calcs[kMTNameResponse]->getMin(), calcs[kMTNameResponse]->getMean(), calcs[kMTNameResponse]->getMax());
@@ -47,20 +47,20 @@ class NetSimTestRunner {
         printf("DataResponse %f,%f,%f\n", calcs[kMTDataResponse]->getMin(), calcs[kMTDataResponse]->getMean(), calcs[kMTDataResponse]->getMax());
       }
     }
-    
+
   private:
     void* userobj_;
     NetSim* netsim_;
     std::unordered_map<MsgId,MsgType> sent_;
     std::unordered_map<MsgId,ns3::Ptr<MsgInfo>> received_;
     int remaining_namerequestall_;
-    
+
     void Ready(NetSim*) {
       this->remaining_namerequestall_ = 2;
       ns3::Simulator::Schedule(ns3::Seconds(0.0), &NetSimTestRunner::NameRequestAll, this);
       ns3::Simulator::Schedule(ns3::Seconds(2.0), &NetSimTestRunner::DataRequestAll, this);
     }
-    
+
     void NameRequestAll() {
       MsgId id;
       id = this->netsim_->NameRequest("slave0", "manager0", 1<<10, ns3::MakeCallback(&NetSimTestRunner::NameResponse, this), this->userobj_);
@@ -81,7 +81,7 @@ class NetSimTestRunner {
       id = this->netsim_->NameRequest("slave2", "manager1", 1<<10, ns3::MakeCallback(&NetSimTestRunner::NameResponse, this), this->userobj_);
       assert(id != MsgId_invalid);
       this->sent_[id] = kMTNameRequest;
-      
+
       if (--this->remaining_namerequestall_ >= 0) {
         //schedule another batch 3 seconds later
         ns3::Simulator::Schedule(ns3::Seconds(3.0), &NetSimTestRunner::NameRequestAll, this);
@@ -138,13 +138,13 @@ class NetSimTestRunner {
       assert(this->received_.count(response_msg->id()) == 0);
       this->received_[response_msg->id()] = response_msg;
     }
-    
+
     DISALLOW_COPY_AND_ASSIGN(NetSimTestRunner);
 };
 
 TEST(NetSimTest, NetSim) {
   Topology topology;
-  char topo_json[] = "{\"version\":1,\"nodes\":{\"sw1\":{\"type\":\"switch\",\"devices\":[\"eth0\",\"eth1\",\"eth2\"]},\"sw2\":{\"type\":\"switch\",\"devices\":[\"eth0\",\"eth1\",\"eth2\",\"eth3\"]},\"manager0\":{\"type\":\"host\",\"ip\":\"10.0.0.1\",\"devices\":[\"eth0\"]},\"manager1\":{\"type\":\"host\",\"ip\":\"10.0.0.2\",\"devices\":[\"eth0\"]},\"slave0\":{\"type\":\"host\",\"ip\":\"10.0.1.1\",\"devices\":[\"eth0\"]},\"slave1\":{\"type\":\"host\",\"ip\":\"10.0.1.2\",\"devices\":[\"eth0\"]},\"slave2\":{\"type\":\"host\",\"ip\":\"10.0.1.3\",\"devices\":[\"eth0\"]}},\"links\":{\"1\":{\"node1\":\"sw1\",\"port1\":\"eth1\",\"node2\":\"manager0\",\"port2\":\"eth0\",\"type\":\"eth1G\"},\"2\":{\"node1\":\"sw2\",\"port1\":\"eth1\",\"node2\":\"manager1\",\"port2\":\"eth0\",\"type\":\"eth1G\"},\"3\":{\"node1\":\"sw2\",\"port1\":\"eth0\",\"node2\":\"slave0\",\"port2\":\"eth0\",\"type\":\"eth1G\"},\"4\":{\"node1\":\"sw1\",\"port1\":\"eth1\",\"node2\":\"slave1\",\"port2\":\"eth0\",\"type\":\"eth1G\"},\"5\":{\"node1\":\"sw2\",\"port1\":\"eth2\",\"node2\":\"slave2\",\"port2\":\"eth0\",\"type\":\"eth1G\"},\"6\":{\"node1\":\"sw1\",\"port1\":\"eth2\",\"node2\":\"sw2\",\"port2\":\"eth3\",\"type\":\"eth10G\"}}}";
+  char topo_json[] = "{\"version\":1,\"type\":\"rackrow\",\"nodes\":{\"sw1\":{\"type\":\"switch\",\"devices\":[\"eth0\",\"eth1\",\"eth2\"]},\"sw2\":{\"type\":\"switch\",\"devices\":[\"eth0\",\"eth1\",\"eth2\",\"eth3\"]},\"manager0\":{\"type\":\"host\",\"ip\":\"10.0.0.1\",\"devices\":[\"eth0\"]},\"manager1\":{\"type\":\"host\",\"ip\":\"10.0.0.2\",\"devices\":[\"eth0\"]},\"slave0\":{\"type\":\"host\",\"ip\":\"10.0.1.1\",\"devices\":[\"eth0\"]},\"slave1\":{\"type\":\"host\",\"ip\":\"10.0.1.2\",\"devices\":[\"eth0\"]},\"slave2\":{\"type\":\"host\",\"ip\":\"10.0.1.3\",\"devices\":[\"eth0\"]}},\"links\":{\"1\":{\"node1\":\"sw1\",\"port1\":\"eth1\",\"node2\":\"manager0\",\"port2\":\"eth0\",\"type\":\"eth1G\"},\"2\":{\"node1\":\"sw2\",\"port1\":\"eth1\",\"node2\":\"manager1\",\"port2\":\"eth0\",\"type\":\"eth1G\"},\"3\":{\"node1\":\"sw2\",\"port1\":\"eth0\",\"node2\":\"slave0\",\"port2\":\"eth0\",\"type\":\"eth1G\"},\"4\":{\"node1\":\"sw1\",\"port1\":\"eth1\",\"node2\":\"slave1\",\"port2\":\"eth0\",\"type\":\"eth1G\"},\"5\":{\"node1\":\"sw2\",\"port1\":\"eth2\",\"node2\":\"slave2\",\"port2\":\"eth0\",\"type\":\"eth1G\"},\"6\":{\"node1\":\"sw1\",\"port1\":\"eth2\",\"node2\":\"sw2\",\"port2\":\"eth3\",\"type\":\"eth10G\"}}}";
   topology.LoadString(topo_json);
   std::unordered_set<HostName> managers; managers.insert("manager0"); managers.insert("manager1");
 
@@ -153,7 +153,7 @@ TEST(NetSimTest, NetSim) {
     netsim.BuildTopology(topology);
     //if (netsim.GetHostIP("manager1") != ns3::Ipv4Address("10.0.0.2")) ::exit(1);
     netsim.InstallApps(managers);
-    
+
     NetSimTestRunner runner(&netsim);
     ns3::Simulator::Run();
     ns3::Simulator::Destroy();
