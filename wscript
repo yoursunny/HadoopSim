@@ -9,6 +9,7 @@ def build(bld):
     'netsim/nameserver.cc',
     'netsim/dataclient.cc',
     'netsim/dataserver.cc',
+    'netsim/linkstat.cc',
     'netsim/netsim.cc'
   }
   netsim_dependency = {

@@ -3,6 +3,7 @@
 #include "netsim/nameclient.h"
 #include "netsim/dataserver.h"
 #include "netsim/dataclient.h"
+#include "netsim/linkstat.h"
 namespace HadoopNetSim {
 
 NetSim::NetSim(void) {
@@ -36,6 +37,7 @@ void NetSim::BuildLinks(const std::unordered_map<LinkId,ns3::Ptr<Link>>& topo_li
     ns3::Ptr<ns3::Node> node1 = this->nodes_[link->node1()];
     ns3::Ptr<ns3::Node> node2 = this->nodes_[link->node2()];
     ns3::NodeContainer nodes(node1, node2);
+
     ns3::PointToPointHelper ptp;
     //ns3::CsmaHelper csma;
     switch (link->type()) {
@@ -54,8 +56,16 @@ void NetSim::BuildLinks(const std::unordered_map<LinkId,ns3::Ptr<Link>>& topo_li
     //csma.SetChannelAttribute("Delay", ns3::TimeValue(ns3::NanoSeconds(6560)));
     ns3::NetDeviceContainer devices = ptp.Install(nodes);
     //ns3::NetDeviceContainer devices = csma.Install(nodes);
+
     this->links_[link->id()] = devices.Get(0);
     this->links_[link->rid()] = devices.Get(1);
+    for (ns3::NetDeviceContainer::Iterator it = devices.Begin(); it != devices.End(); ++it) {
+      ns3::Ptr<BandwidthUtilizationCollector> buc = ns3::CreateObject<BandwidthUtilizationCollector>();
+      buc->set_device(*it);
+      (*it)->AggregateObject(buc);
+      buc->Schedule();
+    }
+
     this->ipv4addr_.Assign(devices); this->ipv4addr_.NewNetwork();
   }
 }
@@ -222,8 +232,8 @@ ns3::Ptr<MsgInfo> NetSim::MakeMsg(MsgType type, HostName src, HostName dst, size
 }
 
 ns3::Ptr<LinkStat> NetSim::GetLinkStat(LinkId link) {
-  assert(false);//unimplemented
-  return NULL;
+  ns3::Ptr<ns3::NetDevice> device = this->links_.at(link);
+  return ns3::Create<LinkStat>(link, device);
 }
 
 

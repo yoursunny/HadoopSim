@@ -9,13 +9,17 @@ manager0 \              / slave0
            sw1 ---- sw2 - manager1
   slave1 /              \ slave2
 
-EVENTS
-0,3,6 seconds after ready
+EVENTS after ready
+0,3,6 seconds
   slaves send NameRequest (1KB) to managers
   reply NameResponse (2KB)
-2 seconds after ready
-  slaves send DataRequest (256B) to all other slaves
+2 seconds
+  slaves send 3x DataRequest (256B) to all other slaves
   reply DataResponse (64MB)
+3.1 seconds
+  show link stat
+8 seconds
+  stop
 */
 
 class NetSimTestRunner {
@@ -25,7 +29,7 @@ class NetSimTestRunner {
       this->netsim_->set_ready_cb(ns3::MakeCallback(&NetSimTestRunner::Ready, this));
       this->userobj_ = this;
     }
-    void Verify(bool show_timing) {
+    void Verify() {
       std::unordered_map<MsgType,ns3::Ptr<ns3::MinMaxAvgTotalCalculator<double>>,std::hash<int>> calcs;
       calcs[kMTNameRequest] = ns3::Create<ns3::MinMaxAvgTotalCalculator<double>>();
       calcs[kMTNameResponse] = ns3::Create<ns3::MinMaxAvgTotalCalculator<double>>();
@@ -37,15 +41,13 @@ class NetSimTestRunner {
       }
       assert(calcs[kMTNameRequest]->getCount() == 18);
       assert(calcs[kMTNameResponse]->getCount() == 18);
-      assert(calcs[kMTDataRequest]->getCount() == 6);
-      assert(calcs[kMTDataResponse]->getCount() == 6);
+      assert(calcs[kMTDataRequest]->getCount() == 18);
+      assert(calcs[kMTDataResponse]->getCount() == 18);
       
-      if (show_timing) {
-        printf("NameRequest %f,%f,%f\n", calcs[kMTNameRequest]->getMin(), calcs[kMTNameRequest]->getMean(), calcs[kMTNameRequest]->getMax());
-        printf("NameResponse %f,%f,%f\n", calcs[kMTNameResponse]->getMin(), calcs[kMTNameResponse]->getMean(), calcs[kMTNameResponse]->getMax());
-        printf("DataRequest %f,%f,%f\n", calcs[kMTDataRequest]->getMin(), calcs[kMTDataRequest]->getMean(), calcs[kMTDataRequest]->getMax());
-        printf("DataResponse %f,%f,%f\n", calcs[kMTDataResponse]->getMin(), calcs[kMTDataResponse]->getMean(), calcs[kMTDataResponse]->getMax());
-      }
+      printf("NameRequest %f,%f,%f\n", calcs[kMTNameRequest]->getMin(), calcs[kMTNameRequest]->getMean(), calcs[kMTNameRequest]->getMax());
+      printf("NameResponse %f,%f,%f\n", calcs[kMTNameResponse]->getMin(), calcs[kMTNameResponse]->getMean(), calcs[kMTNameResponse]->getMax());
+      printf("DataRequest %f,%f,%f\n", calcs[kMTDataRequest]->getMin(), calcs[kMTDataRequest]->getMean(), calcs[kMTDataRequest]->getMax());
+      printf("DataResponse %f,%f,%f\n", calcs[kMTDataResponse]->getMin(), calcs[kMTDataResponse]->getMean(), calcs[kMTDataResponse]->getMax());
     }
     
   private:
@@ -58,7 +60,11 @@ class NetSimTestRunner {
     void Ready(NetSim*) {
       this->remaining_namerequestall_ = 2;
       ns3::Simulator::Schedule(ns3::Seconds(0.0), &NetSimTestRunner::NameRequestAll, this);
-      ns3::Simulator::Schedule(ns3::Seconds(2.0), &NetSimTestRunner::DataRequestAll, this);
+      for (int i = 0; i < 3; ++i) {
+        ns3::Simulator::Schedule(ns3::Seconds(2.0), &NetSimTestRunner::DataRequestAll, this);
+      }
+      ns3::Simulator::Schedule(ns3::Seconds(3.1), &NetSimTestRunner::ShowLinkStat, this);
+      ns3::Simulator::Schedule(ns3::Seconds(8.0), &ns3::Simulator::Stop);
     }
     
     void NameRequestAll() {
@@ -138,6 +144,15 @@ class NetSimTestRunner {
       assert(this->received_.count(response_msg->id()) == 0);
       this->received_[response_msg->id()] = response_msg;
     }
+    void ShowLinkStat() {
+      for (LinkId id = 1; id <= 6; ++id) {
+        ns3::Ptr<LinkStat> stat = this->netsim_->GetLinkStat(id);
+        printf("LinkStat(%d) bandwidth=%02.2f%% queue=%02.2f%%\n", stat->id(), stat->bandwidth_utilization()*100, stat->queue_utilization()*100);
+        LinkId rid = -id;
+        stat = this->netsim_->GetLinkStat(rid);
+        printf("LinkStat(%d) bandwidth=%02.2f%% queue=%02.2f%%\n", stat->id(), stat->bandwidth_utilization()*100, stat->queue_utilization()*100);
+      }
+    }
     
     DISALLOW_COPY_AND_ASSIGN(NetSimTestRunner);
 };
@@ -157,7 +172,7 @@ TEST(NetSimTest, NetSim) {
     NetSimTestRunner runner(&netsim);
     ns3::Simulator::Run();
     ns3::Simulator::Destroy();
-    runner.Verify(true);
+    runner.Verify();
     ::exit(0);
   }, ::testing::ExitedWithCode(0), "");
 }
