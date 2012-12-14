@@ -9,6 +9,7 @@ HadoopSim is a simulator for a Hadoop Runtime by replaying the collected traces.
 #include <map>
 #include <queue>
 #include <string>
+#include "Cluster.h"
 #include "HeartBeat.h"
 #include "HEvent.h"
 #include "Task.h"
@@ -17,21 +18,24 @@ class TaskTracker: public EventListener{
 public:
     TaskTracker():usedMapSlots(0), usedReduceSlots(0), lastReportTime(0), pendingTaskActionID(0), pendingMapDataActionID(0) { }
     void setHostName(std::string hostName);
-    std::string getHostName();
-    long getUsedMapSlots();
+    const std::string getHostName() const;
+    const long getUsedMapSlots() const;
     void setUsedMapSlots(long slot);
-    long getUsedReduceSlots();
+    const long getUsedReduceSlots() const;
     void setUsedReduceSlots(long slot);
     std::list<TaskStatus> collectTaskStatus(long now);
+
+    // call back functions used by netsim
+    void hbReport(ns3::Ptr<HadoopNetSim::MsgInfo> request_msg);
+    void hbResponse(ns3::Ptr<HadoopNetSim::MsgInfo> request_msg);
+    void dataRequest(ns3::Ptr<HadoopNetSim::MsgInfo> request_msg);
+    void dataResponse(ns3::Ptr<HadoopNetSim::MsgInfo> request_msg);
     void sendHeartbeat(long evtTime);
     void handleHeartbeatResponse(HeartBeatResponse *response, long evtTime);
     void completeMapTask(long evtTime);
     void handleNewEvent(long timestamp, EvtType type);
     long getLastReportTime();
     void setLastReportTime(long reportTime);
-    HeartBeatReport getReport();
-    void addResponse(HeartBeatResponse response);
-    HeartBeatResponse getResponse();
     TaskAction getPendingTaskAction(unsigned long taskActionID);
     std::map<std::string, Task> getRunningTasks();
     void addRunningTask(std::string taskID, Task task);
@@ -45,17 +49,14 @@ private:
     std::map<std::string, Task> completedTasks;
     long lastReportTime;
     std::string hostName;
-    std::queue<HeartBeatReport> reportQueue;
-    std::queue<HeartBeatResponse> responseQueue;
+    std::map<HadoopNetSim::MsgId, HeartBeatReport> reportMap;
+    std::map<HadoopNetSim::MsgId, HeartBeatResponse> responseMap;
     std::map<unsigned long, TaskAction> pendingTaskAction;
     unsigned long pendingTaskActionID;      // self-increasing only
     std::map<unsigned long, MapDataAction> pendingMapDataAction;
     unsigned long pendingMapDataActionID;   // self-increasing only
 };
 
-size_t reportArrive(std::string hostIPAddr);
-void responseArrive(std::string hostIPAddr);
-void dataArrive(unsigned long dataType, unsigned long dataRequestID, std::string hostIPAddr);
 long initTaskTrackers(void);
 void killTaskTrackers();
 

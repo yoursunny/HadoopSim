@@ -32,13 +32,13 @@ void getTimeStatistics(map<string, long> &timeSet, long &minTime, long &maxTime,
     }
 }
 
-void analyzeJobTaskExeTime(map<string, Job> &completedJobs, string debugDir)
+void analyzeJobTaskExeTime(const map<string, Job> &completedJobs, string debugDir)
 {
     map<string, long> jobTime;
     map<string, long> mapTaskTime;
     map<string, long> reduceTaskTime;
     map<string, long>::iterator timeIt;
-    map<string, Job>::iterator jobIt;
+    map<string, Job>::const_iterator jobIt;
     map<string, Task>::iterator taskIt;
     long minTime, maxTime, medianTime;
     ofstream csvFile;

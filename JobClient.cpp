@@ -96,7 +96,7 @@ void initJobClient(JobSubmissionPolicy policy, long firstJobSubmitTime, bool nee
     }
 
     // add first Job Submission event to the EventQueue
-    HEvent evt(client, EVT_JobSubmit, firstJobSubmitTime);
+    HEvent evt(client, EVT_JobSubmit, ns3::Simulator::Now().GetMilliSeconds() + firstJobSubmitTime);
     Simulator::Schedule(Seconds((double)firstJobSubmitTime/1000.0), &hadoopEventCallback, evt);
 }
 

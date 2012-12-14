@@ -17,17 +17,16 @@ HadoopSim is a simulator for a Hadoop Runtime by replaying the collected traces.
 class JobTracker {
 public:
     JobTracker(std::string hostName, HScheduler *sched);
-    HScheduler* getScheduler();
     void updateBlockNodeMapping(std::string splitID, std::vector<std::string> dataNodes);
     void acceptNewJob(JobStory *jobStory, long now);
     void updateTaskTrackerStatus(HeartBeatReport report, long now);
     void updateTaskStatus(HeartBeatReport report, long now);
     HeartBeatResponse processHeartbeat(HeartBeatReport report, long now);
     std::map<std::string, Job> &getRunningJobs();
-    std::map<std::string, Job> &getCompletedJobs();
-    std::map<std::string, std::vector<std::string> > getNode2Block();
-    std::map<std::string, std::vector<std::string> > getBlock2Node();
-    const std::string getJobTrackerName(void) const;
+    const std::map<std::string, Job> &getCompletedJobs() const;
+    const std::map<std::string, std::vector<std::string>> &getNode2Block() const;
+    const std::map<std::string, std::vector<std::string>> &getBlock2Node() const;
+    const std::string getHostName(void) const;
 private:
     std::string hostName;
     HScheduler *sched;
@@ -41,7 +40,8 @@ private:
 };
 
 void initJobTracker(std::string hostName, int schedType);
-void killJobTracker();
-JobTracker *getJobTracker();
+void killJobTracker(void);
+JobTracker *getJobTracker(void);
+const std::string getJobTrackerName(void);
 
 #endif // JOBTRACKER_H

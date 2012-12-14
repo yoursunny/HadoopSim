@@ -78,7 +78,7 @@ const vector<MachineNode>& getClusterSlaveNodes(void)
     return slaveNodeSet;
 }
 
-HadoopNetSim::NetSim& getNetSim(void)
+NetSim *getNetSim(void)
 {
-    return netSim;
+    return &netSim;
 }

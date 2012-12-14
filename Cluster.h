@@ -29,6 +29,6 @@ private:
 void setupCluster(int topoType, std::string topologyFile);
 const MachineNode& getClusterMasterNodes(void);
 const std::vector<MachineNode>& getClusterSlaveNodes(void);
-HadoopNetSim::NetSim& getNetSim(void);
+HadoopNetSim::NetSim *getNetSim(void);
 
 #endif // CLUSTER_H

@@ -23,16 +23,11 @@ JobTracker::JobTracker(string hostName, HScheduler *sched)
     this->sched = sched;
 }
 
-HScheduler* JobTracker::getScheduler()
-{
-    return this->sched;
-}
-
 void JobTracker::updateBlockNodeMapping(string splitID, vector<string> dataNodes)
 {
-    map<string, vector<string> >::iterator it;
+    map<string, vector<string>>::iterator it;
     assert(block2Node.find(splitID) == block2Node.end());
-    block2Node.insert(pair<string, vector<string> >(splitID, dataNodes));
+    block2Node.insert(pair<string, vector<string>>(splitID, dataNodes));
 
     for(size_t i = 0; i < dataNodes.size(); i++) {
         it = node2Block.find(dataNodes[i]);
@@ -41,7 +36,7 @@ void JobTracker::updateBlockNodeMapping(string splitID, vector<string> dataNodes
         } else {
             vector<string> blocks;
             blocks.push_back(splitID);
-            node2Block.insert(pair<string, vector<string> >(dataNodes[i], blocks));
+            node2Block.insert(pair<string, vector<string>>(dataNodes[i], blocks));
         }
     }
 }
@@ -109,7 +104,7 @@ void JobTracker::updateTaskStatus(HeartBeatReport report, long now)
             map<string, Task>::iterator taskIt = runningReduces.begin();
             while(taskIt != runningReduces.end()) {
                 string nodeName = taskIt->second.getTaskStatus().taskTracker;
-                map<string, vector<MapDataAction> >::iterator dataActionIt;
+                map<string, vector<MapDataAction>>::iterator dataActionIt;
                 dataActionIt = allMapDataActions.find(nodeName);
                 if (dataActionIt != allMapDataActions.end()) {
                     vector<MapDataAction> mapDataActions = dataActionIt->second;
@@ -120,7 +115,7 @@ void JobTracker::updateTaskStatus(HeartBeatReport report, long now)
                     vector<MapDataAction> mapDataActions;
                     dataAction.reduceTaskID = taskIt->first;
                     mapDataActions.push_back(dataAction);
-                    allMapDataActions.insert(pair<string, vector<MapDataAction> >(nodeName, mapDataActions));
+                    allMapDataActions.insert(pair<string, vector<MapDataAction>>(nodeName, mapDataActions));
                 }
                 taskIt++;
             }
@@ -141,8 +136,8 @@ void JobTracker::updateTaskStatus(HeartBeatReport report, long now)
 
             // ask for a new job
             JobClient *client = getJobClient();
-            HEvent evt(client, EVT_JobDone, now);
-            ns3::Simulator::Schedule(ns3::Seconds((double)now/1000.0), &hadoopEventCallback, evt);
+            HEvent evt(client, EVT_JobDone, now + 1);
+            ns3::Simulator::Schedule(ns3::Seconds((double)1/1000.0), &hadoopEventCallback, evt);
         }
     }
 }
@@ -189,7 +184,7 @@ HeartBeatResponse JobTracker::processHeartbeat(HeartBeatReport report, long now)
     response.taskActions = taskActions;
 
     // combine MapDataAction from two different cases
-    map<string, vector<MapDataAction> >::iterator dataActionIt = allMapDataActions.find(report.hostName);
+    map<string, vector<MapDataAction>>::iterator dataActionIt = allMapDataActions.find(report.hostName);
     if (dataActionIt != allMapDataActions.end()) {
         vector<MapDataAction> actions = dataActionIt->second;
         response.mapDataActions = actions;
@@ -211,22 +206,22 @@ map<string, Job> &JobTracker::getRunningJobs()
     return this->runningJobs;
 }
 
-map<string, Job> &JobTracker::getCompletedJobs()
+const map<string, Job> &JobTracker::getCompletedJobs() const
 {
     return this->completedJobs;
 }
 
-map<string, vector<string> > JobTracker::getNode2Block()
+const map<std::string, vector<string>> &JobTracker::getNode2Block() const
 {
     return this->node2Block;
 }
 
-map<string, vector<string> > JobTracker::getBlock2Node()
+const map<string, vector<string>> &JobTracker::getBlock2Node() const
 {
     return this->block2Node;
 }
 
-const std::string JobTracker::getJobTrackerName(void) const
+const std::string JobTracker::getHostName(void) const
 {
     return this->hostName;
 }
@@ -234,19 +229,30 @@ const std::string JobTracker::getJobTrackerName(void) const
 void initJobTracker(string hostName, int schedType)
 {
     assert(schedType == 0 || schedType == 1);
-    if (schedType == 0) {
-        jobTracker = new JobTracker(hostName, &fifoSched);
-    } else {
-        jobTracker = new JobTracker(hostName, &dataLocalitySched);
+    switch(schedType) {
+        case 0:
+            jobTracker = new JobTracker(hostName, &fifoSched);
+            break;
+        case 1:
+            jobTracker = new JobTracker(hostName, &dataLocalitySched);
+            break;
+        default:
+            jobTracker = new JobTracker(hostName, &fifoSched);
+            break;
     }
 }
 
-void killJobTracker()
+void killJobTracker(void)
 {
     delete jobTracker;
 }
 
-JobTracker *getJobTracker()
+JobTracker *getJobTracker(void)
 {
     return jobTracker;
+}
+
+const std::string getJobTrackerName(void)
+{
+    return getJobTracker()->getHostName();
 }

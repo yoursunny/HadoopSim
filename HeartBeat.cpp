@@ -37,7 +37,7 @@ void dumpHeartBeatReport(HeartBeatReport &report)
         i++;
     }
     cout<<"numAvailMapSlots = "<<report.numAvailMapSlots<<endl;
-    cout<<"numAvailReduceSlots = "<<report.numAvailReduceSlots<<endl;
+    cout<<"numAvailReduceSlots = "<<report.numAvailReduceSlots<<endl<<endl;
 }
 
 void dumpHeartBeatResponse(HeartBeatResponse &response)
@@ -52,8 +52,10 @@ void dumpHeartBeatResponse(HeartBeatResponse &response)
         i++;
     }
 
-    if (response.mapDataActions.empty())
+    if (response.mapDataActions.empty()) {
+        cout<<endl;
         return;
+    }
     cout<<"MapDataActions = "<<endl;
     for(size_t j = 0; j < response.mapDataActions.size(); j++) {
         cout<<"\t"<<j<<":\n";
@@ -61,4 +63,5 @@ void dumpHeartBeatResponse(HeartBeatResponse &response)
         cout<<"\tdataSource = "<<response.mapDataActions[j].dataSource<<endl;
         cout<<"\tdataSize = "<<response.mapDataActions[j].dataSize<<endl;
     }
+    cout<<endl;
 }
