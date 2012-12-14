@@ -1,5 +1,6 @@
 {
     "version": 1,
+    "type": "rackrow",
     "nodes": {
         "coreA": {
             "type": "switch",
@@ -193,355 +194,363 @@
                 "eth0",
                 "eth1",
                 "eth2",
-                "eth3"
+                "eth3",
+                "eth4"
             ]
         },
-        "server-1495\\.novalocal": {
+        "manager": {
             "type": "host",
             "ip": "10.0.0.1",
             "devices": [
                 "eth0"
             ]
         },
-        "server-1445\\.novalocal": {
+        "server-1495.novalocal": {
             "type": "host",
             "ip": "10.0.0.2",
             "devices": [
                 "eth0"
             ]
         },
-        "server-1494\\.novalocal": {
+        "server-1445.novalocal": {
             "type": "host",
             "ip": "10.0.0.3",
             "devices": [
                 "eth0"
             ]
         },
-        "server-1488\\.novalocal": {
+        "server-1494.novalocal": {
             "type": "host",
             "ip": "10.0.0.4",
             "devices": [
                 "eth0"
             ]
         },
-        "server-1469\\.novalocal": {
+        "server-1488.novalocal": {
             "type": "host",
             "ip": "10.0.0.5",
             "devices": [
                 "eth0"
             ]
         },
-        "server-1493\\.novalocal": {
+        "server-1469.novalocal": {
             "type": "host",
             "ip": "10.0.0.6",
             "devices": [
                 "eth0"
             ]
         },
-        "server-1451\\.novalocal": {
+        "server-1493.novalocal": {
             "type": "host",
             "ip": "10.0.0.7",
             "devices": [
                 "eth0"
             ]
         },
-        "server-1456\\.novalocal": {
+        "server-1451.novalocal": {
             "type": "host",
             "ip": "10.0.0.8",
             "devices": [
                 "eth0"
             ]
         },
-        "server-1446\\.novalocal": {
+        "server-1456.novalocal": {
             "type": "host",
             "ip": "10.0.0.9",
             "devices": [
                 "eth0"
             ]
         },
-        "server-1453\\.novalocal": {
+        "server-1446.novalocal": {
             "type": "host",
             "ip": "10.0.0.10",
             "devices": [
                 "eth0"
             ]
         },
-        "server-1490\\.novalocal": {
+        "server-1453.novalocal": {
             "type": "host",
             "ip": "10.0.0.11",
             "devices": [
                 "eth0"
             ]
         },
-        "server-1483\\.novalocal": {
+        "server-1490.novalocal": {
             "type": "host",
             "ip": "10.0.0.12",
             "devices": [
                 "eth0"
             ]
         },
-        "server-1463\\.novalocal": {
+        "server-1483.novalocal": {
             "type": "host",
             "ip": "10.0.0.13",
             "devices": [
                 "eth0"
             ]
         },
-        "server-1497\\.novalocal": {
+        "server-1463.novalocal": {
             "type": "host",
             "ip": "10.0.0.14",
             "devices": [
                 "eth0"
             ]
         },
-        "server-1498\\.novalocal": {
+        "server-1497.novalocal": {
             "type": "host",
             "ip": "10.0.0.15",
             "devices": [
                 "eth0"
             ]
         },
-        "server-1444\\.novalocal": {
+        "server-1498.novalocal": {
             "type": "host",
             "ip": "10.0.0.16",
             "devices": [
                 "eth0"
             ]
         },
-        "server-1473\\.novalocal": {
+        "server-1444.novalocal": {
             "type": "host",
             "ip": "10.0.0.17",
             "devices": [
                 "eth0"
             ]
         },
-        "server-1468\\.novalocal": {
+        "server-1473.novalocal": {
             "type": "host",
             "ip": "10.0.0.18",
             "devices": [
                 "eth0"
             ]
         },
-        "server-1485\\.novalocal": {
+        "server-1468.novalocal": {
             "type": "host",
             "ip": "10.0.0.19",
             "devices": [
                 "eth0"
             ]
         },
-        "server-1480\\.novalocal": {
+        "server-1485.novalocal": {
             "type": "host",
             "ip": "10.0.0.20",
             "devices": [
                 "eth0"
             ]
         },
-        "server-1481\\.novalocal": {
+        "server-1480.novalocal": {
             "type": "host",
             "ip": "10.0.0.21",
             "devices": [
                 "eth0"
             ]
         },
-        "server-1496\\.novalocal": {
+        "server-1481.novalocal": {
             "type": "host",
             "ip": "10.0.0.22",
             "devices": [
                 "eth0"
             ]
         },
-        "server-1476\\.novalocal": {
+        "server-1496.novalocal": {
             "type": "host",
             "ip": "10.0.0.23",
             "devices": [
                 "eth0"
             ]
         },
-        "server-1486\\.novalocal": {
+        "server-1476.novalocal": {
             "type": "host",
             "ip": "10.0.0.24",
             "devices": [
                 "eth0"
             ]
         },
-        "server-1448\\.novalocal": {
+        "server-1486.novalocal": {
             "type": "host",
             "ip": "10.0.0.25",
             "devices": [
                 "eth0"
             ]
         },
-        "server-1455\\.novalocal": {
+        "server-1448.novalocal": {
             "type": "host",
             "ip": "10.0.0.26",
             "devices": [
                 "eth0"
             ]
         },
-        "server-1471\\.novalocal": {
+        "server-1455.novalocal": {
             "type": "host",
             "ip": "10.0.0.27",
             "devices": [
                 "eth0"
             ]
         },
-        "server-1492\\.novalocal": {
+        "server-1471.novalocal": {
             "type": "host",
             "ip": "10.0.0.28",
             "devices": [
                 "eth0"
             ]
         },
-        "server-1449\\.novalocal": {
+        "server-1492.novalocal": {
             "type": "host",
             "ip": "10.0.0.29",
             "devices": [
                 "eth0"
             ]
         },
-        "server-1474\\.novalocal": {
+        "server-1449.novalocal": {
             "type": "host",
             "ip": "10.0.0.30",
             "devices": [
                 "eth0"
             ]
         },
-        "server-1447\\.novalocal": {
+        "server-1474.novalocal": {
             "type": "host",
             "ip": "10.0.0.31",
             "devices": [
                 "eth0"
             ]
         },
-        "server-1457\\.novalocal": {
+        "server-1447.novalocal": {
             "type": "host",
             "ip": "10.0.0.32",
             "devices": [
                 "eth0"
             ]
         },
-        "server-1467\\.novalocal": {
+        "server-1457.novalocal": {
             "type": "host",
             "ip": "10.0.0.33",
             "devices": [
                 "eth0"
             ]
         },
-        "server-1470\\.novalocal": {
+        "server-1467.novalocal": {
             "type": "host",
             "ip": "10.0.0.34",
             "devices": [
                 "eth0"
             ]
         },
-        "server-1491\\.novalocal": {
+        "server-1470.novalocal": {
             "type": "host",
             "ip": "10.0.0.35",
             "devices": [
                 "eth0"
             ]
         },
-        "server-1450\\.novalocal": {
+        "server-1491.novalocal": {
             "type": "host",
             "ip": "10.0.0.36",
             "devices": [
                 "eth0"
             ]
         },
-        "server-1479\\.novalocal": {
+        "server-1450.novalocal": {
             "type": "host",
             "ip": "10.0.0.37",
             "devices": [
                 "eth0"
             ]
         },
-        "server-1477\\.novalocal": {
+        "server-1479.novalocal": {
             "type": "host",
             "ip": "10.0.0.38",
             "devices": [
                 "eth0"
             ]
         },
-        "server-1452\\.novalocal": {
+        "server-1477.novalocal": {
             "type": "host",
             "ip": "10.0.0.39",
             "devices": [
                 "eth0"
             ]
         },
-        "server-1489\\.novalocal": {
+        "server-1452.novalocal": {
             "type": "host",
             "ip": "10.0.0.40",
             "devices": [
                 "eth0"
             ]
         },
-        "server-1472\\.novalocal": {
+        "server-1489.novalocal": {
             "type": "host",
             "ip": "10.0.0.41",
             "devices": [
                 "eth0"
             ]
         },
-        "server-1484\\.novalocal": {
+        "server-1472.novalocal": {
             "type": "host",
             "ip": "10.0.0.42",
             "devices": [
                 "eth0"
             ]
         },
-        "server-1460\\.novalocal": {
+        "server-1484.novalocal": {
             "type": "host",
             "ip": "10.0.0.43",
             "devices": [
                 "eth0"
             ]
         },
-        "server-1464\\.novalocal": {
+        "server-1460.novalocal": {
             "type": "host",
             "ip": "10.0.0.44",
             "devices": [
                 "eth0"
             ]
         },
-        "server-1482\\.novalocal": {
+        "server-1464.novalocal": {
             "type": "host",
             "ip": "10.0.0.45",
             "devices": [
                 "eth0"
             ]
         },
-        "server-1465\\.novalocal": {
+        "server-1482.novalocal": {
             "type": "host",
             "ip": "10.0.0.46",
             "devices": [
                 "eth0"
             ]
         },
-        "server-1478\\.novalocal": {
+        "server-1465.novalocal": {
             "type": "host",
             "ip": "10.0.0.47",
             "devices": [
                 "eth0"
             ]
         },
-        "server-1475\\.novalocal": {
+        "server-1478.novalocal": {
             "type": "host",
             "ip": "10.0.0.48",
             "devices": [
                 "eth0"
             ]
         },
-        "server-1487\\.novalocal": {
+        "server-1475.novalocal": {
             "type": "host",
             "ip": "10.0.0.49",
             "devices": [
                 "eth0"
             ]
         },
-        "server-1461\\.novalocal": {
+        "server-1487.novalocal": {
             "type": "host",
             "ip": "10.0.0.50",
+            "devices": [
+                "eth0"
+            ]
+        },
+        "server-1461.novalocal": {
+            "type": "host",
+            "ip": "10.0.0.51",
             "devices": [
                 "eth0"
             ]
@@ -761,350 +770,357 @@
         "31": {
             "node1": "rack0",
             "port1": "eth2",
-            "node2": "server-1495\\.novalocal",
+            "node2": "manager",
             "port2": "eth0",
             "type": "eth1G"
         },
         "32": {
             "node1": "rack0",
             "port1": "eth3",
-            "node2": "server-1445\\.novalocal",
+            "node2": "server-1495.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
         "33": {
             "node1": "rack0",
             "port1": "eth4",
-            "node2": "server-1494\\.novalocal",
+            "node2": "server-1445.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
         "34": {
             "node1": "rack0",
             "port1": "eth5",
-            "node2": "server-1488\\.novalocal",
+            "node2": "server-1494.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
         "35": {
             "node1": "rack0",
             "port1": "eth6",
-            "node2": "server-1469\\.novalocal",
+            "node2": "server-1488.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
         "36": {
             "node1": "rack0",
             "port1": "eth7",
-            "node2": "server-1493\\.novalocal",
+            "node2": "server-1469.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
         "37": {
             "node1": "rack1",
             "port1": "eth2",
-            "node2": "server-1451\\.novalocal",
+            "node2": "server-1493.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
         "38": {
             "node1": "rack1",
             "port1": "eth3",
-            "node2": "server-1456\\.novalocal",
+            "node2": "server-1451.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
         "39": {
             "node1": "rack1",
             "port1": "eth4",
-            "node2": "server-1446\\.novalocal",
+            "node2": "server-1456.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
         "40": {
             "node1": "rack1",
             "port1": "eth5",
-            "node2": "server-1453\\.novalocal",
+            "node2": "server-1446.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
         "41": {
             "node1": "rack1",
             "port1": "eth6",
-            "node2": "server-1490\\.novalocal",
+            "node2": "server-1453.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
         "42": {
             "node1": "rack1",
             "port1": "eth7",
-            "node2": "server-1483\\.novalocal",
+            "node2": "server-1490.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
         "43": {
             "node1": "rack2",
             "port1": "eth2",
-            "node2": "server-1463\\.novalocal",
+            "node2": "server-1483.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
         "44": {
             "node1": "rack2",
             "port1": "eth3",
-            "node2": "server-1497\\.novalocal",
+            "node2": "server-1463.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
         "45": {
             "node1": "rack2",
             "port1": "eth4",
-            "node2": "server-1498\\.novalocal",
+            "node2": "server-1497.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
         "46": {
             "node1": "rack2",
             "port1": "eth5",
-            "node2": "server-1444\\.novalocal",
+            "node2": "server-1498.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
         "47": {
             "node1": "rack2",
             "port1": "eth6",
-            "node2": "server-1473\\.novalocal",
+            "node2": "server-1444.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
         "48": {
             "node1": "rack2",
             "port1": "eth7",
-            "node2": "server-1468\\.novalocal",
+            "node2": "server-1473.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
         "49": {
             "node1": "rack3",
             "port1": "eth2",
-            "node2": "server-1485\\.novalocal",
+            "node2": "server-1468.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
         "50": {
             "node1": "rack3",
             "port1": "eth3",
-            "node2": "server-1480\\.novalocal",
+            "node2": "server-1485.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
         "51": {
             "node1": "rack3",
             "port1": "eth4",
-            "node2": "server-1481\\.novalocal",
+            "node2": "server-1480.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
         "52": {
             "node1": "rack3",
             "port1": "eth5",
-            "node2": "server-1496\\.novalocal",
+            "node2": "server-1481.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
         "53": {
             "node1": "rack3",
             "port1": "eth6",
-            "node2": "server-1476\\.novalocal",
+            "node2": "server-1496.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
         "54": {
             "node1": "rack3",
             "port1": "eth7",
-            "node2": "server-1486\\.novalocal",
+            "node2": "server-1476.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
         "55": {
             "node1": "rack4",
             "port1": "eth2",
-            "node2": "server-1448\\.novalocal",
+            "node2": "server-1486.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
         "56": {
             "node1": "rack4",
             "port1": "eth3",
-            "node2": "server-1455\\.novalocal",
+            "node2": "server-1448.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
         "57": {
             "node1": "rack4",
             "port1": "eth4",
-            "node2": "server-1471\\.novalocal",
+            "node2": "server-1455.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
         "58": {
             "node1": "rack4",
             "port1": "eth5",
-            "node2": "server-1492\\.novalocal",
+            "node2": "server-1471.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
         "59": {
             "node1": "rack4",
             "port1": "eth6",
-            "node2": "server-1449\\.novalocal",
+            "node2": "server-1492.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
         "60": {
             "node1": "rack4",
             "port1": "eth7",
-            "node2": "server-1474\\.novalocal",
+            "node2": "server-1449.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
         "61": {
             "node1": "rack5",
             "port1": "eth2",
-            "node2": "server-1447\\.novalocal",
+            "node2": "server-1474.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
         "62": {
             "node1": "rack5",
             "port1": "eth3",
-            "node2": "server-1457\\.novalocal",
+            "node2": "server-1447.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
         "63": {
             "node1": "rack5",
             "port1": "eth4",
-            "node2": "server-1467\\.novalocal",
+            "node2": "server-1457.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
         "64": {
             "node1": "rack5",
             "port1": "eth5",
-            "node2": "server-1470\\.novalocal",
+            "node2": "server-1467.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
         "65": {
             "node1": "rack5",
             "port1": "eth6",
-            "node2": "server-1491\\.novalocal",
+            "node2": "server-1470.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
         "66": {
             "node1": "rack5",
             "port1": "eth7",
-            "node2": "server-1450\\.novalocal",
+            "node2": "server-1491.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
         "67": {
             "node1": "rack6",
             "port1": "eth2",
-            "node2": "server-1479\\.novalocal",
+            "node2": "server-1450.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
         "68": {
             "node1": "rack6",
             "port1": "eth3",
-            "node2": "server-1477\\.novalocal",
+            "node2": "server-1479.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
         "69": {
             "node1": "rack6",
             "port1": "eth4",
-            "node2": "server-1452\\.novalocal",
+            "node2": "server-1477.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
         "70": {
             "node1": "rack6",
             "port1": "eth5",
-            "node2": "server-1489\\.novalocal",
+            "node2": "server-1452.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
         "71": {
             "node1": "rack6",
             "port1": "eth6",
-            "node2": "server-1472\\.novalocal",
+            "node2": "server-1489.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
         "72": {
             "node1": "rack6",
             "port1": "eth7",
-            "node2": "server-1484\\.novalocal",
+            "node2": "server-1472.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
         "73": {
             "node1": "rack7",
             "port1": "eth2",
-            "node2": "server-1460\\.novalocal",
+            "node2": "server-1484.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
         "74": {
             "node1": "rack7",
             "port1": "eth3",
-            "node2": "server-1464\\.novalocal",
+            "node2": "server-1460.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
         "75": {
             "node1": "rack7",
             "port1": "eth4",
-            "node2": "server-1482\\.novalocal",
+            "node2": "server-1464.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
         "76": {
             "node1": "rack7",
             "port1": "eth5",
-            "node2": "server-1465\\.novalocal",
+            "node2": "server-1482.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
         "77": {
             "node1": "rack7",
             "port1": "eth6",
-            "node2": "server-1478\\.novalocal",
+            "node2": "server-1465.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
         "78": {
             "node1": "rack7",
             "port1": "eth7",
-            "node2": "server-1475\\.novalocal",
+            "node2": "server-1478.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
         "79": {
             "node1": "rack8",
             "port1": "eth2",
-            "node2": "server-1487\\.novalocal",
+            "node2": "server-1475.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         },
         "80": {
             "node1": "rack8",
             "port1": "eth3",
-            "node2": "server-1461\\.novalocal",
+            "node2": "server-1487.novalocal",
+            "port2": "eth0",
+            "type": "eth1G"
+        },
+        "81": {
+            "node1": "rack8",
+            "port1": "eth4",
+            "node2": "server-1461.novalocal",
             "port2": "eth0",
             "type": "eth1G"
         }

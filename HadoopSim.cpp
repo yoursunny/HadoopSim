@@ -2,49 +2,50 @@
 Lei Ye <leiy@cs.arizona.edu>
 HadoopSim is a simulator for a Hadoop Runtime by replaying the collected traces.
 */
-#include <stdlib.h>
 #include <assert.h>
+#include <stdlib.h>
 #include <time.h>
 #include <iostream>
 #include "Cluster.h"
+#include "HadoopSim.h"
 #include "JobClient.h"
 #include "JobTracker.h"
 #include "Misc.h"
 #include "Status.h"
 #include "TaskTracker.h"
-#include "TopologyReader.h"
 #include "TraceAnalyzer.h"
 #include "TraceReader.h"
-#include "ns3/Ns3.h"
-using namespace ns3;
 using namespace std;
 
 /* Sim Variables */
-int schedType = 0;
-int topoType = 0;
-string topologyFile;
-string traceFilePrefix;
-int numTraceFiles;
-bool needDebug = false;
-string debugDir;
+static int schedType = 0;
+static int topoType = 0;
+static string topologyFile;
+static string traceFilePrefix;
+static int numTraceFiles;
+static bool needDebug = false;
+static string debugDir;
+
+void completeCluster(HadoopNetSim::NetSim *netsim)
+{
+    initJobTracker(getClusterMasterNodes().getHostName(), schedType);
+    long firstJobSubmitTime = initTaskTrackers();
+    initJobClient(Replay, firstJobSubmitTime, needDebug, debugDir);
+}
 
 void initSim()
 {
     srand(time(NULL));
     initTraceReader(traceFilePrefix, numTraceFiles, needDebug, debugDir);
-    initTopologyReader(topologyFile, needDebug);
-    initJobTracker(schedType);
-    setupCluster(topoType);
-    long firstJobSubmitTime = initTaskTrackers(0);
-    initJobClient(Replay, firstJobSubmitTime, needDebug, debugDir);
+    setupCluster(topoType, topologyFile);
 }
 
 void runSim()
 {
     cout<<"Hadoop Sim Running...\n";
-    Simulator::Run();
-    Simulator::Destroy();
-    cout<<"Hadoop Sim endTime = "<<Simulator::Now().GetMilliSeconds()<<endl;
+    ns3::Simulator::Run();
+    ns3::Simulator::Destroy();
+    cout<<"Hadoop Sim endTime = "<<ns3::Simulator::Now().GetMilliSeconds()<<endl;
 }
 
 void endSim()
@@ -56,7 +57,7 @@ void endSim()
 
 void helper()
 {
-    cout<<"./HadoopSim schedType[0-default, 1-netOpt] topoType[0-star, 1-dual, 2-tree, 3-fattree] topologyFile traceFilePrefix numTraceFiles needDebug debugDir\n";
+    cout<<"./HadoopSim schedType[0-default, 1-netOpt] topoType[0-star, 1-rackrow, 2-fattree] topologyFile traceFilePrefix numTraceFiles needDebug debugDir\n";
     cout<<"Each trace file represents a single job. For N trace files, the trace file name is represented "
         <<"as prefix0, prefix1, prefix2, ......\n";
 }
@@ -125,7 +126,6 @@ int main(int argc, char *argv[])
     if (needDebug) {
         startAnalysis(false, debugDir);
     }
-
     endSim();
     return 0;
 }

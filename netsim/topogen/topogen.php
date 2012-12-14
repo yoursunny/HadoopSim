@@ -15,7 +15,7 @@ if (!ctype_alnum($topotype)) die("topotype invalid\n");
 require $topotype.'.topo.php';
 $topotype_f = 'topogen_'.$topotype;
 
-$g = new TopoGen();
+$g = new TopoGen($topotype);
 $hostlist = clustertopo_hosts($input_json);
 $args = array_slice($argv,4);
 $topotype_f($g,$hostlist,$args);

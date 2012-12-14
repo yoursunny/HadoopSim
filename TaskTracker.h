@@ -56,7 +56,7 @@ private:
 size_t reportArrive(std::string hostIPAddr);
 void responseArrive(std::string hostIPAddr);
 void dataArrive(unsigned long dataType, unsigned long dataRequestID, std::string hostIPAddr);
-long initTaskTrackers(long startTime);
+long initTaskTrackers(void);
 void killTaskTrackers();
 
 #endif // TASKTRACKER_H

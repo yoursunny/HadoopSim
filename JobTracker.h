@@ -16,7 +16,7 @@ HadoopSim is a simulator for a Hadoop Runtime by replaying the collected traces.
 
 class JobTracker {
 public:
-    JobTracker(HScheduler *sched);
+    JobTracker(std::string hostName, HScheduler *sched);
     HScheduler* getScheduler();
     void updateBlockNodeMapping(std::string splitID, std::vector<std::string> dataNodes);
     void acceptNewJob(JobStory *jobStory, long now);
@@ -27,7 +27,9 @@ public:
     std::map<std::string, Job> &getCompletedJobs();
     std::map<std::string, std::vector<std::string> > getNode2Block();
     std::map<std::string, std::vector<std::string> > getBlock2Node();
+    const std::string getJobTrackerName(void) const;
 private:
+    std::string hostName;
     HScheduler *sched;
     std::list<TaskAction> taskActions;
     std::map<std::string, std::vector<std::string> > node2Block;    // trackerName <---> splitIDs on this tracker
@@ -38,7 +40,7 @@ private:
     std::map<std::string, Job> completedJobs;
 };
 
-void initJobTracker(int schedType);
+void initJobTracker(std::string hostName, int schedType);
 void killJobTracker();
 JobTracker *getJobTracker();
 
