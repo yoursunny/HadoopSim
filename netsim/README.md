@@ -11,6 +11,7 @@
 1. start ns3 with `ns3::Simulator::Run`
 1. transmit messages with `NetSim::NameRequest` `NetSim::NameResponse` `NetSim::DataRequest` `NetSim::DataResponse`, register a callback when a message arrives at destination
 1. read link statistics from `NetSim::GetLinkStat`
+1. stop ns3 with `ns3::Simulator::Stop`
 1. clean up with `ns3::Simulator::Destroy`
 
 
