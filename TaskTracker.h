@@ -32,14 +32,10 @@ public:
     void dataResponse(ns3::Ptr<HadoopNetSim::MsgInfo> request_msg);
     void sendHeartbeat(long evtTime);
     void handleHeartbeatResponse(HeartBeatResponse *response, long evtTime);
-    void completeMapTask(long evtTime);
     void handleNewEvent(long timestamp, EvtType type);
     long getLastReportTime();
     void setLastReportTime(long reportTime);
-    TaskAction getPendingTaskAction(unsigned long taskActionID);
-    std::map<std::string, Task> getRunningTasks();
     void addRunningTask(std::string taskID, Task task);
-    MapDataAction getPendingMapDataAction(unsigned long mapDataActionID);
     void updateRunningTask(std::string taskID, Task task);
 private:
     long usedMapSlots;

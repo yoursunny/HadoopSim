@@ -181,7 +181,7 @@ void startAnalysis(bool isRawTrace, string debugDir)
 {
     if (isRawTrace) {
         deque<JobStory> allJobs = getAllJobs();
-        //analyzeJobTaskExeTime(allJobs, debugDir);
+        analyzeJobTaskExeTime(allJobs, debugDir);
         analyzeJobTaskTraffic(allJobs, debugDir);
     } else {
         JobTracker *jobTracker = getJobTracker();

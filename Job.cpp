@@ -32,7 +32,7 @@ void Job::initMapTasks(vector<TaskStory> mapTasks)
         //cout<<taskStoryIt->taskID<<endl;
         //assert(taskStoryIt->attempts[i].finishTime <= taskStoryIt->finishTime);
         Task task(this->jobID, taskStoryIt->taskID, MAPTASK, false, 0, \
-                    taskStoryIt->finishTime - taskStoryIt->startTime, taskStoryIt->attempts[i].mapOutputBytes);
+                    taskStoryIt->attempts[i].finishTime - taskStoryIt->attempts[i].startTime, taskStoryIt->attempts[i].mapOutputBytes);
         waitingMaps.insert(pair<string, Task>(taskStoryIt->taskID, task));
         // update block mapping space
         vector<string> dataNodes;
@@ -63,7 +63,7 @@ void Job::initReduceTasks(vector<TaskStory> reduceTasks)
         //assert(taskStoryIt->attempts[i].startTime >= taskStoryIt->startTime);
         assert(taskStoryIt->attempts[i].finishTime <= taskStoryIt->finishTime);
         Task task(this->jobID, taskStoryIt->taskID, REDUCETASK, true, 0, \
-                    taskStoryIt->finishTime - taskStoryIt->startTime, 0);
+                    taskStoryIt->attempts[i].finishTime - taskStoryIt->attempts[i].shuffleFinished, 0);
         waitingReduces.insert(pair<string, Task>(taskStoryIt->taskID, task));
         taskStoryIt++;
     }
