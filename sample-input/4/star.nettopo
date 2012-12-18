@@ -1,0 +1,88 @@
+{
+    "version": 1,
+    "type": "star",
+    "nodes": {
+        "hub": {
+            "type": "switch",
+            "devices": [
+                "eth0",
+                "eth1",
+                "eth2",
+                "eth3",
+                "eth4"
+            ]
+        },
+        "manager": {
+            "type": "host",
+            "ip": "10.0.0.1",
+            "devices": [
+                "eth0"
+            ]
+        },
+        "gn04": {
+            "type": "host",
+            "ip": "10.0.0.2",
+            "devices": [
+                "eth0"
+            ]
+        },
+        "Pico": {
+            "type": "host",
+            "ip": "10.0.0.3",
+            "devices": [
+                "eth0"
+            ]
+        },
+        "gn05": {
+            "type": "host",
+            "ip": "10.0.0.4",
+            "devices": [
+                "eth0"
+            ]
+        },
+        "Silo": {
+            "type": "host",
+            "ip": "10.0.0.5",
+            "devices": [
+                "eth0"
+            ]
+        }
+    },
+    "links": {
+        "1": {
+            "node1": "hub",
+            "port1": "eth0",
+            "node2": "manager",
+            "port2": "eth0",
+            "type": "eth1G"
+        },
+        "2": {
+            "node1": "hub",
+            "port1": "eth1",
+            "node2": "gn04",
+            "port2": "eth0",
+            "type": "eth1G"
+        },
+        "3": {
+            "node1": "hub",
+            "port1": "eth2",
+            "node2": "Pico",
+            "port2": "eth0",
+            "type": "eth1G"
+        },
+        "4": {
+            "node1": "hub",
+            "port1": "eth3",
+            "node2": "gn05",
+            "port2": "eth0",
+            "type": "eth1G"
+        },
+        "5": {
+            "node1": "hub",
+            "port1": "eth4",
+            "node2": "Silo",
+            "port2": "eth0",
+            "type": "eth1G"
+        }
+    }
+}

@@ -3,6 +3,9 @@
   "children" : [ {
     "name" : "default-rack",
     "children" : [ {
+      "name" : "manager",
+      "children" : null
+    }, {
       "name" : "gn04",
       "children" : null
     }, {
