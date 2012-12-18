@@ -177,12 +177,59 @@ void analyzeJobTaskTraffic(deque<JobStory> &jobSet, string debugDir)
     }
 }
 
+void verifyShuffleData(deque<JobStory> &jobSet, string debugDir)
+{
+    ofstream txtFile;
+    size_t k;
+    long totalMapOutputBytes;
+    long totalRedShuffleBytes;
+
+    for(size_t i = 0; i < jobSet.size(); i++) {
+        txtFile.open((debugDir + jobSet[i].jobID + "_ShuffleData.txt").c_str());
+        if (jobSet[i].reduceTasks.empty()) {
+            txtFile.close();
+            continue;
+        }
+
+        totalMapOutputBytes = totalRedShuffleBytes = 0;
+
+        // compute total map tasks output data size
+        for(size_t j = 0; j < jobSet[i].mapTasks.size(); j++) {
+            TaskStory task = jobSet[i].mapTasks[j];
+            for(k = 0; k < task.attempts.size(); k++) {
+                if (task.attempts[k].result.compare("SUCCESS") == 0)
+                    break;
+            }
+            assert(k < task.attempts.size());
+            if (task.attempts[k].mapOutputBytes > 0)
+                totalMapOutputBytes += task.attempts[k].mapOutputBytes;
+        }
+
+        // compute total reduce tasks shuffle data size
+        for(size_t j = 0; j < jobSet[i].reduceTasks.size(); j++) {
+            TaskStory task = jobSet[i].reduceTasks[j];
+            for(k = 0; k < task.attempts.size(); k++) {
+                if (task.attempts[k].result.compare("SUCCESS") == 0)
+                    break;
+            }
+            assert(k < task.attempts.size());
+            if (task.attempts[k].reduceShuffleBytes > 0)
+                totalRedShuffleBytes += task.attempts[k].reduceShuffleBytes;
+        }
+
+        txtFile<<"totalMapOutputBytes="<<totalMapOutputBytes<<", totalRedShuffleBytes="<<totalRedShuffleBytes<<endl;
+        txtFile.close();
+        assert(totalMapOutputBytes >= totalRedShuffleBytes);
+    }
+}
+
 void startAnalysis(bool isRawTrace, string debugDir)
 {
     if (isRawTrace) {
         deque<JobStory> allJobs = getAllJobs();
         analyzeJobTaskExeTime(allJobs, debugDir);
         analyzeJobTaskTraffic(allJobs, debugDir);
+        verifyShuffleData(allJobs, debugDir);
     } else {
         JobTracker *jobTracker = getJobTracker();
         if (!jobTracker->getCompletedJobs().empty())

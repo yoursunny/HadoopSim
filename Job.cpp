@@ -3,6 +3,7 @@ Lei Ye <leiy@cs.arizona.edu>
 HadoopSim is a simulator for a Hadoop Runtime by replaying the collected traces.
 */
 #include <assert.h>
+#include <iostream>
 #include "Job.h"
 #include "JobTracker.h"
 using namespace std;
@@ -31,8 +32,12 @@ void Job::initMapTasks(vector<TaskStory> mapTasks)
         //assert(taskStoryIt->attempts[i].startTime >= taskStoryIt->startTime);
         //cout<<taskStoryIt->taskID<<endl;
         //assert(taskStoryIt->attempts[i].finishTime <= taskStoryIt->finishTime);
-        Task task(this->jobID, taskStoryIt->taskID, MAPTASK, false, 0, \
-                    taskStoryIt->attempts[i].finishTime - taskStoryIt->attempts[i].startTime, taskStoryIt->attempts[i].mapOutputBytes);
+        long mapInputBytes = taskStoryIt->attempts[i].mapInputBytes;
+        if (mapInputBytes < 0)
+            mapInputBytes = 0;
+        Task task(this->jobID, taskStoryIt->taskID, MAPTASK, false,
+                    0, taskStoryIt->attempts[i].finishTime - taskStoryIt->attempts[i].startTime,
+                    mapInputBytes, taskStoryIt->attempts[i].mapOutputBytes);
         waitingMaps.insert(pair<string, Task>(taskStoryIt->taskID, task));
         // update block mapping space
         vector<string> dataNodes;
@@ -62,8 +67,9 @@ void Job::initReduceTasks(vector<TaskStory> reduceTasks)
         }
         //assert(taskStoryIt->attempts[i].startTime >= taskStoryIt->startTime);
         assert(taskStoryIt->attempts[i].finishTime <= taskStoryIt->finishTime);
-        Task task(this->jobID, taskStoryIt->taskID, REDUCETASK, true, 0, \
-                    taskStoryIt->attempts[i].finishTime - taskStoryIt->attempts[i].shuffleFinished, 0);
+        Task task(this->jobID, taskStoryIt->taskID, REDUCETASK, true,
+                    0, taskStoryIt->attempts[i].finishTime - taskStoryIt->attempts[i].shuffleFinished,
+                    0, 0);
         waitingReduces.insert(pair<string, Task>(taskStoryIt->taskID, task));
         taskStoryIt++;
     }
@@ -168,6 +174,7 @@ ActionType Job::updateTaskStatus(TaskStatus &taskStatus)
                 }
             } else {
                 if (isAllMapsDone() && taskStatus.runPhase == SHUFFLE && taskStatus.mapDataCouter == this->numMap) {
+		    cout<<"---------------------------------------------"<<endl;
                     taskStatus.runPhase = REDUCE;
                     return START_REDUCEPHASE;
                 }

@@ -7,17 +7,14 @@ HadoopSim is a simulator for a Hadoop Runtime by replaying the collected traces.
 #include "Task.h"
 using namespace std;
 
-Task::Task(string jobID, string taskID, Type type, bool isRemote, long startTime, long duration, long outputSize)
+Task::Task(string jobID, string taskID, Type type, bool isRemote, long startTime, long duration, long inputSize, long outputSize)
 {
     this->status.jobID = jobID;
     this->status.taskAttemptID = taskID;
     this->status.type = type;
     this->status.isRemote = isRemote;
     this->status.isSucceeded = false;
-    if (type == MAPTASK)
-        this->status.dataSize = 64 * 1024 * 1024;
-    else
-        this->status.dataSize = 0;
+    this->status.dataSize = inputSize;
     this->status.mapDataCouter = 0;
     this->status.progress = 0.0;
     assert(type == MAPTASK || type == REDUCETASK);

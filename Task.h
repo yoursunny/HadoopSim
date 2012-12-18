@@ -57,7 +57,7 @@ typedef struct TaskStatus {
     State runState;
     long startTime;
     long finishTime;
-    long duration;
+    long duration;      // only used for CPU time (ms)
     long outputSize;
 }TaskStatus;
 
@@ -76,7 +76,7 @@ typedef struct MapDataAction {
 class Task {
 public:
     Task() { }
-    Task(std::string jobID, std::string taskID, Type type, bool isRemote, long startTime, long duration, long outputSize);
+    Task(std::string jobID, std::string taskID, Type type, bool isRemote, long startTime, long duration, long inputSize, long outputSize);
     void setTaskTrackerName(std::string taskTracker);
     std::string getTaskTrackerName();
     TaskStatus getTaskStatus();
