@@ -84,6 +84,7 @@ void dumpTaskStatus(TaskStatus &status)
     cout<<"isSucceeded = "<<status.isSucceeded<<endl;
     cout<<"dataSource = "<<status.dataSource<<endl;
     cout<<"dataSize = "<<status.dataSize<<endl;
+    cout<<"mapDataCouter = "<<status.mapDataCouter<<endl;
     cout<<"progress = "<<status.progress<<endl;
     cout<<"runPhase = "<<status.runPhase<<endl;
     cout<<"runState = "<<status.runState<<endl;

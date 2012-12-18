@@ -45,7 +45,6 @@ void runSim()
     cout<<"Hadoop Sim Running...\n";
     ns3::Simulator::Run();
     ns3::Simulator::Destroy();
-    cout<<"Hadoop Sim endTime = "<<ns3::Simulator::Now().GetMilliSeconds()<<endl;
 }
 
 void endSim()

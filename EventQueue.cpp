@@ -21,7 +21,9 @@ void hadoopEventCallback(HEvent evt)
     } else {
         // Dispatch and deal with the event
         evt.getListener()->handleNewEvent(simTime, evt.getType());
-        if (isAllJobsDone())
+        if (isAllJobsDone()) {
+            cout<<"Hadoop Sim endTime = "<<simTime<<endl;
             ns3::Simulator::Stop();
+        }
     }
 }

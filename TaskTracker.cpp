@@ -247,7 +247,7 @@ void TaskTracker::dataResponse(ns3::Ptr<MsgInfo> response_msg)
         Task task = taskIt->second;
         TaskStatus status = task.getTaskStatus();
         status.finishTime += ns3::Simulator::Now().GetMilliSeconds();
-        status.mapDataCouter++;
+        status.mapDataCouter++; cout<<"@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ mapdata = "<<status.mapDataCouter<<endl;
         task.updateTaskStatus(status);
         updateRunningTask(taskIt->first, task);
     } else {
@@ -330,7 +330,7 @@ void TaskTracker::handleHeartbeatResponse(HeartBeatResponse *response, long evtT
                 killedTasks.insert(pair<string, Task>(actionIt->status.taskAttemptID, task));
                 break;
             case START_REDUCEPHASE:
-                taskIt = runningTasks.find(actionIt->status.taskAttemptID);cout<<"+++++++++++++++++++++++++++++\n"<<endl; exit(1);
+                taskIt = runningTasks.find(actionIt->status.taskAttemptID);
                 assert(taskIt != runningTasks.end() && actionIt->status.runPhase == REDUCE);
                 task = taskIt->second;
                 task.updateTaskStatus(actionIt->status);
@@ -347,6 +347,16 @@ void TaskTracker::handleHeartbeatResponse(HeartBeatResponse *response, long evtT
     for(size_t i = 0; i < response->mapDataActions.size(); i++) {
         taskIt = runningTasks.find(response->mapDataActions[i].reduceTaskID);
         assert(taskIt != runningTasks.end());
+
+        if (this->hostName.compare(response->mapDataActions[i].dataSource) == 0) {      // on the same node
+            Task task = taskIt->second;
+            TaskStatus status = task.getTaskStatus();
+            status.mapDataCouter++;
+            task.updateTaskStatus(status);
+            updateRunningTask(taskIt->first, task);
+	    continue;
+        }
+
         id = netsim->DataRequest(this->hostName, response->mapDataActions[i].dataSource, response->mapDataActions[i].dataSize, ns3::MakeCallback(&TaskTracker::dataRequest, this), this);
         assert(id != MsgId_invalid);
         assert(pendingMapDataAction.find(id) == pendingMapDataAction.end());

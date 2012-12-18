@@ -12,6 +12,7 @@ Job::Job(string jobID, int numMap, int numReduce, long submitTime)
 {
     this->jobID = jobID;
     this->state = JOBRUNNING;
+    this->numMapDataSource = numMap;
     this->numMap = numMap;
     this->numReduce = numReduce;
     this->submitTime = submitTime;
@@ -150,6 +151,8 @@ ActionType Job::updateTaskStatus(TaskStatus &taskStatus)
 
                 if (task.getTaskStatus().outputSize > 0)
                     return FETCH_MAPDATA;
+                else
+                    this->numMapDataSource--;   // reduce Map Data Sources
             }
         }
     } else {
@@ -173,8 +176,9 @@ ActionType Job::updateTaskStatus(TaskStatus &taskStatus)
                     setState(JOBSUCCEEDED);
                 }
             } else {
-                if (isAllMapsDone() && taskStatus.runPhase == SHUFFLE && taskStatus.mapDataCouter == this->numMap) {
-		    cout<<"---------------------------------------------"<<endl;
+		cout<<"+++++++++++++++++++++++++taskStatus.mapDataCouter = "<<taskStatus.mapDataCouter<<endl;	
+		cout<<"=========================this->numMapDataSource = "<<this->numMapDataSource<<endl;
+                if (isAllMapsDone() && taskStatus.runPhase == SHUFFLE && taskStatus.mapDataCouter == this->numMapDataSource) {
                     taskStatus.runPhase = REDUCE;
                     return START_REDUCEPHASE;
                 }

@@ -219,7 +219,7 @@ void verifyShuffleData(deque<JobStory> &jobSet, string debugDir)
 
         txtFile<<"totalMapOutputBytes="<<totalMapOutputBytes<<", totalRedShuffleBytes="<<totalRedShuffleBytes<<endl;
         txtFile.close();
-        assert(totalMapOutputBytes >= totalRedShuffleBytes);
+//      assert(totalMapOutputBytes >= totalRedShuffleBytes);
     }
 }
 

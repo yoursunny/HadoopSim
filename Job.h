@@ -53,6 +53,7 @@ private:
     std::string jobID;
     JobState state;
     std::map<std::string, Split> splitSpace;      // block location space
+    long numMapDataSource;
     long numMap;
     long numReduce;
     long submitTime;
