@@ -21,14 +21,18 @@ bool DataClient::DataRequest(ns3::Ptr<MsgInfo> msg) {
   sock->Bind();
   sock->Connect(ns3::InetSocketAddress((*this->data_servers_)[msg->dst()], kDataServerPort));
   ns3::Ptr<MsgTransport> mt = ns3::Create<MsgTransport>(sock, false);
+  mt->set_send_cb(ns3::MakeCallback(&DataClient::HandleSend, this));
   mt->set_recv_cb(ns3::MakeCallback(&DataClient::HandleRecv, this));
   mt->Send(msg);
   this->mts_[msg->id()] = mt;
   return true;
 }
 
+void DataClient::HandleSend(ns3::Ptr<MsgTransport> mt, ns3::Ptr<MsgInfo> msg) {
+  mt->sock()->ShutdownSend();
+}
+
 void DataClient::HandleRecv(ns3::Ptr<MsgTransport> mt, ns3::Ptr<MsgInfo> msg) {
-  mt->sock()->Close();
   this->mts_.erase(msg->in_reply_to());
 }
 
