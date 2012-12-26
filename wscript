@@ -48,5 +48,6 @@ def build(bld):
     'gtest/gtest.cc',
     'netsim/topology_test.cc',
     'netsim/msgtransport_test.cc',
-    'netsim/netsim_test.cc'
+    'netsim/netsim_test.cc',
+    'netsim/netsim_bulktest.cc'
   }
