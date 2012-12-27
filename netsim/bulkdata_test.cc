@@ -83,12 +83,12 @@ class BulkDataTestRunner {
         ns3::Ptr<MsgInfo> msg = it->second;
         calcs[msg->type()]->Update((msg->finish() - msg->start()).GetSeconds());
       }
-      //int sentDataRequest = 0, sentDataResponse = 0;
-      //for (std::unordered_map<MsgId,MsgType>::const_iterator it = this->sent_.cbegin(); it != this->sent_.cend(); ++it) {
-      //  if (it->second == kMTDataRequest) ++sentDataRequest;
-      //  else if (it->second == kMTDataResponse) ++sentDataResponse;
-      //}
-      //printf("counts %d %d %d %d\n", calcs[kMTDataRequest]->getCount(), calcs[kMTDataResponse]->getCount(), sentDataRequest, sentDataResponse);
+      int sentDataRequest = 0, sentDataResponse = 0;
+      for (std::unordered_map<MsgId,MsgType>::const_iterator it = this->sent_.cbegin(); it != this->sent_.cend(); ++it) {
+        if (it->second == kMTDataRequest) ++sentDataRequest;
+        else if (it->second == kMTDataResponse) ++sentDataResponse;
+      }
+      printf("counts %ld %ld %d %d\n", calcs[kMTDataRequest]->getCount(), calcs[kMTDataResponse]->getCount(), sentDataRequest, sentDataResponse);
       assert(calcs[kMTDataRequest]->getCount() == 98);
       assert(calcs[kMTDataResponse]->getCount() == 98);
       printf("DataRequest %f,%f,%f\n", calcs[kMTDataRequest]->getMin(), calcs[kMTDataRequest]->getMean(), calcs[kMTDataRequest]->getMax());
