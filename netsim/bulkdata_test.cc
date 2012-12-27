@@ -67,16 +67,15 @@ const std::array <std::string, 50> Server = {
     "server-1461.novalocal"
 };
 
-class NetSimBulkTestRunner {
+class BulkDataTestRunner {
   public:
-    NetSimBulkTestRunner(NetSim* netsim) {
+    BulkDataTestRunner(NetSim* netsim) {
       this->netsim_ = netsim;
-      this->netsim_->set_ready_cb(ns3::MakeCallback(&NetSimBulkTestRunner::Ready, this));
+      this->netsim_->set_ready_cb(ns3::MakeCallback(&BulkDataTestRunner::Ready, this));
       this->userobj_ = this;
       this->lastID = 0;
     }
     void Verify() {
-      printf("VERYF.....\n");
       std::unordered_map<MsgType,ns3::Ptr<ns3::MinMaxAvgTotalCalculator<double>>,std::hash<int>> calcs;
       calcs[kMTDataRequest] = ns3::Create<ns3::MinMaxAvgTotalCalculator<double>>();
       calcs[kMTDataResponse] = ns3::Create<ns3::MinMaxAvgTotalCalculator<double>>();
@@ -84,6 +83,12 @@ class NetSimBulkTestRunner {
         ns3::Ptr<MsgInfo> msg = it->second;
         calcs[msg->type()]->Update((msg->finish() - msg->start()).GetSeconds());
       }
+      //int sentDataRequest = 0, sentDataResponse = 0;
+      //for (std::unordered_map<MsgId,MsgType>::const_iterator it = this->sent_.cbegin(); it != this->sent_.cend(); ++it) {
+      //  if (it->second == kMTDataRequest) ++sentDataRequest;
+      //  else if (it->second == kMTDataResponse) ++sentDataResponse;
+      //}
+      //printf("counts %d %d %d %d\n", calcs[kMTDataRequest]->getCount(), calcs[kMTDataResponse]->getCount(), sentDataRequest, sentDataResponse);
       assert(calcs[kMTDataRequest]->getCount() == 98);
       assert(calcs[kMTDataResponse]->getCount() == 98);
       printf("DataRequest %f,%f,%f\n", calcs[kMTDataRequest]->getMin(), calcs[kMTDataRequest]->getMean(), calcs[kMTDataRequest]->getMax());
@@ -98,36 +103,34 @@ class NetSimBulkTestRunner {
     MsgId lastID;
 
     void Ready(NetSim*) {
-        ns3::Simulator::Schedule(ns3::Seconds(2.0), &NetSimBulkTestRunner::DataRequestAll, this);
+      ns3::Simulator::Schedule(ns3::Seconds(2.0), &BulkDataTestRunner::DataRequestAll, this);
     }
     void DataRequestAll() {
       MsgId id;
-      for(size_t i = 1; i < Server.size(); i++) {
-//	printf("request\n");
-        id = this->netsim_->DataRequest(Server[0], Server[i], 1<<8, ns3::MakeCallback(&NetSimBulkTestRunner::DataResponse, this), this->userobj_);
+      for (size_t i = 1; i < Server.size(); ++i) {
+        id = this->netsim_->DataRequest(Server[0], Server[i], 1<<8, ns3::MakeCallback(&BulkDataTestRunner::DataResponse, this), this->userobj_);
         assert(id != MsgId_invalid);
         this->sent_[id] = kMTDataRequest;
 
-        id = this->netsim_->DataRequest(Server[0], Server[i], 1<<8, ns3::MakeCallback(&NetSimBulkTestRunner::DataResponse, this), this->userobj_);
+        id = this->netsim_->DataRequest(Server[0], Server[i], 1<<8, ns3::MakeCallback(&BulkDataTestRunner::DataResponse, this), this->userobj_);
         assert(id != MsgId_invalid);
         this->sent_[id] = kMTDataRequest;
 
-  	if (i == Server.size() - 1) {
-	  lastID = id;
-	}
+        if (i == Server.size() - 1) {
+          lastID = id;
+        }
       }
     }
     void DataResponse(ns3::Ptr<MsgInfo> request_msg) {
-//    printf("response\n");
       assert(this->sent_[request_msg->id()] == kMTDataRequest);
       assert(request_msg->userobj() == this->userobj_);
       assert(this->received_.count(request_msg->id()) == 0);
       this->received_[request_msg->id()] = request_msg;
-      MsgId id = this->netsim_->DataResponse(request_msg->id(), request_msg->dst(), request_msg->src(), 1<<26, ns3::MakeCallback(&NetSimBulkTestRunner::DataFinish, this), this->userobj_);
+      MsgId id = this->netsim_->DataResponse(request_msg->id(), request_msg->dst(), request_msg->src(), 1<<26, ns3::MakeCallback(&BulkDataTestRunner::DataFinish, this), this->userobj_);
       assert(id != MsgId_invalid);
       this->sent_[id] = kMTDataResponse;
       if (lastID == request_msg->id()) {
-	lastID = id;
+        lastID = id;
       }
     }
     void DataFinish(ns3::Ptr<MsgInfo> response_msg) {
@@ -135,15 +138,14 @@ class NetSimBulkTestRunner {
       assert(response_msg->userobj() == this->userobj_);
       assert(this->received_.count(response_msg->id()) == 0);
       this->received_[response_msg->id()] = response_msg;
-//    printf("done\n");
       if (lastID == response_msg->id()) {
-	ns3::Simulator::Schedule(ns3::Simulator::Now(), &ns3::Simulator::Stop);
+        ns3::Simulator::Schedule(ns3::Simulator::Now(), &ns3::Simulator::Stop);
       }
     }
-    DISALLOW_COPY_AND_ASSIGN(NetSimBulkTestRunner);
+    DISALLOW_COPY_AND_ASSIGN(BulkDataTestRunner);
 };
 
-TEST(NetSimBulkTest, NetSim) {
+TEST(NetSimTest, BulkData) {
   Topology topology;
   topology.Load("examples/HadoopSim/bench-trace/star.nettopo");
 //topology.Load("examples/HadoopSim/bench-trace/rackrow-6-4.nettopo");
@@ -155,7 +157,7 @@ TEST(NetSimBulkTest, NetSim) {
     netsim.BuildTopology(topology);
     netsim.InstallApps(managers);
 
-    NetSimBulkTestRunner runner(&netsim);
+    BulkDataTestRunner runner(&netsim);
     ns3::Simulator::Run();
     ns3::Simulator::Destroy();
     runner.Verify();

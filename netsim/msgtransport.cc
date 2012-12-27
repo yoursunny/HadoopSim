@@ -109,7 +109,7 @@ void MsgTransport::SendUnblock(ns3::Ptr<ns3::Socket>, uint32_t) {
   ns3::Simulator::ScheduleNow(&MsgTransport::SendData, this);
 }
 
-void MsgTransport::RecvData(ns3::Ptr<ns3::Socket>) {
+void MsgTransport::RecvData(ns3::Ptr<ns3::Socket> s) {
   ns3::Ptr<ns3::Packet> pkt;
   while (NULL != (pkt = this->sock_->Recv())) {
     ns3::ByteTagIterator it = pkt->GetByteTagIterator();
