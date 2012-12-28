@@ -17,23 +17,19 @@ typedef enum EvtType {
 
 class EventListener {
 public:
-    virtual void handleNewEvent(long timestamp, EvtType type) { }
+    virtual void handleNewEvent(EvtType type) { }
 };
 
 class HEvent {  // Hadoop Event Class
 public:
-    HEvent():type(EVT_NULL), timestamp(0), version(0) {}
-    HEvent(EventListener *listener, int type, long timestamp);
+    HEvent():type(EVT_NULL) {}
+    HEvent(EventListener *listener, int type);
     EventListener *getListener();
     EvtType getType();
-    long getTimeStamp();
-    long getVersion();
-    void setVersion(long count);
+
 private:
     EventListener *listener;
     EvtType type;       // Event type
-    long timestamp;     // The timestamp of event (milliseconds)
-    long version;       // Version number orders multiple events that occur at the same time.
 };
 
 #endif // HEVENT_H

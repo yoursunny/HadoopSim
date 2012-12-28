@@ -20,6 +20,7 @@ const long clusterStartupDuration = 100 * 1000;     //milliseconds
 const long HEARTBEAT_INTERVAL_MIN = 3 * 1000;       //milliseconds
 const int CLUSTER_INCREMENT = 100;
 static long nextHeartbeatInterval = 0;
+const size_t DataRequestMsgSize = 256;              // bytes
 
 void TaskTracker::setHostName(string hostName)
 {
@@ -97,11 +98,6 @@ list<TaskStatus> TaskTracker::collectTaskStatus(long now)
             }
         }
 
-        if (progress < -EPSILON || progress > 1 + EPSILON) {
-            cout<<"Error progress = "<<progress<<endl;
-            cout<<"Error on task progress in collectTaskStatus().\n";
-//            assert(0);
-        }
         progress = max(min(1.0, progress), 0.0);
         task = it->second;
         task.setTaskStatus(progress, now);
@@ -154,7 +150,7 @@ void TaskTracker::hbReport(ns3::Ptr<MsgInfo> request_msg)
     HeartBeatReport report = reportMap[request_msg->id()];
     reportMap.erase(request_msg->id());
 
-    dumpHeartBeatReport(report);
+//  dumpHeartBeatReport(report);
     JobTracker *jobTracker = getJobTracker();
     HeartBeatResponse response = jobTracker->processHeartbeat(report, ns3::Simulator::Now().GetMilliSeconds());
 
@@ -176,11 +172,11 @@ void TaskTracker::hbResponse(ns3::Ptr<MsgInfo> response_msg)
     HeartBeatResponse response = responseMap[response_msg->id()];
     responseMap.erase(response_msg->id());
 
-    dumpHeartBeatResponse(response);
+//  dumpHeartBeatResponse(response);
     handleHeartbeatResponse(&response, ns3::Simulator::Now().GetMilliSeconds());
 
     // add next HeartBeat event from this task tracker to the EventQueue
-    HEvent evt(this, EVT_HBReport, ns3::Simulator::Now().GetMilliSeconds() + nextHeartbeatInterval);
+    HEvent evt(this, EVT_HBReport);
     ns3::Simulator::Schedule(ns3::Seconds((double)nextHeartbeatInterval/1000.0), &hadoopEventCallback, evt);
 }
 
@@ -229,7 +225,7 @@ void TaskTracker::dataResponse(ns3::Ptr<MsgInfo> response_msg)
         assert(action.status.type == MAPTASK);
         assert(response_msg->src().compare(action.status.dataSource) == 0);
 
-        action.status.finishTime = action.status.startTime + action.status.duration;
+        action.status.finishTime = ns3::Simulator::Now().GetMilliSeconds() + action.status.duration;
         task.updateTaskStatus(action.status);
 
         map<string, Task>::iterator taskIt = runningTasks.find(action.status.taskAttemptID);
@@ -246,8 +242,9 @@ void TaskTracker::dataResponse(ns3::Ptr<MsgInfo> response_msg)
         assert(taskIt != runningTasks.end());
         Task task = taskIt->second;
         TaskStatus status = task.getTaskStatus();
-        status.finishTime += ns3::Simulator::Now().GetMilliSeconds();
-        status.mapDataCouter++; cout<<"@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ mapdata = "<<status.mapDataCouter<<endl;
+        status.finishTime = ns3::Simulator::Now().GetMilliSeconds() + status.duration;		// the last arrived MapData set the finishTime of this reduce task
+        status.mapDataCouter++; 
+	//cout<<"@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ mapdata = "<<status.mapDataCouter<<endl;
         task.updateTaskStatus(status);
         updateRunningTask(taskIt->first, task);
     } else {
@@ -276,6 +273,16 @@ void TaskTracker::sendHeartbeat(long evtTime)
 
     reportMap[id] = report;
     setLastReportTime(evtTime);
+}
+
+void TaskTracker::makeDataRequest(MapDataAction action)
+{
+    NetSim *netsim = getNetSim();
+    assert(netsim != NULL);
+    MsgId id = netsim->DataRequest(this->hostName, action.dataSource, DataRequestMsgSize, ns3::MakeCallback(&TaskTracker::dataRequest, this), this);
+    assert(id != MsgId_invalid);
+    assert(pendingMapDataAction.find(id) == pendingMapDataAction.end());
+    pendingMapDataAction[id] = action;
 }
 
 void TaskTracker::handleHeartbeatResponse(HeartBeatResponse *response, long evtTime)
@@ -309,7 +316,8 @@ void TaskTracker::handleHeartbeatResponse(HeartBeatResponse *response, long evtT
                     assert(action.status.type == MAPTASK);
                     assert(action.status.isRemote == true);
                     action.status.startTime = evtTime;
-                    id = netsim->DataRequest(this->hostName, action.status.dataSource, action.status.dataSize, ns3::MakeCallback(&TaskTracker::dataRequest, this), this);
+                    //cout<<"remote map tasks, host = "<<this->hostName<<", data source =  "<<action.status.dataSource<<endl;
+                    id = netsim->DataRequest(this->hostName, action.status.dataSource, DataRequestMsgSize, ns3::MakeCallback(&TaskTracker::dataRequest, this), this);
                     assert(id != MsgId_invalid);
                     assert(pendingTaskAction.find(id) == pendingTaskAction.end());
                     pendingTaskAction[id] = action;
@@ -335,6 +343,7 @@ void TaskTracker::handleHeartbeatResponse(HeartBeatResponse *response, long evtT
                 task = taskIt->second;
                 task.updateTaskStatus(actionIt->status);
                 taskIt->second = task;
+                //cout<<"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ reduce start\n";
                 break;
             default:
                 cout<<"Error in handleHeartbeatResponse().\n";
@@ -352,20 +361,23 @@ void TaskTracker::handleHeartbeatResponse(HeartBeatResponse *response, long evtT
             Task task = taskIt->second;
             TaskStatus status = task.getTaskStatus();
             status.mapDataCouter++;
+            //cout<<"############################### mapdata = "<<status.mapDataCouter<<endl;
+            //cout<<"^^^^^reduce tasks, host = "<<this->hostName<<", data source =  "<<response->mapDataActions[i].dataSource<<endl;
             task.updateTaskStatus(status);
             updateRunningTask(taskIt->first, task);
-	    continue;
+            continue;
         }
 
-        id = netsim->DataRequest(this->hostName, response->mapDataActions[i].dataSource, response->mapDataActions[i].dataSize, ns3::MakeCallback(&TaskTracker::dataRequest, this), this);
-        assert(id != MsgId_invalid);
-        assert(pendingMapDataAction.find(id) == pendingMapDataAction.end());
-        pendingMapDataAction[id] = response->mapDataActions[i];
+        assert(response->mapDataActions[i].dataSize > 0);
+        //cout<<"reduce tasks, host = "<<this->hostName<<", data source =  "<<response->mapDataActions[i].dataSource<<", datasize ="<<response->mapDataActions[i].dataSize<<endl;
+        ns3::Simulator::Schedule(ns3::Seconds(0.001 * i), &TaskTracker::makeDataRequest, this, response->mapDataActions[i]);
     }
 }
 
-void TaskTracker::handleNewEvent(long timestamp, EvtType type)
+void TaskTracker::handleNewEvent(EvtType type)
 {
+    long timestamp = ns3::Simulator::Now().GetMilliSeconds();
+
     switch(type) {
         case EVT_HBReport:
             sendHeartbeat(timestamp);
@@ -398,7 +410,7 @@ long initTaskTrackers(void)
 
         // add first HeartBeat event from all task trackers to the EventQueue
         long timeStamp = rand() % clusterStartupDuration;
-        HEvent evt(&taskTrackers[index], EVT_HBReport, ns3::Simulator::Now().GetMilliSeconds() + timeStamp);
+        HEvent evt(&taskTrackers[index], EVT_HBReport);
         ns3::Simulator::Schedule(ns3::Seconds((double)timeStamp/1000.0), &hadoopEventCallback, evt);
         index++;
     }

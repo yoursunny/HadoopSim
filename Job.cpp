@@ -284,3 +284,10 @@ long Job::getNumReduce()
 {
     return this->numReduce;
 }
+
+void Job::removeMapDataSource()
+{
+    assert(this->numMapDataSource > 0);
+    this->numMapDataSource--;
+}
+

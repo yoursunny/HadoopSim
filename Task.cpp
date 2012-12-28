@@ -68,7 +68,6 @@ void Task::setTaskStatus(double progress, long now)
     // if task is complete
     if (progress - 1.0 >= -EPSILON && progress - 1.0 <= EPSILON) {
         assert(now >= this->status.finishTime);
-        this->status.finishTime = now;
         this->status.runState = SUCCEEDED;
         this->status.isSucceeded = true;
     }
