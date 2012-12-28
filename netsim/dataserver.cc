@@ -24,11 +24,13 @@ void DataServer::StartApplication() {
 
 void DataServer::HandleAccept(ns3::Ptr<ns3::Socket> sock, const ns3::Address& from) {
   ns3::Ptr<MsgTransport> mt = ns3::Create<MsgTransport>(sock);
+  //printf("DataServer::HandleAccept %"PRIxMAX"\n", (uintmax_t)ns3::PeekPointer(mt));
   mt->set_recv_cb(ns3::MakeCallback(&DataServer::HandleRecv, this));
   this->new_mts_.push_back(mt);
 }
 
 void DataServer::HandleRecv(ns3::Ptr<MsgTransport> mt, ns3::Ptr<MsgInfo> msg) {
+  //printf("DataServer::HandleRecv %"PRIxMAX"\n", (uintmax_t)ns3::PeekPointer(mt));
   this->mts_[msg->id()] = mt;
   this->new_mts_.remove(mt);
 }

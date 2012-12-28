@@ -123,6 +123,7 @@ void MsgTransport::RecvData(ns3::Ptr<ns3::Socket> s) {
       if (this->recv_map_.count(msg->id()) == 0) {
         ts = ns3::Create<TransmitState>(msg);
         this->recv_map_[msg->id()] = ts;
+        //printf("MsgTransport::RecvData-blk0 %"PRIxMAX"\n", (uintmax_t)this);
       } else {
         ts = this->recv_map_[msg->id()];
       }
@@ -141,22 +142,24 @@ void MsgTransport::RecvData(ns3::Ptr<ns3::Socket> s) {
 }
 
 void MsgTransport::SocketConnect(ns3::Ptr<ns3::Socket>) {
-  //printf("MsgTransport::SocketConnect\n");
+  //printf("MsgTransport::SocketConnect %"PRIxMAX"\n", (uintmax_t)this);
   this->connected_ = true;
   this->SendData();
 }
 
 void MsgTransport::SocketConnectFail(ns3::Ptr<ns3::Socket>) {
-  //printf("MsgTransport::SocketConnectFail\n");
+  //printf("MsgTransport::SocketConnectFail %"PRIxMAX"\n", (uintmax_t)this);
   if (!this->evt_cb_.IsNull()) this->evt_cb_(ns3::Ptr<MsgTransport>(this), kMTEConnectError);
 }
 
 void MsgTransport::SocketNormalClose(ns3::Ptr<ns3::Socket>) {
+  //printf("MsgTransport::SocketNormalClose %"PRIxMAX"\n", (uintmax_t)this);
   this->connected_ = false;
   if (!this->evt_cb_.IsNull()) this->evt_cb_(ns3::Ptr<MsgTransport>(this), kMTEClose);
 }
 
 void MsgTransport::SocketErrorClose(ns3::Ptr<ns3::Socket>) {
+  //printf("MsgTransport::SocketErrorClose %"PRIxMAX"\n", (uintmax_t)this);
   this->connected_ = false;
   if (!this->evt_cb_.IsNull()) this->evt_cb_(ns3::Ptr<MsgTransport>(this), kMTEReset);
 }

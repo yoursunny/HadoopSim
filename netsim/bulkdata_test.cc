@@ -106,19 +106,22 @@ class BulkDataTestRunner {
       ns3::Simulator::Schedule(ns3::Seconds(2.0), &BulkDataTestRunner::DataRequestAll, this);
     }
     void DataRequestAll() {
-      MsgId id;
       for (size_t i = 1; i < Server.size(); ++i) {
-        id = this->netsim_->DataRequest(Server[0], Server[i], 1<<8, ns3::MakeCallback(&BulkDataTestRunner::DataResponse, this), this->userobj_);
-        assert(id != MsgId_invalid);
-        this->sent_[id] = kMTDataRequest;
+        ns3::Simulator::Schedule(ns3::Seconds(0.001 * i), &BulkDataTestRunner::DataRequest, this, i);
+      }
+    }
+    void DataRequest(size_t i) {
+      MsgId id;
+      id = this->netsim_->DataRequest(Server[0], Server[i], 1<<8, ns3::MakeCallback(&BulkDataTestRunner::DataResponse, this), this->userobj_);
+      assert(id != MsgId_invalid);
+      this->sent_[id] = kMTDataRequest;
 
-        id = this->netsim_->DataRequest(Server[0], Server[i], 1<<8, ns3::MakeCallback(&BulkDataTestRunner::DataResponse, this), this->userobj_);
-        assert(id != MsgId_invalid);
-        this->sent_[id] = kMTDataRequest;
+      id = this->netsim_->DataRequest(Server[0], Server[i], 1<<8, ns3::MakeCallback(&BulkDataTestRunner::DataResponse, this), this->userobj_);
+      assert(id != MsgId_invalid);
+      this->sent_[id] = kMTDataRequest;
 
-        if (i == Server.size() - 1) {
-          lastID = id;
-        }
+      if (i == Server.size() - 1) {
+        lastID = id;
       }
     }
     void DataResponse(ns3::Ptr<MsgInfo> request_msg) {

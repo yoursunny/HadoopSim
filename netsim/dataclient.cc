@@ -21,6 +21,7 @@ bool DataClient::DataRequest(ns3::Ptr<MsgInfo> msg) {
   sock->Bind();
   sock->Connect(ns3::InetSocketAddress((*this->data_servers_)[msg->dst()], kDataServerPort));
   ns3::Ptr<MsgTransport> mt = ns3::Create<MsgTransport>(sock, false);
+  //printf("DataClient::DataRequest %"PRIxMAX"\n", (uintmax_t)ns3::PeekPointer(mt));
   mt->set_send_cb(ns3::MakeCallback(&DataClient::HandleSend, this));
   mt->set_recv_cb(ns3::MakeCallback(&DataClient::HandleRecv, this));
   mt->Send(msg);
@@ -29,6 +30,7 @@ bool DataClient::DataRequest(ns3::Ptr<MsgInfo> msg) {
 }
 
 void DataClient::HandleSend(ns3::Ptr<MsgTransport> mt, ns3::Ptr<MsgInfo> msg) {
+  //printf("DataClient::HandleSend %"PRIxMAX"\n", (uintmax_t)ns3::PeekPointer(mt));
   mt->sock()->ShutdownSend();
 }
 
