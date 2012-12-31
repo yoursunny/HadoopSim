@@ -255,7 +255,7 @@ void TaskTracker::dataResponse(ns3::Ptr<MsgInfo> response_msg)
 
 void TaskTracker::sendHeartbeat(long evtTime)
 {
-    cout<<getHostName()<<" sendHeartbeat "<<evtTime<<endl;
+    //cout<<getHostName()<<" sendHeartbeat "<<evtTime<<endl;
 
     HeartBeatReport report;
     report.type = HBReport;

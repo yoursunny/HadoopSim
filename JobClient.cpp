@@ -40,7 +40,7 @@ void JobClient::submitJob(long evtTime)
         // setup next event according to the specified policy
         if (this->policy == Replay) {
             if (isMoreJobs()) {
-                long timeStamp = nextJobSubmitTime() - lastSubmissionTime + evtTime;
+                long timeStamp = nextJobSubmitTime() - lastSubmissionTime;
                 HEvent evt(this, EVT_JobSubmit);
                 ns3::Simulator::Schedule(ns3::Seconds((double)timeStamp/1000.0), &hadoopEventCallback, evt);
             }

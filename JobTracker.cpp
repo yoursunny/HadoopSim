@@ -169,18 +169,18 @@ HeartBeatResponse JobTracker::processHeartbeat(HeartBeatReport report, long now)
                 map<string, Task> completedMaps = job.getCompletedMaps();
                 map<string, Task>::iterator taskIt = completedMaps.begin();
                 while(taskIt != completedMaps.end()) {
-		    if (taskIt->second.getTaskStatus().outputSize > 0) {
-                    	MapDataAction dataAction;
-                     	dataAction.reduceTaskID = status.taskAttemptID;
-                    	dataAction.dataSource = taskIt->second.getTaskStatus().taskTracker;
-                    	dataAction.dataSize = ceil(taskIt->second.getTaskStatus().outputSize * 1.0 / job.getNumReduce());
-                    	mapDataActions.push_back(dataAction);
-		    } else {
-			job.removeMapDataSource();			
-		    }
+		            if (taskIt->second.getTaskStatus().outputSize > 0) {
+                        MapDataAction dataAction;
+                        dataAction.reduceTaskID = status.taskAttemptID;
+                        dataAction.dataSource = taskIt->second.getTaskStatus().taskTracker;
+                        dataAction.dataSize = ceil(taskIt->second.getTaskStatus().outputSize * 1.0 / job.getNumReduce());
+                        mapDataActions.push_back(dataAction);
+		            } else {
+			            job.removeMapDataSource();
+		            }
                     taskIt++;
                 }
-		runningJobs[jobIt->first] = job;
+		        runningJobs[jobIt->first] = job;
             }
         }
     }

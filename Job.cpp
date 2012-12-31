@@ -67,7 +67,7 @@ void Job::initReduceTasks(vector<TaskStory> reduceTasks)
                 break;
         }
         //assert(taskStoryIt->attempts[i].startTime >= taskStoryIt->startTime);
-        assert(taskStoryIt->attempts[i].finishTime <= taskStoryIt->finishTime);
+        //assert(taskStoryIt->attempts[i].finishTime <= taskStoryIt->finishTime);
         Task task(this->jobID, taskStoryIt->taskID, REDUCETASK, true,
                     0, taskStoryIt->attempts[i].finishTime - taskStoryIt->attempts[i].shuffleFinished,
                     0, 0);
@@ -176,8 +176,8 @@ ActionType Job::updateTaskStatus(TaskStatus &taskStatus)
                     setState(JOBSUCCEEDED);
                 }
             } else {
-		cout<<"+++++++++++++++++++++++++taskStatus.mapDataCouter = "<<taskStatus.mapDataCouter<<endl;	
-		cout<<"=========================this->numMapDataSource = "<<this->numMapDataSource<<endl;
+		        cout<<taskStatus.taskTracker<<", "<<taskStatus.taskAttemptID<<" +++++++++++++++++++++++++taskStatus.mapDataCouter = "<<taskStatus.mapDataCouter<<endl;
+		        cout<<taskStatus.taskTracker<<", "<<taskStatus.taskAttemptID<<" =========================this->numMapDataSource = "<<this->numMapDataSource<<endl;
                 if (isAllMapsDone() && taskStatus.runPhase == SHUFFLE && taskStatus.mapDataCouter == this->numMapDataSource) {
                     taskStatus.runPhase = REDUCE;
                     return START_REDUCEPHASE;
