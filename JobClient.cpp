@@ -40,8 +40,8 @@ void JobClient::submitJob(long evtTime)
         // setup next event according to the specified policy
         if (this->policy == Replay) {
             if (isMoreJobs()) {
-                long timeStamp = nextJobSubmitTime() - lastSubmissionTime + evtTime;
-                HEvent evt(this, EVT_JobSubmit, timeStamp);
+                long timeStamp = nextJobSubmitTime() - lastSubmissionTime;
+                HEvent evt(this, EVT_JobSubmit);
                 ns3::Simulator::Schedule(ns3::Seconds((double)timeStamp/1000.0), &hadoopEventCallback, evt);
             }
         }
@@ -70,8 +70,9 @@ void JobClient::probeLoad(long evtTime)
 
 }
 
-void JobClient::handleNewEvent(long timestamp, EvtType type)
+void JobClient::handleNewEvent(EvtType type)
 {
+    long timestamp = ns3::Simulator::Now().GetMilliSeconds();
     switch(type) {
         case EVT_JobSubmit:
             submitJob(timestamp);
@@ -95,7 +96,7 @@ void initJobClient(JobSubmissionPolicy policy, long firstJobSubmitTime, bool nee
     }
 
     // add first Job Submission event to the EventQueue
-    HEvent evt(client, EVT_JobSubmit, ns3::Simulator::Now().GetMilliSeconds() + firstJobSubmitTime);
+    HEvent evt(client, EVT_JobSubmit);
     ns3::Simulator::Schedule(ns3::Seconds((double)firstJobSubmitTime/1000.0), &hadoopEventCallback, evt);
 }
 

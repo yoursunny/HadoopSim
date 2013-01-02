@@ -10,8 +10,6 @@ HadoopSim is a simulator for a Hadoop Runtime by replaying the collected traces.
 #include "TraceReader.h"
 using namespace std;
 
-static long HDFSBlockSize = (1<<26);
-
 void getTimeStatistics(map<string, long> &timeSet, long &minTime, long &maxTime, long &medianTime)
 {
     vector<long> exeTime;
@@ -158,7 +156,7 @@ void analyzeJobTaskTraffic(deque<JobStory> &jobSet, string debugDir)
             if (m >= task.preferredLocations.size()) {
                 // remotely run
                 csvFile<<task.attempts[k].startTime<<","<<task.attempts[k].finishTime<<"," \
-                       <<task.taskID<<","<<task.taskType<<","<<HDFSBlockSize<<endl;
+                       <<task.taskID<<","<<task.taskType<<","<<task.attempts[k].mapInputBytes<<endl;
             }
         }
         // reduce tasks

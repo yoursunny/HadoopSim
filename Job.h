@@ -23,6 +23,7 @@ typedef enum JobState {
 
 class Job {
 public:
+    Job() { }
     Job(std::string jobID, int numMap, int numReduce, long submitTime);
     void initMapTasks(std::vector<TaskStory> mapTasks);
     void initReduceTasks(std::vector<TaskStory> reduceTasks);
@@ -49,6 +50,7 @@ public:
     std::string getJobID();
     bool isFirstMap();
     long getNumReduce();
+    void removeMapDataSource();     // reduce num by one
 private:
     std::string jobID;
     JobState state;

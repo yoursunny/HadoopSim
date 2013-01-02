@@ -136,7 +136,7 @@ void JobTracker::updateTaskStatus(HeartBeatReport report, long now)
 
             // ask for a new job
             JobClient *client = getJobClient();
-            HEvent evt(client, EVT_JobDone, now + 1);
+            HEvent evt(client, EVT_JobDone);
             ns3::Simulator::Schedule(ns3::Seconds((double)1/1000.0), &hadoopEventCallback, evt);
         }
     }
@@ -165,16 +165,22 @@ HeartBeatResponse JobTracker::processHeartbeat(HeartBeatReport report, long now)
                 assert(jobIt != runningJobs.end() && jobIt->second.getState() == JOBRUNNING);
 
                 // find all completed Map Tasks since they have all data ready to use
-                map<string, Task> completedMaps = jobIt->second.getCompletedMaps();
+                Job job = jobIt->second;
+                map<string, Task> completedMaps = job.getCompletedMaps();
                 map<string, Task>::iterator taskIt = completedMaps.begin();
                 while(taskIt != completedMaps.end()) {
-                    MapDataAction dataAction;
-                    dataAction.reduceTaskID = status.taskAttemptID;
-                    dataAction.dataSource = taskIt->second.getTaskStatus().taskTracker;
-                    dataAction.dataSize = ceil(taskIt->second.getTaskStatus().outputSize * 1.0 / jobIt->second.getNumReduce());
-                    mapDataActions.push_back(dataAction);
+		            if (taskIt->second.getTaskStatus().outputSize > 0) {
+                        MapDataAction dataAction;
+                        dataAction.reduceTaskID = status.taskAttemptID;
+                        dataAction.dataSource = taskIt->second.getTaskStatus().taskTracker;
+                        dataAction.dataSize = ceil(taskIt->second.getTaskStatus().outputSize * 1.0 / job.getNumReduce());
+                        mapDataActions.push_back(dataAction);
+		            } else {
+			            job.removeMapDataSource();
+		            }
                     taskIt++;
                 }
+		        runningJobs[jobIt->first] = job;
             }
         }
     }

@@ -28,11 +28,12 @@ public:
     // call back functions used by netsim
     void hbReport(ns3::Ptr<HadoopNetSim::MsgInfo> request_msg);
     void hbResponse(ns3::Ptr<HadoopNetSim::MsgInfo> request_msg);
+    void makeDataRequest(MapDataAction action);
     void dataRequest(ns3::Ptr<HadoopNetSim::MsgInfo> request_msg);
     void dataResponse(ns3::Ptr<HadoopNetSim::MsgInfo> request_msg);
     void sendHeartbeat(long evtTime);
     void handleHeartbeatResponse(HeartBeatResponse *response, long evtTime);
-    void handleNewEvent(long timestamp, EvtType type);
+    void handleNewEvent(EvtType type);
     long getLastReportTime();
     void setLastReportTime(long reportTime);
     void addRunningTask(std::string taskID, Task task);

@@ -26,7 +26,7 @@ private:
     std::string rackName;
 };
 
-void setupCluster(int topoType, std::string topologyFile);
+void setupCluster(int topoType, std::string topologyFile, bool needDebug, std::string debugDir);
 const MachineNode& getClusterMasterNodes(void);
 const std::vector<MachineNode>& getClusterSlaveNodes(void);
 HadoopNetSim::NetSim *getNetSim(void);

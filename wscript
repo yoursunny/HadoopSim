@@ -35,7 +35,7 @@ def build(bld):
     'TraceReader.cpp',
     'TraceAnalyzer.cpp',
     'TraceLogger.cpp',
-    'ResultGenerator.cpp',
+    'NetMonitor.cpp',
     'DataLocalityScheduler.cpp',
     'FIFOScheduler.cpp',
     'Task.cpp',

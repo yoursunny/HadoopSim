@@ -11,6 +11,7 @@ HadoopSim is a simulator for a Hadoop Runtime by replaying the collected traces.
 #include "JobClient.h"
 #include "JobTracker.h"
 #include "Misc.h"
+#include "NetMonitor.h"
 #include "Status.h"
 #include "TaskTracker.h"
 #include "TraceAnalyzer.h"
@@ -37,7 +38,7 @@ void initSim()
 {
     srand(time(NULL));
     initTraceReader(traceFilePrefix, numTraceFiles, needDebug, debugDir);
-    setupCluster(topoType, topologyFile);
+    setupCluster(topoType, topologyFile, needDebug, debugDir);
 }
 
 void runSim()
@@ -124,6 +125,7 @@ int main(int argc, char *argv[])
     // analyze simulation result
     if (needDebug) {
         startAnalysis(false, debugDir);
+        disableNetMonitor();
     }
     endSim();
     return 0;

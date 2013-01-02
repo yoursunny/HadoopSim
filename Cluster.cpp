@@ -9,6 +9,7 @@ HadoopSim is a simulator for a Hadoop Runtime by replaying the collected traces.
 #include <unordered_set>
 #include "Cluster.h"
 #include "HadoopSim.h"
+#include "NetMonitor.h"
 using namespace HadoopNetSim;
 using namespace std;
 
@@ -33,7 +34,7 @@ const string MachineNode::getHostName(void) const
     return this->hostName;
 }
 
-void setupCluster(int topoType, string topologyFile)
+void setupCluster(int topoType, string topologyFile, bool needDebug, string debugDir)
 {
     Topology topology;
     topology.Load(topologyFile);
@@ -66,6 +67,10 @@ void setupCluster(int topoType, string topologyFile)
     netSim.BuildTopology(topology);
     netSim.InstallApps(manager);
     netSim.set_ready_cb(ns3::MakeCallback(&completeCluster));
+
+    if (needDebug) {
+        enableNetMonitor(topology.links(), debugDir);
+    }
 }
 
 const MachineNode& getClusterMasterNodes(void)

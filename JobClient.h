@@ -20,7 +20,7 @@ public:
     void submitJob(long evtTime);
     void completeJob(long evtTime);
     void probeLoad(long evtTime);
-    void handleNewEvent(long timestamp, EvtType type);
+    void handleNewEvent(EvtType type);
 private:
     JobSubmissionPolicy policy;
     long lastSubmissionTime;
