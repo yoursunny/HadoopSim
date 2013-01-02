@@ -107,16 +107,18 @@ class BulkDataTestRunner {
     }
     void DataRequestAll() {
       for (size_t i = 1; i < Server.size(); ++i) {
-        ns3::Simulator::Schedule(ns3::Seconds(0.001 * i), &BulkDataTestRunner::DataRequest, this, i);
+        //ns3::Simulator::Schedule(ns3::Seconds(0.001 * i), &BulkDataTestRunner::DataRequest, this, i);
+        this->DataRequest(i);
       }
+      ns3::Simulator::Schedule(ns3::Seconds(900), &ns3::Simulator::Stop);
     }
     void DataRequest(size_t i) {
       MsgId id;
-      id = this->netsim_->DataRequest(Server[0], Server[i], 1<<8, ns3::MakeCallback(&BulkDataTestRunner::DataResponse, this), this->userobj_);
+      id = this->netsim_->DataRequest(Server[0], Server[i], 9000, ns3::MakeCallback(&BulkDataTestRunner::DataResponse, this), this->userobj_);
       assert(id != MsgId_invalid);
       this->sent_[id] = kMTDataRequest;
 
-      id = this->netsim_->DataRequest(Server[0], Server[i], 1<<8, ns3::MakeCallback(&BulkDataTestRunner::DataResponse, this), this->userobj_);
+      id = this->netsim_->DataRequest(Server[0], Server[i], 9000, ns3::MakeCallback(&BulkDataTestRunner::DataResponse, this), this->userobj_);
       assert(id != MsgId_invalid);
       this->sent_[id] = kMTDataRequest;
 
@@ -125,6 +127,7 @@ class BulkDataTestRunner {
       }
     }
     void DataResponse(ns3::Ptr<MsgInfo> request_msg) {
+      //printf("DataRequest %u %f\n", request_msg->id(), ns3::Simulator::Now().GetSeconds());
       assert(this->sent_[request_msg->id()] == kMTDataRequest);
       assert(request_msg->userobj() == this->userobj_);
       assert(this->received_.count(request_msg->id()) == 0);
@@ -142,7 +145,7 @@ class BulkDataTestRunner {
       assert(this->received_.count(response_msg->id()) == 0);
       this->received_[response_msg->id()] = response_msg;
       if (lastID == response_msg->id()) {
-        ns3::Simulator::Schedule(ns3::Simulator::Now(), &ns3::Simulator::Stop);
+        //ns3::Simulator::Schedule(ns3::Simulator::Now(), &ns3::Simulator::Stop);
       }
     }
     DISALLOW_COPY_AND_ASSIGN(BulkDataTestRunner);
@@ -151,12 +154,15 @@ class BulkDataTestRunner {
 TEST(NetSimTest, BulkData) {
   Topology topology;
   topology.Load("examples/HadoopSim/bench-trace/star.nettopo");
-//topology.Load("examples/HadoopSim/bench-trace/rackrow-6-4.nettopo");
+  //topology.Load("examples/HadoopSim/bench-trace/rackrow-6-4.nettopo");
   std::unordered_set<HostName> managers; managers.insert("manager");
   ASSERT_EQ(52, topology.nodes().size());
 
   EXPECT_EXIT({
     NetSim netsim;
+    //ns3::Config::SetDefault("ns3::DropTailQueue::MaxPackets", ns3::UintegerValue(200));
+    //ns3::LogComponentEnable("TcpSocketBase", ns3::LOG_LEVEL_LOGIC);
+    //ns3::LogComponentEnable("TcpNewReno", ns3::LOG_LEVEL_LOGIC);
     netsim.BuildTopology(topology);
     netsim.InstallApps(managers);
 

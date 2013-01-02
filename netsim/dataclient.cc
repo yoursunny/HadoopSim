@@ -31,10 +31,12 @@ bool DataClient::DataRequest(ns3::Ptr<MsgInfo> msg) {
 
 void DataClient::HandleSend(ns3::Ptr<MsgTransport> mt, ns3::Ptr<MsgInfo> msg) {
   //printf("DataClient::HandleSend %"PRIxMAX"\n", (uintmax_t)ns3::PeekPointer(mt));
-  mt->sock()->ShutdownSend();
+  //mt->sock()->ShutdownSend();
+  //cannot ShutdownSend here: packets won't send out
 }
 
 void DataClient::HandleRecv(ns3::Ptr<MsgTransport> mt, ns3::Ptr<MsgInfo> msg) {
+  mt->sock()->ShutdownSend();
   //this->mts_.erase(msg->in_reply_to());
   //this is called from mt, so erasing mt right here would invalidate pointers
   ns3::Simulator::ScheduleNow(&DataClient::DeleteMT, this, msg->in_reply_to());

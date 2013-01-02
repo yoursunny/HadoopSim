@@ -123,12 +123,11 @@ void MsgTransport::RecvData(ns3::Ptr<ns3::Socket> s) {
       if (this->recv_map_.count(msg->id()) == 0) {
         ts = ns3::Create<TransmitState>(msg);
         this->recv_map_[msg->id()] = ts;
-        //printf("MsgTransport::RecvData-blk0 %"PRIxMAX"\n", (uintmax_t)this);
       } else {
         ts = this->recv_map_[msg->id()];
       }
       ts->inc_count(count);
-      //printf("RecvData id=%u count=%u remain=%u\n", msg->id(), count, ts->remaining());
+      //printf("RecvData id=%u count=%u remain=%u now=%f\n", msg->id(), count, ts->remaining(), ns3::Simulator::Now().GetSeconds());
       if (ts->IsComplete()) {
         this->recv_map_.erase(msg->id());
         msg->set_success(true);
