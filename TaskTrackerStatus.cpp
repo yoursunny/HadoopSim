@@ -2,6 +2,8 @@
 Lei Ye <leiy@cs.arizona.edu>
 HadoopSim is a simulator for a Hadoop Runtime by replaying the collected traces.
 */
+#include <assert.h>
+#include "Cluster.h"
 #include "TaskTrackerStatus.h"
 using namespace std;
 
@@ -32,6 +34,7 @@ long TaskTrackerStatus::getAvailMapSlots()
 
 void TaskTrackerStatus::setAvailMapSlots(long slot)
 {
+    assert(slot >= 0 && slot <= MaxMapSlots);
     this->numAvailMapSlots = slot;
 }
 
@@ -42,5 +45,6 @@ long TaskTrackerStatus::getAvailReduceSlots()
 
 void TaskTrackerStatus::setAvailReduceSlots(long slot)
 {
+    assert(slot >= 0 && slot <= MaxReduceSlots);
     this->numAvailReduceSlots = slot;
 }

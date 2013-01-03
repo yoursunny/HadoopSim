@@ -176,6 +176,7 @@ ActionType Job::updateTaskStatus(TaskStatus &taskStatus)
                     setState(JOBSUCCEEDED);
                 }
             } else {
+                cout<<taskStatus.taskTracker<<", completedMaps = "<<completedMaps.size()<<endl;
 		        cout<<taskStatus.taskTracker<<", "<<taskStatus.taskAttemptID<<" +++++++++++++++++++++++++taskStatus.mapDataCouter = "<<taskStatus.mapDataCouter<<endl;
 		        cout<<taskStatus.taskTracker<<", "<<taskStatus.taskAttemptID<<" =========================this->numMapDataSource = "<<this->numMapDataSource<<endl;
                 if (isAllMapsDone() && taskStatus.runPhase == SHUFFLE && taskStatus.mapDataCouter == this->numMapDataSource) {

@@ -20,7 +20,9 @@ const long clusterStartupDuration = 100 * 1000;     //milliseconds
 const long HEARTBEAT_INTERVAL_MIN = 3 * 1000;       //milliseconds
 const int CLUSTER_INCREMENT = 100;
 static long nextHeartbeatInterval = 0;
-const size_t DataRequestMsgSize = 256;              // bytes
+// For some unknown reason, if a message is smaller than TCP segment size, TCP
+// retransmission may not work. Therefore, all messages should be at least 9000 octets.
+const size_t DataRequestMsgSize = 9000;             // bytes
 
 void TaskTracker::setHostName(string hostName)
 {
@@ -116,11 +118,11 @@ list<TaskStatus> TaskTracker::collectTaskStatus(long now)
                 setUsedMapSlots(getUsedMapSlots() - 1);
             }
             else {
-                assert(getUsedReduceSlots() > 0 && getUsedReduceSlots() < MaxReduceSlots + 2);
+                assert(getUsedReduceSlots() > 0 && getUsedReduceSlots() < MaxReduceSlots + 1);
                 setUsedReduceSlots(getUsedReduceSlots() - 1);
             }
             completedTasks.insert(pair<string, Task>(it->first, it->second));
-            cout<<it->second.getTaskStatus().taskAttemptID<<" done on "<<it->second.getTaskStatus().taskTracker<<endl;
+            cout<<it->second.getTaskStatus().taskAttemptID<<" done "<<(it->second.getTaskStatus().isRemote ? "REMOTELY" : "LOCALLY")<<" on "<<it->second.getTaskStatus().taskTracker<<endl;
             runningTasks.erase(it++);
         }
         else
@@ -231,7 +233,6 @@ void TaskTracker::dataResponse(ns3::Ptr<MsgInfo> response_msg)
         map<string, Task>::iterator taskIt = runningTasks.find(action.status.taskAttemptID);
         assert(taskIt == runningTasks.end());
         assert(task.getTaskStatus().type == MAPTASK);
-        setUsedMapSlots(getUsedMapSlots() + 1);
         addRunningTask(action.status.taskAttemptID, task);
     } else if (pendingMapDataAction.find(response_msg->id()) != pendingMapDataAction.end()) {
         MapDataAction action = pendingMapDataAction[response_msg->id()];
@@ -243,8 +244,8 @@ void TaskTracker::dataResponse(ns3::Ptr<MsgInfo> response_msg)
         Task task = taskIt->second;
         TaskStatus status = task.getTaskStatus();
         status.finishTime = ns3::Simulator::Now().GetMilliSeconds() + status.duration;		// the last arrived MapData set the finishTime of this reduce task
-        status.mapDataCouter++; 
-	//cout<<"@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ mapdata = "<<status.mapDataCouter<<endl;
+        status.mapDataCouter++;
+	    //cout<<"@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ mapdata = "<<status.mapDataCouter<<endl;
         task.updateTaskStatus(status);
         updateRunningTask(taskIt->first, task);
     } else {
@@ -316,6 +317,7 @@ void TaskTracker::handleHeartbeatResponse(HeartBeatResponse *response, long evtT
                     assert(action.status.type == MAPTASK);
                     assert(action.status.isRemote == true);
                     action.status.startTime = evtTime;
+                    this->usedMapSlots++;
                     //cout<<"remote map tasks, host = "<<this->hostName<<", data source =  "<<action.status.dataSource<<endl;
                     id = netsim->DataRequest(this->hostName, action.status.dataSource, DataRequestMsgSize, ns3::MakeCallback(&TaskTracker::dataRequest, this), this);
                     assert(id != MsgId_invalid);
@@ -370,7 +372,8 @@ void TaskTracker::handleHeartbeatResponse(HeartBeatResponse *response, long evtT
 
         assert(response->mapDataActions[i].dataSize > 0);
         //cout<<"reduce tasks, host = "<<this->hostName<<", data source =  "<<response->mapDataActions[i].dataSource<<", datasize ="<<response->mapDataActions[i].dataSize<<endl;
-        ns3::Simulator::Schedule(ns3::Seconds(0.001 * i), &TaskTracker::makeDataRequest, this, response->mapDataActions[i]);
+        //ns3::Simulator::Schedule(ns3::Seconds(0.01 * i), &TaskTracker::makeDataRequest, this, response->mapDataActions[i]);
+        makeDataRequest(response->mapDataActions[i]);
     }
 }
 

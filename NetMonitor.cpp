@@ -14,6 +14,7 @@ static unordered_map<LinkId,ns3::Ptr<Link>> netSimLinks;
 
 void checkLinkStat(void)
 {
+    fprintf(netFile, "%lu\n", ns3::Simulator::Now().GetMilliSeconds());
     for(LinkId id = 1; id <= netSimLinks.size(); ++id) {
         ns3::Ptr<LinkStat> stat = getNetSim()->GetLinkStat(id);
         fprintf(netFile, "LinkStat(%d) bandwidth=%02.2f%% queue=%02.2f%%\n", stat->id(), stat->bandwidth_utilization()*100, stat->queue_utilization()*100);
@@ -22,14 +23,15 @@ void checkLinkStat(void)
         fprintf(netFile, "LinkStat(%d) bandwidth=%02.2f%% queue=%02.2f%%\n", stat->id(), stat->bandwidth_utilization()*100, stat->queue_utilization()*100);
     }
     fprintf(netFile, "\n");
-    ns3::Simulator::Schedule(ns3::Seconds(3.0), &checkLinkStat);
+    printf("%lu\n", ns3::Simulator::Now().GetMilliSeconds());
+    ns3::Simulator::Schedule(ns3::Seconds(30.0), &checkLinkStat);
 }
 
 void enableNetMonitor(unordered_map<LinkId,ns3::Ptr<Link>> links, string debugDir)
 {
     netSimLinks = links;
     netFile = fopen((debugDir + "linkstat.txt").c_str(), "w");
-    ns3::Simulator::Schedule(ns3::Seconds(3.0), &checkLinkStat);
+    ns3::Simulator::Schedule(ns3::Seconds(30.0), &checkLinkStat);
 }
 
 void disableNetMonitor()
