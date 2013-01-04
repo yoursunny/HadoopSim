@@ -261,6 +261,11 @@ bool Job::canScheduleReduce()
     return completedMaps.size() >= (size_t)completedMapsForReduceStart;
 }
 
+long Job::getSubmitTime()
+{
+    return this->submitTime;
+}
+
 long Job::getStarTime()
 {
     return this->startTime;
@@ -279,6 +284,11 @@ string Job::getJobID()
 bool Job::isFirstMap()
 {
     return remoteRunningMaps.empty() && localRunningMaps.empty() && completedMaps.empty() && killedMaps.empty();
+}
+
+long Job::getNumMap()
+{
+    return this->numMap;
 }
 
 long Job::getNumReduce()

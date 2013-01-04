@@ -34,7 +34,7 @@ void JobClient::submitJob(long evtTime)
         jobTracker->acceptNewJob(&jobStory, evtTime);
 
         if (debugOption) {
-            dumpJobStory(jobStory, debugDirectory);
+            //dumpJobStory(jobStory, debugDirectory);
         }
 
         // setup next event according to the specified policy

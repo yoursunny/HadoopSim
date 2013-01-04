@@ -45,10 +45,12 @@ public:
     std::map<std::string, Task> getCompletedReduces();
     std::map<std::string, Task> getRunningReduces();
     bool canScheduleReduce();
+    long getSubmitTime();
     long getStarTime();
     long getEndTime();
     std::string getJobID();
     bool isFirstMap();
+    long getNumMap();
     long getNumReduce();
     void removeMapDataSource();     // reduce num by one
 private:

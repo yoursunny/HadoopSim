@@ -221,6 +221,48 @@ void verifyShuffleData(deque<JobStory> &jobSet, string debugDir)
     }
 }
 
+void logJobTaskDetails(const map<string, Job> &completedJobs, string debugDir)
+{
+    map<string, Job>::const_iterator jobIt;
+    map<string, Task>::iterator taskIt;
+    ofstream csvFile;
+
+    for(jobIt = completedJobs.begin(); jobIt != completedJobs.end(); jobIt++) {
+        Job job = jobIt->second;
+        csvFile.open((debugDir + job.getJobID() + "_RuntimeDetails.csv").c_str());
+
+        // log Job Detail
+        // jobID, state, numMap, numReduce, submitTime, startTime, endTime
+        csvFile<<job.getJobID()<<","<<job.getState()<<","
+               <<job.getNumMap()<<","<<job.getNumReduce()<<","
+               <<job.getSubmitTime()<<","<<job.getStarTime()<<","<<job.getEndTime()<<endl<<endl;
+
+        // log Task Detail
+        // taskAttemptID, taskTracker, type, isRemote, dataSource, dataSize, startTime, finishTime, CPUTime, outputSize
+        map<string, Task> mapTasks = job.getCompletedMaps();
+        for(taskIt = mapTasks.begin(); taskIt != mapTasks.end(); taskIt++) {
+            TaskStatus taskStatus = taskIt->second.getTaskStatus();
+            csvFile<<taskStatus.taskAttemptID<<","<<taskStatus.taskTracker<<","
+                   <<taskStatus.type<<","<<taskStatus.isRemote<<","
+                   <<taskStatus.dataSource<<","<<taskStatus.dataSize<<","
+                   <<taskStatus.startTime<<","<<taskStatus.finishTime<<","
+                   <<taskStatus.duration<<","<<taskStatus.outputSize<<endl;
+        }
+        csvFile<<endl;
+
+        map<string, Task> reduceTasks = job.getCompletedReduces();
+        for(taskIt = reduceTasks.begin(); taskIt != reduceTasks.end(); taskIt++) {
+            TaskStatus taskStatus = taskIt->second.getTaskStatus();
+            csvFile<<taskStatus.taskAttemptID<<","<<taskStatus.taskTracker<<","
+                   <<taskStatus.type<<","<<taskStatus.isRemote<<","
+                   <<taskStatus.dataSource<<","<<taskStatus.dataSize<<","
+                   <<taskStatus.startTime<<","<<taskStatus.finishTime<<","
+                   <<taskStatus.duration<<","<<taskStatus.outputSize<<endl;
+        }
+        csvFile.close();
+    }
+}
+
 void startAnalysis(bool isRawTrace, string debugDir)
 {
     if (isRawTrace) {
@@ -230,7 +272,9 @@ void startAnalysis(bool isRawTrace, string debugDir)
         verifyShuffleData(allJobs, debugDir);
     } else {
         JobTracker *jobTracker = getJobTracker();
-        if (!jobTracker->getCompletedJobs().empty())
+        if (!jobTracker->getCompletedJobs().empty()) {
             analyzeJobTaskExeTime(jobTracker->getCompletedJobs(), debugDir);
+            logJobTaskDetails(jobTracker->getCompletedJobs(), debugDir);
+        }
     }
 }
