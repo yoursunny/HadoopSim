@@ -1,0 +1,4389 @@
+{
+  "clusterMapMB" : -1,
+  "clusterReduceMB" : -1,
+  "computonsPerMapInputByte" : -1,
+  "computonsPerMapOutputByte" : -1,
+  "computonsPerReduceInputByte" : -1,
+  "computonsPerReduceOutputByte" : -1,
+  "directDependantJobs" : [],
+  "failedMapAttemptCDFs" : [
+    {
+      "maximum" : 9223372036854775807,
+      "minimum" : -9223372036854775808,
+      "numberValues" : 0,
+      "rankings" : []
+    },
+    {
+      "maximum" : 9223372036854775807,
+      "minimum" : -9223372036854775808,
+      "numberValues" : 0,
+      "rankings" : []
+    },
+    {
+      "maximum" : 9223372036854775807,
+      "minimum" : -9223372036854775808,
+      "numberValues" : 0,
+      "rankings" : []
+    },
+    {
+      "maximum" : 9223372036854775807,
+      "minimum" : -9223372036854775808,
+      "numberValues" : 0,
+      "rankings" : []
+    }
+  ],
+  "failedMapperFraction" : 0.0,
+  "failedReduceAttemptCDF" : {
+    "maximum" : 9223372036854775807,
+    "minimum" : -9223372036854775808,
+    "numberValues" : 0,
+    "rankings" : []
+  },
+  "finishTime" : 1355643809951,
+  "heapMegabytes" : 2048,
+  "jobID" : "job_201212160737_0001",
+  "jobMapMB" : 2048,
+  "jobName" : "Create nutch urls",
+  "jobReduceMB" : 2048,
+  "jobtype" : "JAVA",
+  "launchTime" : 1355643779183,
+  "mapTasks" : [
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000000_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22409,
+          "finishTime" : 1355643789666,
+          "hdfsBytesRead" : 364,
+          "hdfsBytesWritten" : 4932960,
+          "hostName" : "/default-rack/server-1680.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1680.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643785623
+        }
+      ],
+      "finishTime" : 1355643791290,
+      "inputBytes" : 364,
+      "inputRecords" : 1,
+      "outputBytes" : 22409,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643785267,
+      "taskID" : "task_201212160737_0001_m_000000",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000001_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22410,
+          "finishTime" : 1355643790394,
+          "hdfsBytesRead" : 361,
+          "hdfsBytesWritten" : 4951942,
+          "hostName" : "/default-rack/server-1699.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1699.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643785984
+        }
+      ],
+      "finishTime" : 1355643791443,
+      "inputBytes" : 361,
+      "inputRecords" : 1,
+      "outputBytes" : 22410,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643785400,
+      "taskID" : "task_201212160737_0001_m_000001",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000002_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22410,
+          "finishTime" : 1355643794264,
+          "hdfsBytesRead" : 358,
+          "hdfsBytesWritten" : 4933509,
+          "hostName" : "/default-rack/server-1681.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1681.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643786423
+        }
+      ],
+      "finishTime" : 1355643794890,
+      "inputBytes" : 358,
+      "inputRecords" : 1,
+      "outputBytes" : 22410,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643785847,
+      "taskID" : "task_201212160737_0001_m_000002",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000003_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22411,
+          "finishTime" : 1355643792597,
+          "hdfsBytesRead" : 355,
+          "hdfsBytesWritten" : 4926501,
+          "hostName" : "/default-rack/server-1705.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1705.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643788575
+        }
+      ],
+      "finishTime" : 1355643793796,
+      "inputBytes" : 355,
+      "inputRecords" : 1,
+      "outputBytes" : 22411,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643787761,
+      "taskID" : "task_201212160737_0001_m_000003",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000004_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22411,
+          "finishTime" : 1355643792587,
+          "hdfsBytesRead" : 352,
+          "hdfsBytesWritten" : 4930483,
+          "hostName" : "/default-rack/server-1700.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1700.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643788365
+        }
+      ],
+      "finishTime" : 1355643793820,
+      "inputBytes" : 352,
+      "inputRecords" : 1,
+      "outputBytes" : 22411,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643787774,
+      "taskID" : "task_201212160737_0001_m_000004",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000005_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22409,
+          "finishTime" : 1355643796153,
+          "hdfsBytesRead" : 349,
+          "hdfsBytesWritten" : 4956648,
+          "hostName" : "/default-rack/server-1703.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1703.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643788851
+        }
+      ],
+      "finishTime" : 1355643796913,
+      "inputBytes" : 349,
+      "inputRecords" : 1,
+      "outputBytes" : 22409,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643787864,
+      "taskID" : "task_201212160737_0001_m_000005",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000006_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22410,
+          "finishTime" : 1355643792502,
+          "hdfsBytesRead" : 346,
+          "hdfsBytesWritten" : 4941040,
+          "hostName" : "/default-rack/server-1706.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1706.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643788444
+        }
+      ],
+      "finishTime" : 1355643793934,
+      "inputBytes" : 346,
+      "inputRecords" : 1,
+      "outputBytes" : 22410,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643787889,
+      "taskID" : "task_201212160737_0001_m_000006",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000007_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22410,
+          "finishTime" : 1355643796475,
+          "hdfsBytesRead" : 343,
+          "hdfsBytesWritten" : 4919943,
+          "hostName" : "/default-rack/server-1695.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1695.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643789193
+        }
+      ],
+      "finishTime" : 1355643796958,
+      "inputBytes" : 343,
+      "inputRecords" : 1,
+      "outputBytes" : 22410,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643787901,
+      "taskID" : "task_201212160737_0001_m_000007",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000008_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22411,
+          "finishTime" : 1355643795565,
+          "hdfsBytesRead" : 340,
+          "hdfsBytesWritten" : 4914320,
+          "hostName" : "/default-rack/server-1701.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1701.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643788292
+        }
+      ],
+      "finishTime" : 1355643796962,
+      "inputBytes" : 340,
+      "inputRecords" : 1,
+      "outputBytes" : 22411,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643787908,
+      "taskID" : "task_201212160737_0001_m_000008",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000009_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22409,
+          "finishTime" : 1355643793201,
+          "hdfsBytesRead" : 337,
+          "hdfsBytesWritten" : 4928865,
+          "hostName" : "/default-rack/server-1686.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1686.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643788961
+        }
+      ],
+      "finishTime" : 1355643793992,
+      "inputBytes" : 337,
+      "inputRecords" : 1,
+      "outputBytes" : 22409,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643787942,
+      "taskID" : "task_201212160737_0001_m_000009",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000010_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22411,
+          "finishTime" : 1355643792975,
+          "hdfsBytesRead" : 334,
+          "hdfsBytesWritten" : 4933961,
+          "hostName" : "/default-rack/server-1722.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1722.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643788909
+        }
+      ],
+      "finishTime" : 1355643793996,
+      "inputBytes" : 334,
+      "inputRecords" : 1,
+      "outputBytes" : 22411,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643787944,
+      "taskID" : "task_201212160737_0001_m_000010",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000011_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22412,
+          "finishTime" : 1355643796176,
+          "hdfsBytesRead" : 331,
+          "hdfsBytesWritten" : 4959580,
+          "hostName" : "/default-rack/server-1704.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1704.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643788928
+        }
+      ],
+      "finishTime" : 1355643797050,
+      "inputBytes" : 331,
+      "inputRecords" : 1,
+      "outputBytes" : 22412,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643787946,
+      "taskID" : "task_201212160737_0001_m_000011",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000012_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22411,
+          "finishTime" : 1355643792617,
+          "hdfsBytesRead" : 328,
+          "hdfsBytesWritten" : 4919239,
+          "hostName" : "/default-rack/server-1693.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1693.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643788350
+        }
+      ],
+      "finishTime" : 1355643794017,
+      "inputBytes" : 328,
+      "inputRecords" : 1,
+      "outputBytes" : 22411,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643787958,
+      "taskID" : "task_201212160737_0001_m_000012",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000013_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22410,
+          "finishTime" : 1355643792733,
+          "hdfsBytesRead" : 325,
+          "hdfsBytesWritten" : 4911348,
+          "hostName" : "/default-rack/server-1714.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1714.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643788570
+        }
+      ],
+      "finishTime" : 1355643794001,
+      "inputBytes" : 325,
+      "inputRecords" : 1,
+      "outputBytes" : 22410,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643787964,
+      "taskID" : "task_201212160737_0001_m_000013",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000014_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22411,
+          "finishTime" : 1355643792942,
+          "hdfsBytesRead" : 322,
+          "hdfsBytesWritten" : 4939305,
+          "hostName" : "/default-rack/server-1717.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1717.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643788783
+        }
+      ],
+      "finishTime" : 1355643794027,
+      "inputBytes" : 322,
+      "inputRecords" : 1,
+      "outputBytes" : 22411,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643787969,
+      "taskID" : "task_201212160737_0001_m_000014",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000015_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22411,
+          "finishTime" : 1355643796073,
+          "hdfsBytesRead" : 319,
+          "hdfsBytesWritten" : 4938440,
+          "hostName" : "/default-rack/server-1687.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1687.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643788913
+        }
+      ],
+      "finishTime" : 1355643797191,
+      "inputBytes" : 319,
+      "inputRecords" : 1,
+      "outputBytes" : 22411,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643787970,
+      "taskID" : "task_201212160737_0001_m_000015",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000016_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22410,
+          "finishTime" : 1355643792986,
+          "hdfsBytesRead" : 316,
+          "hdfsBytesWritten" : 4912420,
+          "hostName" : "/default-rack/server-1677.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1677.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643788909
+        }
+      ],
+      "finishTime" : 1355643794012,
+      "inputBytes" : 316,
+      "inputRecords" : 1,
+      "outputBytes" : 22410,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643787975,
+      "taskID" : "task_201212160737_0001_m_000016",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000017_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22411,
+          "finishTime" : 1355643795809,
+          "hdfsBytesRead" : 313,
+          "hdfsBytesWritten" : 4930782,
+          "hostName" : "/default-rack/server-1678.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1678.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643788576
+        }
+      ],
+      "finishTime" : 1355643797036,
+      "inputBytes" : 313,
+      "inputRecords" : 1,
+      "outputBytes" : 22411,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643787979,
+      "taskID" : "task_201212160737_0001_m_000017",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000018_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22411,
+          "finishTime" : 1355643796533,
+          "hdfsBytesRead" : 310,
+          "hdfsBytesWritten" : 4943537,
+          "hostName" : "/default-rack/server-1712.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1712.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643789192
+        }
+      ],
+      "finishTime" : 1355643797055,
+      "inputBytes" : 310,
+      "inputRecords" : 1,
+      "outputBytes" : 22411,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643787982,
+      "taskID" : "task_201212160737_0001_m_000018",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000019_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22411,
+          "finishTime" : 1355643792499,
+          "hdfsBytesRead" : 307,
+          "hdfsBytesWritten" : 4923380,
+          "hostName" : "/default-rack/server-1682.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1682.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643788393
+        }
+      ],
+      "finishTime" : 1355643794030,
+      "inputBytes" : 307,
+      "inputRecords" : 1,
+      "outputBytes" : 22411,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643787986,
+      "taskID" : "task_201212160737_0001_m_000019",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000020_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22412,
+          "finishTime" : 1355643792734,
+          "hdfsBytesRead" : 304,
+          "hdfsBytesWritten" : 4918427,
+          "hostName" : "/default-rack/server-1676.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1676.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643788542
+        }
+      ],
+      "finishTime" : 1355643794034,
+      "inputBytes" : 304,
+      "inputRecords" : 1,
+      "outputBytes" : 22412,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643787987,
+      "taskID" : "task_201212160737_0001_m_000020",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000021_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22411,
+          "finishTime" : 1355643793099,
+          "hdfsBytesRead" : 301,
+          "hdfsBytesWritten" : 4909440,
+          "hostName" : "/default-rack/server-1688.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1688.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643789000
+        }
+      ],
+      "finishTime" : 1355643794042,
+      "inputBytes" : 301,
+      "inputRecords" : 1,
+      "outputBytes" : 22411,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643787991,
+      "taskID" : "task_201212160737_0001_m_000021",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000022_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22411,
+          "finishTime" : 1355643796694,
+          "hdfsBytesRead" : 298,
+          "hdfsBytesWritten" : 4932926,
+          "hostName" : "/default-rack/server-1720.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1720.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643789482
+        }
+      ],
+      "finishTime" : 1355643797062,
+      "inputBytes" : 298,
+      "inputRecords" : 1,
+      "outputBytes" : 22411,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643788003,
+      "taskID" : "task_201212160737_0001_m_000022",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000023_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22411,
+          "finishTime" : 1355643796821,
+          "hdfsBytesRead" : 295,
+          "hdfsBytesWritten" : 4922786,
+          "hostName" : "/default-rack/server-1697.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1697.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643789470
+        }
+      ],
+      "finishTime" : 1355643797065,
+      "inputBytes" : 295,
+      "inputRecords" : 1,
+      "outputBytes" : 22411,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643788006,
+      "taskID" : "task_201212160737_0001_m_000023",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000024_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22412,
+          "finishTime" : 1355643795821,
+          "hdfsBytesRead" : 292,
+          "hdfsBytesWritten" : 4936431,
+          "hostName" : "/default-rack/server-1683.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1683.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643788549
+        }
+      ],
+      "finishTime" : 1355643797059,
+      "inputBytes" : 292,
+      "inputRecords" : 1,
+      "outputBytes" : 22412,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643788007,
+      "taskID" : "task_201212160737_0001_m_000024",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000025_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22410,
+          "finishTime" : 1355643792728,
+          "hdfsBytesRead" : 289,
+          "hdfsBytesWritten" : 4914847,
+          "hostName" : "/default-rack/server-1719.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1719.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643788644
+        }
+      ],
+      "finishTime" : 1355643794062,
+      "inputBytes" : 289,
+      "inputRecords" : 1,
+      "outputBytes" : 22410,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643788008,
+      "taskID" : "task_201212160737_0001_m_000025",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000026_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22409,
+          "finishTime" : 1355643792665,
+          "hdfsBytesRead" : 286,
+          "hdfsBytesWritten" : 4932208,
+          "hostName" : "/default-rack/server-1696.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1696.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643788630
+        }
+      ],
+      "finishTime" : 1355643794069,
+      "inputBytes" : 286,
+      "inputRecords" : 1,
+      "outputBytes" : 22409,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643788016,
+      "taskID" : "task_201212160737_0001_m_000026",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000027_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22412,
+          "finishTime" : 1355643795485,
+          "hdfsBytesRead" : 283,
+          "hdfsBytesWritten" : 4938247,
+          "hostName" : "/default-rack/server-1691.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1691.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643788282
+        }
+      ],
+      "finishTime" : 1355643797101,
+      "inputBytes" : 283,
+      "inputRecords" : 1,
+      "outputBytes" : 22412,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643788048,
+      "taskID" : "task_201212160737_0001_m_000027",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000028_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22411,
+          "finishTime" : 1355643795732,
+          "hdfsBytesRead" : 280,
+          "hdfsBytesWritten" : 4950351,
+          "hostName" : "/default-rack/server-1707.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1707.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643788609
+        }
+      ],
+      "finishTime" : 1355643797113,
+      "inputBytes" : 280,
+      "inputRecords" : 1,
+      "outputBytes" : 22411,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643788060,
+      "taskID" : "task_201212160737_0001_m_000028",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000029_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22410,
+          "finishTime" : 1355643795514,
+          "hdfsBytesRead" : 277,
+          "hdfsBytesWritten" : 4926055,
+          "hostName" : "/default-rack/server-1713.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1713.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643788281
+        }
+      ],
+      "finishTime" : 1355643797106,
+      "inputBytes" : 277,
+      "inputRecords" : 1,
+      "outputBytes" : 22410,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643788063,
+      "taskID" : "task_201212160737_0001_m_000029",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000030_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22411,
+          "finishTime" : 1355643793458,
+          "hdfsBytesRead" : 274,
+          "hdfsBytesWritten" : 4923371,
+          "hostName" : "/default-rack/server-1718.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1718.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643789335
+        }
+      ],
+      "finishTime" : 1355643794107,
+      "inputBytes" : 274,
+      "inputRecords" : 1,
+      "outputBytes" : 22411,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643788067,
+      "taskID" : "task_201212160737_0001_m_000030",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000031_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22412,
+          "finishTime" : 1355643793299,
+          "hdfsBytesRead" : 271,
+          "hdfsBytesWritten" : 4940307,
+          "hostName" : "/default-rack/server-1689.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1689.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643789261
+        }
+      ],
+      "finishTime" : 1355643794116,
+      "inputBytes" : 271,
+      "inputRecords" : 1,
+      "outputBytes" : 22412,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643788069,
+      "taskID" : "task_201212160737_0001_m_000031",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000032_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22412,
+          "finishTime" : 1355643792782,
+          "hdfsBytesRead" : 268,
+          "hdfsBytesWritten" : 4921239,
+          "hostName" : "/default-rack/server-1702.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1702.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643788615
+        }
+      ],
+      "finishTime" : 1355643794126,
+      "inputBytes" : 268,
+      "inputRecords" : 1,
+      "outputBytes" : 22412,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643788082,
+      "taskID" : "task_201212160737_0001_m_000032",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000033_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22411,
+          "finishTime" : 1355643795711,
+          "hdfsBytesRead" : 265,
+          "hdfsBytesWritten" : 4928382,
+          "hostName" : "/default-rack/server-1716.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1716.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643788479
+        }
+      ],
+      "finishTime" : 1355643797151,
+      "inputBytes" : 265,
+      "inputRecords" : 1,
+      "outputBytes" : 22411,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643788092,
+      "taskID" : "task_201212160737_0001_m_000033",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000034_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22410,
+          "finishTime" : 1355643793450,
+          "hdfsBytesRead" : 262,
+          "hdfsBytesWritten" : 4938484,
+          "hostName" : "/default-rack/server-1711.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1711.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643789198
+        }
+      ],
+      "finishTime" : 1355643794140,
+      "inputBytes" : 262,
+      "inputRecords" : 1,
+      "outputBytes" : 22410,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643788094,
+      "taskID" : "task_201212160737_0001_m_000034",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000035_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22412,
+          "finishTime" : 1355643792835,
+          "hdfsBytesRead" : 259,
+          "hdfsBytesWritten" : 4929136,
+          "hostName" : "/default-rack/server-1721.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1721.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643788691
+        }
+      ],
+      "finishTime" : 1355643794144,
+      "inputBytes" : 259,
+      "inputRecords" : 1,
+      "outputBytes" : 22412,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643788107,
+      "taskID" : "task_201212160737_0001_m_000035",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000036_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22409,
+          "finishTime" : 1355643793279,
+          "hdfsBytesRead" : 256,
+          "hdfsBytesWritten" : 4941056,
+          "hostName" : "/default-rack/server-1709.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1709.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643789143
+        }
+      ],
+      "finishTime" : 1355643794163,
+      "inputBytes" : 256,
+      "inputRecords" : 1,
+      "outputBytes" : 22409,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643788125,
+      "taskID" : "task_201212160737_0001_m_000036",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000037_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22409,
+          "finishTime" : 1355643793296,
+          "hdfsBytesRead" : 253,
+          "hdfsBytesWritten" : 4926786,
+          "hostName" : "/default-rack/server-1685.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1685.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643789136
+        }
+      ],
+      "finishTime" : 1355643794210,
+      "inputBytes" : 253,
+      "inputRecords" : 1,
+      "outputBytes" : 22409,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643788142,
+      "taskID" : "task_201212160737_0001_m_000037",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000038_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22411,
+          "finishTime" : 1355643793293,
+          "hdfsBytesRead" : 250,
+          "hdfsBytesWritten" : 4933284,
+          "hostName" : "/default-rack/server-1710.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1710.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643789210
+        }
+      ],
+      "finishTime" : 1355643794229,
+      "inputBytes" : 250,
+      "inputRecords" : 1,
+      "outputBytes" : 22411,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643788162,
+      "taskID" : "task_201212160737_0001_m_000038",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000039_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22411,
+          "finishTime" : 1355643793038,
+          "hdfsBytesRead" : 247,
+          "hdfsBytesWritten" : 4944649,
+          "hostName" : "/default-rack/server-1694.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1694.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643788960
+        }
+      ],
+      "finishTime" : 1355643794227,
+      "inputBytes" : 247,
+      "inputRecords" : 1,
+      "outputBytes" : 22411,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643788188,
+      "taskID" : "task_201212160737_0001_m_000039",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000040_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22412,
+          "finishTime" : 1355643793398,
+          "hdfsBytesRead" : 244,
+          "hdfsBytesWritten" : 4920113,
+          "hostName" : "/default-rack/server-1684.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1684.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643789295
+        }
+      ],
+      "finishTime" : 1355643794237,
+      "inputBytes" : 244,
+      "inputRecords" : 1,
+      "outputBytes" : 22412,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643788189,
+      "taskID" : "task_201212160737_0001_m_000040",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000041_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22412,
+          "finishTime" : 1355643793094,
+          "hdfsBytesRead" : 241,
+          "hdfsBytesWritten" : 4935305,
+          "hostName" : "/default-rack/server-1698.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1698.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643788920
+        }
+      ],
+      "finishTime" : 1355643794267,
+      "inputBytes" : 241,
+      "inputRecords" : 1,
+      "outputBytes" : 22412,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643788224,
+      "taskID" : "task_201212160737_0001_m_000041",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000042_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22409,
+          "finishTime" : 1355643793203,
+          "hdfsBytesRead" : 238,
+          "hdfsBytesWritten" : 4914216,
+          "hostName" : "/default-rack/server-1708.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1708.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643789135
+        }
+      ],
+      "finishTime" : 1355643794273,
+      "inputBytes" : 238,
+      "inputRecords" : 1,
+      "outputBytes" : 22409,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643788228,
+      "taskID" : "task_201212160737_0001_m_000042",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000043_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22410,
+          "finishTime" : 1355643792896,
+          "hdfsBytesRead" : 235,
+          "hdfsBytesWritten" : 4922294,
+          "hostName" : "/default-rack/server-1680.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1680.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643788627
+        }
+      ],
+      "finishTime" : 1355643794305,
+      "inputBytes" : 235,
+      "inputRecords" : 1,
+      "outputBytes" : 22410,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643788277,
+      "taskID" : "task_201212160737_0001_m_000043",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000044_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22411,
+          "finishTime" : 1355643793672,
+          "hdfsBytesRead" : 232,
+          "hdfsBytesWritten" : 4922919,
+          "hostName" : "/default-rack/server-1699.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1699.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643788647
+        }
+      ],
+      "finishTime" : 1355643794451,
+      "inputBytes" : 232,
+      "inputRecords" : 1,
+      "outputBytes" : 22411,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643788432,
+      "taskID" : "task_201212160737_0001_m_000044",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000045_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22411,
+          "finishTime" : 1355643797574,
+          "hdfsBytesRead" : 229,
+          "hdfsBytesWritten" : 4905386,
+          "hostName" : "/default-rack/server-1681.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1681.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643789090
+        }
+      ],
+      "finishTime" : 1355643797901,
+      "inputBytes" : 229,
+      "inputRecords" : 1,
+      "outputBytes" : 22411,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643788875,
+      "taskID" : "task_201212160737_0001_m_000045",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000046_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22412,
+          "finishTime" : 1355643795278,
+          "hdfsBytesRead" : 226,
+          "hdfsBytesWritten" : 4930241,
+          "hostName" : "/default-rack/server-1705.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1705.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643791266
+        }
+      ],
+      "finishTime" : 1355643796806,
+      "inputBytes" : 226,
+      "inputRecords" : 1,
+      "outputBytes" : 22412,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643790788,
+      "taskID" : "task_201212160737_0001_m_000046",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000047_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22412,
+          "finishTime" : 1355643795242,
+          "hdfsBytesRead" : 223,
+          "hdfsBytesWritten" : 4922327,
+          "hostName" : "/default-rack/server-1700.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1700.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643791049
+        }
+      ],
+      "finishTime" : 1355643796830,
+      "inputBytes" : 223,
+      "inputRecords" : 1,
+      "outputBytes" : 22412,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643790809,
+      "taskID" : "task_201212160737_0001_m_000047",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000048_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22410,
+          "finishTime" : 1355643798839,
+          "hdfsBytesRead" : 220,
+          "hdfsBytesWritten" : 4926189,
+          "hostName" : "/default-rack/server-1703.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1703.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643791484
+        }
+      ],
+      "finishTime" : 1355643799926,
+      "inputBytes" : 220,
+      "inputRecords" : 1,
+      "outputBytes" : 22410,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643790898,
+      "taskID" : "task_201212160737_0001_m_000048",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000049_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22411,
+          "finishTime" : 1355643795135,
+          "hdfsBytesRead" : 217,
+          "hdfsBytesWritten" : 4942716,
+          "hostName" : "/default-rack/server-1706.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1706.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643791110
+        }
+      ],
+      "finishTime" : 1355643796946,
+      "inputBytes" : 217,
+      "inputRecords" : 1,
+      "outputBytes" : 22411,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643790920,
+      "taskID" : "task_201212160737_0001_m_000049",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000050_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22411,
+          "finishTime" : 1355643796011,
+          "hdfsBytesRead" : 214,
+          "hdfsBytesWritten" : 4952994,
+          "hostName" : "/default-rack/server-1695.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1695.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643791834
+        }
+      ],
+      "finishTime" : 1355643796959,
+      "inputBytes" : 214,
+      "inputRecords" : 1,
+      "outputBytes" : 22411,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643790935,
+      "taskID" : "task_201212160737_0001_m_000050",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000051_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22412,
+          "finishTime" : 1355643798272,
+          "hdfsBytesRead" : 211,
+          "hdfsBytesWritten" : 4935941,
+          "hostName" : "/default-rack/server-1701.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1701.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643790966
+        }
+      ],
+      "finishTime" : 1355643799970,
+      "inputBytes" : 211,
+      "inputRecords" : 1,
+      "outputBytes" : 22412,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643790937,
+      "taskID" : "task_201212160737_0001_m_000051",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000052_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22412,
+          "finishTime" : 1355643798964,
+          "hdfsBytesRead" : 208,
+          "hdfsBytesWritten" : 4922540,
+          "hostName" : "/default-rack/server-1704.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1704.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643791561
+        }
+      ],
+      "finishTime" : 1355643800058,
+      "inputBytes" : 208,
+      "inputRecords" : 1,
+      "outputBytes" : 22412,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643790974,
+      "taskID" : "task_201212160737_0001_m_000052",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000053_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22410,
+          "finishTime" : 1355643795921,
+          "hdfsBytesRead" : 205,
+          "hdfsBytesWritten" : 4922081,
+          "hostName" : "/default-rack/server-1686.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1686.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643791606
+        }
+      ],
+      "finishTime" : 1355643797002,
+      "inputBytes" : 205,
+      "inputRecords" : 1,
+      "outputBytes" : 22410,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643790977,
+      "taskID" : "task_201212160737_0001_m_000053",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000054_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22411,
+          "finishTime" : 1355643795684,
+          "hdfsBytesRead" : 202,
+          "hdfsBytesWritten" : 4919886,
+          "hostName" : "/default-rack/server-1722.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1722.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643791595
+        }
+      ],
+      "finishTime" : 1355643797008,
+      "inputBytes" : 202,
+      "inputRecords" : 1,
+      "outputBytes" : 22411,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643790983,
+      "taskID" : "task_201212160737_0001_m_000054",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000055_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22410,
+          "finishTime" : 1355643795361,
+          "hdfsBytesRead" : 199,
+          "hdfsBytesWritten" : 4925080,
+          "hostName" : "/default-rack/server-1714.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1714.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643791211
+        }
+      ],
+      "finishTime" : 1355643797011,
+      "inputBytes" : 199,
+      "inputRecords" : 1,
+      "outputBytes" : 22410,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643790993,
+      "taskID" : "task_201212160737_0001_m_000055",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000056_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22411,
+          "finishTime" : 1355643798984,
+          "hdfsBytesRead" : 196,
+          "hdfsBytesWritten" : 4926901,
+          "hostName" : "/default-rack/server-1687.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1687.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643791602
+        }
+      ],
+      "finishTime" : 1355643800198,
+      "inputBytes" : 196,
+      "inputRecords" : 1,
+      "outputBytes" : 22411,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643790998,
+      "taskID" : "task_201212160737_0001_m_000056",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000057_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22411,
+          "finishTime" : 1355643795624,
+          "hdfsBytesRead" : 193,
+          "hdfsBytesWritten" : 4950155,
+          "hostName" : "/default-rack/server-1717.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1717.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643791433
+        }
+      ],
+      "finishTime" : 1355643797038,
+      "inputBytes" : 193,
+      "inputRecords" : 1,
+      "outputBytes" : 22411,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643791001,
+      "taskID" : "task_201212160737_0001_m_000057",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000058_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22410,
+          "finishTime" : 1355643798855,
+          "hdfsBytesRead" : 190,
+          "hdfsBytesWritten" : 4930360,
+          "hostName" : "/default-rack/server-1677.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1677.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643791584
+        }
+      ],
+      "finishTime" : 1355643800027,
+      "inputBytes" : 190,
+      "inputRecords" : 1,
+      "outputBytes" : 22410,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643791002,
+      "taskID" : "task_201212160737_0001_m_000058",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000059_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22411,
+          "finishTime" : 1355643798551,
+          "hdfsBytesRead" : 187,
+          "hdfsBytesWritten" : 4924602,
+          "hostName" : "/default-rack/server-1678.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1678.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643791242
+        }
+      ],
+      "finishTime" : 1355643800043,
+      "inputBytes" : 187,
+      "inputRecords" : 1,
+      "outputBytes" : 22411,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643791004,
+      "taskID" : "task_201212160737_0001_m_000059",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000060_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22411,
+          "finishTime" : 1355643795479,
+          "hdfsBytesRead" : 184,
+          "hdfsBytesWritten" : 4913823,
+          "hostName" : "/default-rack/server-1693.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1693.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643791011
+        }
+      ],
+      "finishTime" : 1355643797031,
+      "inputBytes" : 184,
+      "inputRecords" : 1,
+      "outputBytes" : 22411,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643791006,
+      "taskID" : "task_201212160737_0001_m_000060",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000061_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22411,
+          "finishTime" : 1355643795320,
+          "hdfsBytesRead" : 181,
+          "hdfsBytesWritten" : 4940729,
+          "hostName" : "/default-rack/server-1682.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1682.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643791042
+        }
+      ],
+      "finishTime" : 1355643797039,
+      "inputBytes" : 181,
+      "inputRecords" : 1,
+      "outputBytes" : 22411,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643791014,
+      "taskID" : "task_201212160737_0001_m_000061",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000062_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22412,
+          "finishTime" : 1355643798528,
+          "hdfsBytesRead" : 178,
+          "hdfsBytesWritten" : 4915794,
+          "hostName" : "/default-rack/server-1676.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1676.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643791200
+        }
+      ],
+      "finishTime" : 1355643800049,
+      "inputBytes" : 178,
+      "inputRecords" : 1,
+      "outputBytes" : 22412,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643791022,
+      "taskID" : "task_201212160737_0001_m_000062",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000063_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22411,
+          "finishTime" : 1355643795981,
+          "hdfsBytesRead" : 175,
+          "hdfsBytesWritten" : 4928622,
+          "hostName" : "/default-rack/server-1712.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1712.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643791841
+        }
+      ],
+      "finishTime" : 1355643797056,
+      "inputBytes" : 175,
+      "inputRecords" : 1,
+      "outputBytes" : 22411,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643791024,
+      "taskID" : "task_201212160737_0001_m_000063",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000064_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22411,
+          "finishTime" : 1355643795708,
+          "hdfsBytesRead" : 172,
+          "hdfsBytesWritten" : 4929081,
+          "hostName" : "/default-rack/server-1688.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1688.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643791654
+        }
+      ],
+      "finishTime" : 1355643797052,
+      "inputBytes" : 172,
+      "inputRecords" : 1,
+      "outputBytes" : 22411,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643791028,
+      "taskID" : "task_201212160737_0001_m_000064",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000065_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22411,
+          "finishTime" : 1355643796338,
+          "hdfsBytesRead" : 169,
+          "hdfsBytesWritten" : 4935216,
+          "hostName" : "/default-rack/server-1720.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1720.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643792096
+        }
+      ],
+      "finishTime" : 1355643797063,
+      "inputBytes" : 169,
+      "inputRecords" : 1,
+      "outputBytes" : 22411,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643791037,
+      "taskID" : "task_201212160737_0001_m_000065",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000066_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22412,
+          "finishTime" : 1355643795542,
+          "hdfsBytesRead" : 166,
+          "hdfsBytesWritten" : 4933013,
+          "hostName" : "/default-rack/server-1683.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1683.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643791174
+        }
+      ],
+      "finishTime" : 1355643797060,
+      "inputBytes" : 166,
+      "inputRecords" : 1,
+      "outputBytes" : 22412,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643791040,
+      "taskID" : "task_201212160737_0001_m_000066",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000067_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22411,
+          "finishTime" : 1355643796349,
+          "hdfsBytesRead" : 163,
+          "hdfsBytesWritten" : 4937743,
+          "hostName" : "/default-rack/server-1697.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1697.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643792122
+        }
+      ],
+      "finishTime" : 1355643797066,
+      "inputBytes" : 163,
+      "inputRecords" : 1,
+      "outputBytes" : 22411,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643791045,
+      "taskID" : "task_201212160737_0001_m_000067",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000068_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22410,
+          "finishTime" : 1355643795293,
+          "hdfsBytesRead" : 160,
+          "hdfsBytesWritten" : 4919036,
+          "hostName" : "/default-rack/server-1719.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1719.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643791248
+        }
+      ],
+      "finishTime" : 1355643797071,
+      "inputBytes" : 160,
+      "inputRecords" : 1,
+      "outputBytes" : 22410,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643791049,
+      "taskID" : "task_201212160737_0001_m_000068",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000069_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22409,
+          "finishTime" : 1355643795343,
+          "hdfsBytesRead" : 157,
+          "hdfsBytesWritten" : 4923196,
+          "hostName" : "/default-rack/server-1696.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1696.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643791258
+        }
+      ],
+      "finishTime" : 1355643797079,
+      "inputBytes" : 157,
+      "inputRecords" : 1,
+      "outputBytes" : 22409,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643791058,
+      "taskID" : "task_201212160737_0001_m_000069",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000070_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22412,
+          "finishTime" : 1355643795211,
+          "hdfsBytesRead" : 154,
+          "hdfsBytesWritten" : 4940242,
+          "hostName" : "/default-rack/server-1691.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1691.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643790890
+        }
+      ],
+      "finishTime" : 1355643797102,
+      "inputBytes" : 154,
+      "inputRecords" : 1,
+      "outputBytes" : 22412,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643791081,
+      "taskID" : "task_201212160737_0001_m_000070",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000071_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22411,
+          "finishTime" : 1355643795438,
+          "hdfsBytesRead" : 151,
+          "hdfsBytesWritten" : 4928730,
+          "hostName" : "/default-rack/server-1707.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1707.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643791223
+        }
+      ],
+      "finishTime" : 1355643797114,
+      "inputBytes" : 151,
+      "inputRecords" : 1,
+      "outputBytes" : 22411,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643791090,
+      "taskID" : "task_201212160737_0001_m_000071",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000072_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22410,
+          "finishTime" : 1355643795180,
+          "hdfsBytesRead" : 148,
+          "hdfsBytesWritten" : 4911912,
+          "hostName" : "/default-rack/server-1713.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1713.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643790901
+        }
+      ],
+      "finishTime" : 1355643797107,
+      "inputBytes" : 148,
+      "inputRecords" : 1,
+      "outputBytes" : 22410,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643791091,
+      "taskID" : "task_201212160737_0001_m_000072",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000073_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22411,
+          "finishTime" : 1355643799404,
+          "hdfsBytesRead" : 145,
+          "hdfsBytesWritten" : 4924835,
+          "hostName" : "/default-rack/server-1718.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1718.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643792030
+        }
+      ],
+      "finishTime" : 1355643800122,
+      "inputBytes" : 145,
+      "inputRecords" : 1,
+      "outputBytes" : 22411,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643791098,
+      "taskID" : "task_201212160737_0001_m_000073",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000074_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22412,
+          "finishTime" : 1355643796204,
+          "hdfsBytesRead" : 142,
+          "hdfsBytesWritten" : 4961578,
+          "hostName" : "/default-rack/server-1689.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1689.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643791923
+        }
+      ],
+      "finishTime" : 1355643797125,
+      "inputBytes" : 142,
+      "inputRecords" : 1,
+      "outputBytes" : 22412,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643791104,
+      "taskID" : "task_201212160737_0001_m_000074",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000075_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22412,
+          "finishTime" : 1355643798681,
+          "hdfsBytesRead" : 139,
+          "hdfsBytesWritten" : 4917322,
+          "hostName" : "/default-rack/server-1702.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1702.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643791294
+        }
+      ],
+      "finishTime" : 1355643800141,
+      "inputBytes" : 139,
+      "inputRecords" : 1,
+      "outputBytes" : 22412,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643791115,
+      "taskID" : "task_201212160737_0001_m_000075",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000076_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22411,
+          "finishTime" : 1355643795451,
+          "hdfsBytesRead" : 136,
+          "hdfsBytesWritten" : 4926708,
+          "hostName" : "/default-rack/server-1716.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1716.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643791133
+        }
+      ],
+      "finishTime" : 1355643797152,
+      "inputBytes" : 136,
+      "inputRecords" : 1,
+      "outputBytes" : 22411,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643791124,
+      "taskID" : "task_201212160737_0001_m_000076",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000077_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22410,
+          "finishTime" : 1355643796199,
+          "hdfsBytesRead" : 133,
+          "hdfsBytesWritten" : 4935294,
+          "hostName" : "/default-rack/server-1711.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1711.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643791839
+        }
+      ],
+      "finishTime" : 1355643797148,
+      "inputBytes" : 133,
+      "inputRecords" : 1,
+      "outputBytes" : 22410,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643791126,
+      "taskID" : "task_201212160737_0001_m_000077",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000078_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22412,
+          "finishTime" : 1355643799021,
+          "hdfsBytesRead" : 130,
+          "hdfsBytesWritten" : 4955276,
+          "hostName" : "/default-rack/server-1721.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1721.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643791358
+        }
+      ],
+      "finishTime" : 1355643800167,
+      "inputBytes" : 130,
+      "inputRecords" : 1,
+      "outputBytes" : 22412,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643791136,
+      "taskID" : "task_201212160737_0001_m_000078",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000079_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22409,
+          "finishTime" : 1355643796120,
+          "hdfsBytesRead" : 127,
+          "hdfsBytesWritten" : 4939883,
+          "hostName" : "/default-rack/server-1709.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1709.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643791780
+        }
+      ],
+      "finishTime" : 1355643797173,
+      "inputBytes" : 127,
+      "inputRecords" : 1,
+      "outputBytes" : 22409,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643791154,
+      "taskID" : "task_201212160737_0001_m_000079",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000080_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22409,
+          "finishTime" : 1355643798862,
+          "hdfsBytesRead" : 124,
+          "hdfsBytesWritten" : 4939573,
+          "hostName" : "/default-rack/server-1685.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1685.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643791798
+        }
+      ],
+      "finishTime" : 1355643800225,
+      "inputBytes" : 124,
+      "inputRecords" : 1,
+      "outputBytes" : 22409,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643791194,
+      "taskID" : "task_201212160737_0001_m_000080",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000081_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22411,
+          "finishTime" : 1355643795873,
+          "hdfsBytesRead" : 121,
+          "hdfsBytesWritten" : 4928975,
+          "hostName" : "/default-rack/server-1710.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1710.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643791839
+        }
+      ],
+      "finishTime" : 1355643797240,
+      "inputBytes" : 121,
+      "inputRecords" : 1,
+      "outputBytes" : 22411,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643791215,
+      "taskID" : "task_201212160737_0001_m_000081",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000082_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22411,
+          "finishTime" : 1355643795913,
+          "hdfsBytesRead" : 118,
+          "hdfsBytesWritten" : 4941762,
+          "hostName" : "/default-rack/server-1694.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1694.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643791646
+        }
+      ],
+      "finishTime" : 1355643797235,
+      "inputBytes" : 118,
+      "inputRecords" : 1,
+      "outputBytes" : 22411,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643791216,
+      "taskID" : "task_201212160737_0001_m_000082",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000083_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22412,
+          "finishTime" : 1355643796220,
+          "hdfsBytesRead" : 115,
+          "hdfsBytesWritten" : 4932373,
+          "hostName" : "/default-rack/server-1684.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1684.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643791942
+        }
+      ],
+      "finishTime" : 1355643797246,
+      "inputBytes" : 115,
+      "inputRecords" : 1,
+      "outputBytes" : 22412,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643791222,
+      "taskID" : "task_201212160737_0001_m_000083",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000084_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22412,
+          "finishTime" : 1355643796043,
+          "hdfsBytesRead" : 112,
+          "hdfsBytesWritten" : 4931509,
+          "hostName" : "/default-rack/server-1698.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1698.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643791607
+        }
+      ],
+      "finishTime" : 1355643797275,
+      "inputBytes" : 112,
+      "inputRecords" : 1,
+      "outputBytes" : 22412,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643791256,
+      "taskID" : "task_201212160737_0001_m_000084",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000085_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22409,
+          "finishTime" : 1355643796453,
+          "hdfsBytesRead" : 109,
+          "hdfsBytesWritten" : 4934229,
+          "hostName" : "/default-rack/server-1708.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1708.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643791824
+        }
+      ],
+      "finishTime" : 1355643797282,
+      "inputBytes" : 109,
+      "inputRecords" : 1,
+      "outputBytes" : 22409,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643791264,
+      "taskID" : "task_201212160737_0001_m_000085",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000086_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22410,
+          "finishTime" : 1355643798790,
+          "hdfsBytesRead" : 106,
+          "hdfsBytesWritten" : 4959696,
+          "hostName" : "/default-rack/server-1680.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1680.novalocal"
+            ]
+          },
+          "mapInputBytes" : 3,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643791645
+        }
+      ],
+      "finishTime" : 1355643800319,
+      "inputBytes" : 106,
+      "inputRecords" : 1,
+      "outputBytes" : 22410,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643791294,
+      "taskID" : "task_201212160737_0001_m_000086",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000087_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22411,
+          "finishTime" : 1355643795915,
+          "hdfsBytesRead" : 381,
+          "hdfsBytesWritten" : 4936758,
+          "hostName" : "/default-rack/server-1699.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1699.novalocal"
+            ]
+          },
+          "mapInputBytes" : 2,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643791659
+        }
+      ],
+      "finishTime" : 1355643797465,
+      "inputBytes" : 381,
+      "inputRecords" : 1,
+      "outputBytes" : 22411,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643791444,
+      "taskID" : "task_201212160737_0001_m_000087",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000088_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22411,
+          "finishTime" : 1355643801345,
+          "hdfsBytesRead" : 380,
+          "hdfsBytesWritten" : 4942744,
+          "hostName" : "/default-rack/server-1681.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1681.novalocal"
+            ]
+          },
+          "mapInputBytes" : 2,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643794266
+        }
+      ],
+      "finishTime" : 1355643803915,
+      "inputBytes" : 380,
+      "inputRecords" : 1,
+      "outputBytes" : 22411,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643791880,
+      "taskID" : "task_201212160737_0001_m_000088",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000089_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22412,
+          "finishTime" : 1355643798378,
+          "hdfsBytesRead" : 378,
+          "hdfsBytesWritten" : 4941533,
+          "hostName" : "/default-rack/server-1705.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1705.novalocal"
+            ]
+          },
+          "mapInputBytes" : 2,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643794276
+        }
+      ],
+      "finishTime" : 1355643799820,
+      "inputBytes" : 378,
+      "inputRecords" : 1,
+      "outputBytes" : 22412,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643793798,
+      "taskID" : "task_201212160737_0001_m_000089",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000090_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22412,
+          "finishTime" : 1355643798185,
+          "hdfsBytesRead" : 376,
+          "hdfsBytesWritten" : 4939383,
+          "hostName" : "/default-rack/server-1700.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1700.novalocal"
+            ]
+          },
+          "mapInputBytes" : 2,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643794060
+        }
+      ],
+      "finishTime" : 1355643799846,
+      "inputBytes" : 376,
+      "inputRecords" : 1,
+      "outputBytes" : 22412,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643793822,
+      "taskID" : "task_201212160737_0001_m_000090",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000091_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22410,
+          "finishTime" : 1355643803227,
+          "hdfsBytesRead" : 374,
+          "hdfsBytesWritten" : 4923232,
+          "hostName" : "/default-rack/server-1703.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1703.novalocal"
+            ]
+          },
+          "mapInputBytes" : 2,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643796156
+        }
+      ],
+      "finishTime" : 1355643802933,
+      "inputBytes" : 374,
+      "inputRecords" : 1,
+      "outputBytes" : 22410,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643793905,
+      "taskID" : "task_201212160737_0001_m_000091",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000092_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22411,
+          "finishTime" : 1355643801167,
+          "hdfsBytesRead" : 372,
+          "hdfsBytesWritten" : 4933693,
+          "hostName" : "/default-rack/server-1706.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1706.novalocal"
+            ]
+          },
+          "mapInputBytes" : 2,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643794124
+        }
+      ],
+      "finishTime" : 1355643802963,
+      "inputBytes" : 372,
+      "inputRecords" : 1,
+      "outputBytes" : 22411,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643793936,
+      "taskID" : "task_201212160737_0001_m_000092",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000093_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22412,
+          "finishTime" : 1355643802658,
+          "hdfsBytesRead" : 370,
+          "hdfsBytesWritten" : 4919153,
+          "hostName" : "/default-rack/server-1701.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1701.novalocal"
+            ]
+          },
+          "mapInputBytes" : 2,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643795568
+        }
+      ],
+      "finishTime" : 1355643802982,
+      "inputBytes" : 370,
+      "inputRecords" : 1,
+      "outputBytes" : 22412,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643793944,
+      "taskID" : "task_201212160737_0001_m_000093",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000094_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22411,
+          "finishTime" : 1355643803162,
+          "hdfsBytesRead" : 368,
+          "hdfsBytesWritten" : 4935743,
+          "hostName" : "/default-rack/server-1695.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1695.novalocal"
+            ]
+          },
+          "mapInputBytes" : 2,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643796014
+        }
+      ],
+      "finishTime" : 1355643802973,
+      "inputBytes" : 368,
+      "inputRecords" : 1,
+      "outputBytes" : 22411,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643793945,
+      "taskID" : "task_201212160737_0001_m_000094",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000095_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22410,
+          "finishTime" : 1355643798701,
+          "hdfsBytesRead" : 366,
+          "hdfsBytesWritten" : 4922741,
+          "hostName" : "/default-rack/server-1686.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1686.novalocal"
+            ]
+          },
+          "mapInputBytes" : 2,
+          "mapInputRecords" : 1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : 15625,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643794621
+        }
+      ],
+      "finishTime" : 1355643800015,
+      "inputBytes" : 366,
+      "inputRecords" : 1,
+      "outputBytes" : 22410,
+      "outputRecords" : 15625,
+      "preferredLocations" : [],
+      "startTime" : 1355643793993,
+      "taskID" : "task_201212160737_0001_m_000095",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "MAP"
+    }
+  ],
+  "mapperTriesToSucceed" : [
+    1.0
+  ],
+  "otherTasks" : [
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000097_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22410,
+          "finishTime" : 1355643784021,
+          "hdfsBytesRead" : -1,
+          "hdfsBytesWritten" : -1,
+          "hostName" : "/default-rack/server-1680.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1680.novalocal"
+            ]
+          },
+          "mapInputBytes" : -1,
+          "mapInputRecords" : -1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : -1,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643779923
+        }
+      ],
+      "finishTime" : 1355643785259,
+      "inputBytes" : -1,
+      "inputRecords" : -1,
+      "outputBytes" : -1,
+      "outputRecords" : -1,
+      "preferredLocations" : [],
+      "startTime" : 1355643779191,
+      "taskID" : "task_201212160737_0001_m_000097",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "SETUP"
+    },
+    {
+      "attempts" : [
+        {
+          "attemptID" : "attempt_201212160737_0001_m_000096_0",
+          "combineInputRecords" : -1,
+          "fileBytesRead" : -1,
+          "fileBytesWritten" : 22411,
+          "finishTime" : 1355643808142,
+          "hdfsBytesRead" : -1,
+          "hdfsBytesWritten" : -1,
+          "hostName" : "/default-rack/server-1681.novalocal",
+          "location" : {
+            "layers" : [
+              "default-rack",
+              "server-1681.novalocal"
+            ]
+          },
+          "mapInputBytes" : -1,
+          "mapInputRecords" : -1,
+          "mapOutputBytes" : -1,
+          "mapOutputRecords" : -1,
+          "reduceInputGroups" : -1,
+          "reduceInputRecords" : -1,
+          "reduceOutputRecords" : -1,
+          "reduceShuffleBytes" : -1,
+          "result" : "SUCCESS",
+          "shuffleFinished" : -1,
+          "sortFinished" : -1,
+          "spilledRecords" : 0,
+          "startTime" : 1355643804154
+        }
+      ],
+      "finishTime" : 1355643809950,
+      "inputBytes" : -1,
+      "inputRecords" : -1,
+      "outputBytes" : -1,
+      "outputRecords" : -1,
+      "preferredLocations" : [],
+      "startTime" : 1355643803939,
+      "taskID" : "task_201212160737_0001_m_000096",
+      "taskStatus" : "SUCCESS",
+      "taskType" : "CLEANUP"
+    }
+  ],
+  "outcome" : "SUCCESS",
+  "priority" : "NORMAL",
+  "queue" : "default",
+  "reduceTasks" : [],
+  "relativeTime" : 0,
+  "submitTime" : 1355643778695,
+  "successfulMapAttemptCDFs" : [
+    {
+      "maximum" : 9223372036854775807,
+      "minimum" : -9223372036854775808,
+      "numberValues" : 0,
+      "rankings" : []
+    },
+    {
+      "maximum" : 9223372036854775807,
+      "minimum" : -9223372036854775808,
+      "numberValues" : 0,
+      "rankings" : []
+    },
+    {
+      "maximum" : 9223372036854775807,
+      "minimum" : -9223372036854775808,
+      "numberValues" : 0,
+      "rankings" : []
+    },
+    {
+      "maximum" : 8484,
+      "minimum" : 4012,
+      "numberValues" : 96,
+      "rankings" : [
+        {
+          "datum" : 4034,
+          "relativeRanking" : 0.05
+        },
+        {
+          "datum" : 4054,
+          "relativeRanking" : 0.1
+        },
+        {
+          "datum" : 4078,
+          "relativeRanking" : 0.15
+        },
+        {
+          "datum" : 4089,
+          "relativeRanking" : 0.2
+        },
+        {
+          "datum" : 4123,
+          "relativeRanking" : 0.25
+        },
+        {
+          "datum" : 4144,
+          "relativeRanking" : 0.3
+        },
+        {
+          "datum" : 4167,
+          "relativeRanking" : 0.35
+        },
+        {
+          "datum" : 4193,
+          "relativeRanking" : 0.4
+        },
+        {
+          "datum" : 4242,
+          "relativeRanking" : 0.45
+        },
+        {
+          "datum" : 4269,
+          "relativeRanking" : 0.5
+        },
+        {
+          "datum" : 4281,
+          "relativeRanking" : 0.55
+        },
+        {
+          "datum" : 4360,
+          "relativeRanking" : 0.6
+        },
+        {
+          "datum" : 4629,
+          "relativeRanking" : 0.65
+        },
+        {
+          "datum" : 7079,
+          "relativeRanking" : 0.7
+        },
+        {
+          "datum" : 7160,
+          "relativeRanking" : 0.75
+        },
+        {
+          "datum" : 7233,
+          "relativeRanking" : 0.8
+        },
+        {
+          "datum" : 7273,
+          "relativeRanking" : 0.85
+        },
+        {
+          "datum" : 7328,
+          "relativeRanking" : 0.9
+        },
+        {
+          "datum" : 7382,
+          "relativeRanking" : 0.95
+        }
+      ]
+    }
+  ],
+  "successfulReduceAttemptCDF" : {
+    "maximum" : 9223372036854775807,
+    "minimum" : -9223372036854775808,
+    "numberValues" : 0,
+    "rankings" : []
+  },
+  "totalMaps" : 96,
+  "totalReduces" : 0,
+  "user" : "ubuntu"
+}

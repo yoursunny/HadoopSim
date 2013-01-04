@@ -127,7 +127,7 @@ class BulkDataTestRunner {
       }
     }
     void DataResponse(ns3::Ptr<MsgInfo> request_msg) {
-      //printf("DataRequest %u %f\n", request_msg->id(), ns3::Simulator::Now().GetSeconds());
+      printf("got DataRequest %"PRIu64" %f\n", request_msg->id(), ns3::Simulator::Now().GetSeconds());
       assert(this->sent_[request_msg->id()] == kMTDataRequest);
       assert(request_msg->userobj() == this->userobj_);
       assert(this->received_.count(request_msg->id()) == 0);
@@ -140,6 +140,7 @@ class BulkDataTestRunner {
       }
     }
     void DataFinish(ns3::Ptr<MsgInfo> response_msg) {
+      printf("got DataResponse %"PRIu64" %f\n", response_msg->id(), ns3::Simulator::Now().GetSeconds());
       assert(this->sent_[response_msg->id()] == kMTDataResponse);
       assert(response_msg->userobj() == this->userobj_);
       assert(this->received_.count(response_msg->id()) == 0);
@@ -156,7 +157,7 @@ TEST(NetSimTest, BulkData) {
   topology.Load("examples/HadoopSim/bench-trace/star.nettopo");
   //topology.Load("examples/HadoopSim/bench-trace/rackrow-6-4.nettopo");
   std::unordered_set<HostName> managers; managers.insert("manager");
-  ASSERT_EQ(52, topology.nodes().size());
+  //ASSERT_EQ(52, topology.nodes().size());
 
   EXPECT_EXIT({
     NetSim netsim;

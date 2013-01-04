@@ -16,8 +16,10 @@ EVENTS after ready
 2 seconds
   slaves send 3x DataRequest (256B) to all other slaves
   reply DataResponse (64MB)
+1.8 seconds
+  snapshot link stat
 3.1 seconds
-  show link stat
+  snapshot and show link stat: queue util at 3.1, and bw util between 1.8 and 3.1
 8 seconds
   stop
 */
@@ -56,6 +58,7 @@ class NetSimTestRunner {
     std::unordered_map<MsgId,MsgType> sent_;
     std::unordered_map<MsgId,ns3::Ptr<MsgInfo>> received_;
     int remaining_namerequestall_;
+    std::unordered_map<LinkId,ns3::Ptr<LinkStat>> linkstat_;//at 1.8
 
     void Ready(NetSim*) {
       this->remaining_namerequestall_ = 2;
@@ -63,6 +66,7 @@ class NetSimTestRunner {
       for (int i = 0; i < 3; ++i) {
         ns3::Simulator::Schedule(ns3::Seconds(2.0), &NetSimTestRunner::DataRequestAll, this);
       }
+      ns3::Simulator::Schedule(ns3::Seconds(1.8), &NetSimTestRunner::SaveLinkStat, this);
       ns3::Simulator::Schedule(ns3::Seconds(3.1), &NetSimTestRunner::ShowLinkStat, this);
       ns3::Simulator::Schedule(ns3::Seconds(8.0), &ns3::Simulator::Stop);
     }
@@ -144,13 +148,19 @@ class NetSimTestRunner {
       assert(this->received_.count(response_msg->id()) == 0);
       this->received_[response_msg->id()] = response_msg;
     }
+    
+    void SaveLinkStat() {
+      for (LinkId id = -6; id <= 6; ++id) {
+        if (id == LinkId_invalid) continue;
+        this->linkstat_[id] = this->netsim_->GetLinkStat(id);
+      }
+    }
     void ShowLinkStat() {
-      for (LinkId id = 1; id <= 6; ++id) {
+      for (LinkId id = -6; id <= 6; ++id) {
+        if (id == LinkId_invalid) continue;
+        ns3::Ptr<LinkStat> previous = this->linkstat_.at(id);
         ns3::Ptr<LinkStat> stat = this->netsim_->GetLinkStat(id);
-        printf("LinkStat(%d) bandwidth=%02.2f%% queue=%02.2f%%\n", stat->id(), stat->bandwidth_utilization()*100, stat->queue_utilization()*100);
-        LinkId rid = -id;
-        stat = this->netsim_->GetLinkStat(rid);
-        printf("LinkStat(%d) bandwidth=%02.2f%% queue=%02.2f%%\n", stat->id(), stat->bandwidth_utilization()*100, stat->queue_utilization()*100);
+        printf("LinkStat(%d) bandwidth=%02.2f%% queue=%02.2f%%\n", stat->id(), stat->bandwidth_utilization(previous)*100, stat->queue_utilization()*100);
       }
     }
     

@@ -1,86 +1,94 @@
 #include "netsim/linkstat.h"
 namespace HadoopNetSim {
 
-LinkStat::LinkStat(LinkId id, ns3::Ptr<ns3::NetDevice> device) {
-  assert(id != 0);
-  assert(device != NULL);
+LinkStat::LinkStat(ns3::Ptr<LinkStatReader> lsr, uint32_t total_bytes, uint32_t queue_length) {
+  assert(lsr != NULL);
+  this->lsr_ = lsr;
+  this->timestamp_ = ns3::Simulator::Now().GetSeconds();
+  this->total_bytes_ = total_bytes;
+  this->queue_length_ = queue_length;
+}
+
+float LinkStat::bandwidth_utilization(const ns3::Ptr<LinkStat> previous) const {
+  assert(this->id() == previous->id());
+  return this->lsr_->CalcBandwidthUtilization(previous->total_bytes_, previous->timestamp_, this->total_bytes_, this->timestamp_);
+}
+
+float LinkStat::queue_utilization(void) const {
+  return this->lsr_->CalcQueueUtilization(this->queue_length_);
+}
+
+LinkStatReader::LinkStatReader(LinkId id, ns3::Ptr<ns3::NetDevice> device) {
+  assert(id != LinkId_invalid);
   this->id_ = id;
-  
-  ns3::Ptr<BandwidthUtilizationCollector> buc = device->GetObject<BandwidthUtilizationCollector>();
-  assert(buc != NULL);
-  this->bandwidth_utilization_ = buc->Read();
-  
-  this->queue_utilization_ = this->ReadQueueUtilization(device);
-}
 
-float LinkStat::ReadQueueUtilization(ns3::Ptr<ns3::NetDevice> device) {
-  ns3::PointerValue ptr_queue;
-  device->GetAttribute("TxQueue", ptr_queue);
-  ns3::Ptr<ns3::Queue> queue = ptr_queue.Get<ns3::Queue>();
-  ns3::TypeId queue_type = queue->GetInstanceTypeId();
-  if (queue_type == ns3::DropTailQueue::GetTypeId()) {
-    ns3::DropTailQueue::QueueMode queue_mode = queue->GetObject<ns3::DropTailQueue>()->GetMode();
-    switch (queue_mode) {
-      case ns3::DropTailQueue::QUEUE_MODE_BYTES: {
-        ns3::UintegerValue max_bytes; queue->GetAttribute("MaxBytes", max_bytes);
-        return (float)queue->GetNBytes() / max_bytes.Get();
-      }
-      case ns3::DropTailQueue::QUEUE_MODE_PACKETS: {
-        ns3::UintegerValue max_pkts; queue->GetAttribute("MaxPackets", max_pkts);
-        return (float)queue->GetNPackets() / max_pkts.Get();
-      }
-      default: assert(false); break;
-    }
-  } else {
-    assert(false);
-  }
-  return NAN;
-}
-
-BandwidthUtilizationCollector::BandwidthUtilizationCollector(void) {
-  this->last_total_bytes_ = UINT32_MAX;
-  this->scheduled_ = false;
-}
-
-ns3::TypeId BandwidthUtilizationCollector::GetTypeId(void) {
-  static ns3::TypeId tid = ns3::TypeId("HadoopNetSim::BandwidthUtilizationCollector")
-                           .SetParent<ns3::Object>()
-                           .AddConstructor<BandwidthUtilizationCollector>();
-  return tid;
-}
-
-void BandwidthUtilizationCollector::set_device(ns3::Ptr<ns3::NetDevice> value) {
-  assert(!this->scheduled_);
-  this->device_ = value;
-  ns3::PointerValue ptr_queue;
-  this->device_->GetAttribute("TxQueue", ptr_queue);
-  this->queue_ = ptr_queue.Get<ns3::Queue>();
-}
-
-void BandwidthUtilizationCollector::Schedule(void) {
-  assert(this->device_ != NULL);
-  this->scheduled_ = true;
-  this->ScheduleInternal();
-}
-
-float BandwidthUtilizationCollector::Read(void) {
-  if (this->last_total_bytes_ == UINT32_MAX) return NAN;
+  assert(device != NULL);
+  this->device_ = device;
   ns3::DataRateValue rate;
   if (!this->device_->GetAttributeFailSafe("DataRate", rate)) {
     this->device_->GetChannel()->GetAttribute("DataRate", rate);
   }
-  return rate.Get().CalculateTxTime(this->last_total_bytes_);
+  this->datarate_ = rate.Get();
+  
+  ns3::PointerValue ptr_queue;
+  this->device_->GetAttribute("TxQueue", ptr_queue);
+  ns3::Ptr<ns3::Queue> queue = ptr_queue.Get<ns3::Queue>();
+  assert(queue != NULL);
+  ns3::TypeId queue_type = queue->GetInstanceTypeId();
+  assert(queue_type == ns3::DropTailQueue::GetTypeId());
+  this->queue_ = queue->GetObject<ns3::DropTailQueue>();
+  ns3::DropTailQueue::QueueMode queue_mode = this->queue_->GetMode();
+  switch (queue_mode) {
+    case ns3::DropTailQueue::QUEUE_MODE_BYTES: {
+      ns3::UintegerValue max_bytes; this->queue_->GetAttribute("MaxBytes", max_bytes);
+      this->queue_capacity_ = max_bytes.Get();
+    } break;
+    case ns3::DropTailQueue::QUEUE_MODE_PACKETS: {
+      ns3::UintegerValue max_pkts; this->queue_->GetAttribute("MaxPackets", max_pkts);
+      this->queue_capacity_ = max_pkts.Get();
+    } break;
+    default: assert(false); break;
+  }
 }
 
-void BandwidthUtilizationCollector::ScheduleInternal(void) {
-  this->queue_->ResetStatistics();
-  ns3::Simulator::Schedule(ns3::Seconds(1.0), &BandwidthUtilizationCollector::Collect, this);
+ns3::TypeId LinkStatReader::GetTypeId(void) {
+  static ns3::TypeId tid = ns3::TypeId("HadoopNetSim::LinkStatReader")
+                           .SetParent<ns3::Object>();
+  return tid;
 }
 
-void BandwidthUtilizationCollector::Collect(void) {
-  this->last_total_bytes_ = this->queue_->GetTotalReceivedBytes();
-  this->ScheduleInternal();
+uint64_t LinkStatReader::bandwidth() const {
+  return this->datarate_.GetBitRate() >> 3;
 }
 
+
+ns3::Ptr<LinkStat> LinkStatReader::Read(void) {
+  uint32_t total_bytes = this->queue_->GetTotalReceivedBytes();
+
+  uint32_t queue_length = 0;
+  ns3::DropTailQueue::QueueMode queue_mode = this->queue_->GetObject<ns3::DropTailQueue>()->GetMode();
+  switch (queue_mode) {
+    case ns3::DropTailQueue::QUEUE_MODE_BYTES: {
+      queue_length = this->queue_->GetNBytes();
+    } break;
+    case ns3::DropTailQueue::QUEUE_MODE_PACKETS: {
+      queue_length = this->queue_->GetNPackets();
+    } break;
+    default: assert(false); break;
+  }
+  
+  return ns3::Create<LinkStat>(this, total_bytes, queue_length);
+}
+
+float LinkStatReader::CalcBandwidthUtilization(uint32_t total_bytes_prev, double timestamp_prev, uint32_t total_bytes_now, double timestamp_now) {
+  uint32_t bytes = total_bytes_now - total_bytes_prev;
+  double time = timestamp_now - timestamp_prev;
+  assert(time > 0);
+  return (float)(this->datarate_.CalculateTxTime(bytes) / time);
+}
+
+float LinkStatReader::CalcQueueUtilization(uint32_t queue_length) {
+  return (float)queue_length / this->queue_capacity_;
+}
 
 };//namespace HadoopNetSim

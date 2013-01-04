@@ -1,0 +1,139 @@
+{
+  "name" : "<root>",
+  "children" : [ {
+    "name" : "default-rack",
+    "children" : [ {
+      "name" : "manager",
+      "children" : null
+    }, {
+      "name" : "server-1678.novalocal",
+      "children" : null
+    }, {
+      "name" : "server-1694.novalocal",
+      "children" : null
+    }, {
+      "name" : "server-1714.novalocal",
+      "children" : null
+    }, {
+      "name" : "server-1696.novalocal",
+      "children" : null
+    }, {
+      "name" : "server-1719.novalocal",
+      "children" : null
+    }, {
+      "name" : "server-1705.novalocal",
+      "children" : null
+    }, {
+      "name" : "server-1703.novalocal",
+      "children" : null
+    }, {
+      "name" : "server-1720.novalocal",
+      "children" : null
+    }, {
+      "name" : "server-1698.novalocal",
+      "children" : null
+    }, {
+      "name" : "server-1707.novalocal",
+      "children" : null
+    }, {
+      "name" : "server-1681.novalocal",
+      "children" : null
+    }, {
+      "name" : "server-1704.novalocal",
+      "children" : null
+    }, {
+      "name" : "server-1693.novalocal",
+      "children" : null
+    }, {
+      "name" : "server-1721.novalocal",
+      "children" : null
+    }, {
+      "name" : "server-1710.novalocal",
+      "children" : null
+    }, {
+      "name" : "server-1683.novalocal",
+      "children" : null
+    }, {
+      "name" : "server-1700.novalocal",
+      "children" : null
+    }, {
+      "name" : "server-1718.novalocal",
+      "children" : null
+    }, {
+      "name" : "server-1697.novalocal",
+      "children" : null
+    }, {
+      "name" : "server-1708.novalocal",
+      "children" : null
+    }, {
+      "name" : "server-1677.novalocal",
+      "children" : null
+    }, {
+      "name" : "server-1687.novalocal",
+      "children" : null
+    }, {
+      "name" : "server-1713.novalocal",
+      "children" : null
+    }, {
+      "name" : "server-1685.novalocal",
+      "children" : null
+    }, {
+      "name" : "server-1686.novalocal",
+      "children" : null
+    }, {
+      "name" : "server-1676.novalocal",
+      "children" : null
+    }, {
+      "name" : "server-1716.novalocal",
+      "children" : null
+    }, {
+      "name" : "server-1684.novalocal",
+      "children" : null
+    }, {
+      "name" : "server-1706.novalocal",
+      "children" : null
+    }, {
+      "name" : "server-1712.novalocal",
+      "children" : null
+    }, {
+      "name" : "server-1689.novalocal",
+      "children" : null
+    }, {
+      "name" : "server-1711.novalocal",
+      "children" : null
+    }, {
+      "name" : "server-1701.novalocal",
+      "children" : null
+    }, {
+      "name" : "server-1702.novalocal",
+      "children" : null
+    }, {
+      "name" : "server-1722.novalocal",
+      "children" : null
+    }, {
+      "name" : "server-1709.novalocal",
+      "children" : null
+    }, {
+      "name" : "server-1699.novalocal",
+      "children" : null
+    }, {
+      "name" : "server-1682.novalocal",
+      "children" : null
+    }, {
+      "name" : "server-1688.novalocal",
+      "children" : null
+    }, {
+      "name" : "server-1695.novalocal",
+      "children" : null
+    }, {
+      "name" : "server-1680.novalocal",
+      "children" : null
+    }, {
+      "name" : "server-1691.novalocal",
+      "children" : null
+    }, {
+      "name" : "server-1717.novalocal",
+      "children" : null
+    } ]
+  } ]
+}
