@@ -38,7 +38,7 @@ void setupCluster(int topoType, string topologyFile, bool needDebug, string debu
 {
     Topology topology;
     topology.Load(topologyFile);
-    if (topoType >= ClusterTopoTypes || topology.topotype().compare(TopoTypeArray[topoType]) != 0) {
+    if (topoType >= ClusterTopoTypes || topology.type() != TopoTypeArray[topoType]) {
         cout<<"Cluster topology type does not match topo json file.\n";
         exit(1);
     }

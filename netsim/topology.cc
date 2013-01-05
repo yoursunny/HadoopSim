@@ -160,7 +160,12 @@ void Topology::LoadString(char* json) {
 
   assert(p_type != NULL);
   assert(p_type->type == JSON_STRING);
-  this->topotype_.assign(p_type->string_value);
+  std::string v_type = p_type->string_value;
+  if (0 == v_type.compare("star")) {
+    this->type_ = kTTStar;
+  } else if (0 == v_type.compare("rackrow")) {
+    this->type_ = kTTRackRow;
+  }
 
   assert(p_nodes != NULL);
   assert(p_nodes->type == JSON_OBJECT);
@@ -182,6 +187,71 @@ void Topology::LoadString(char* json) {
     this->links_[link->id()] = link;
   }
 }
+
+uint16_t Topology::PathLength(HostName src, HostName dst) {
+  ns3::Ptr<Node> src_node = this->nodes_.at(src);
+  ns3::Ptr<Node> dst_node = this->nodes_.at(dst);
+  if (src_node == dst_node) return 0;
+  if (this->type_ == kTTStar) {
+    if (src_node->type() == kNTSwitch || dst_node->type() == kNTSwitch) return 1;
+    else return 2;
+  } else if (this->type_ == kTTRackRow) {
+    RackRowPosition src_pos = this->RackRow_Position(src_node);
+    RackRowPosition dst_pos = this->RackRow_Position(dst_node);
+    uint16_t pathlen = 0;
+    while (src_pos.layer() > dst_pos.layer()) { ++pathlen; src_pos = this->RackRow_Up(src_pos); }
+    while (dst_pos.layer() > src_pos.layer()) { ++pathlen; dst_pos = this->RackRow_Up(dst_pos); }
+    while (src_pos.layer() != kRRLCore && (pathlen == 0 || src_pos.index() != dst_pos.index())) {
+      pathlen += 2;
+      src_pos = this->RackRow_Up(src_pos);
+      dst_pos = this->RackRow_Up(dst_pos);
+    }
+    return pathlen;
+  } else {
+    assert(false);
+    return -1;
+  }
+}
+
+Topology::RackRowPosition::RackRowPosition(ns3::Ptr<Node> node, Topology::RackRowLayer layer, int index) {
+  this->node_ = node;
+  this->layer_ = layer;
+  this->index_ = index;
+}
+Topology::RackRowPosition& Topology::RackRowPosition::operator=(const Topology::RackRowPosition& other) {
+  this->node_ = other.node_;
+  this->layer_ = other.layer_;
+  this->index_ = other.index_;
+  return *this;
+}
+
+Topology::RackRowPosition Topology::RackRow_Position(ns3::Ptr<Node> node) {
+  if (node->type() == kNTHost) return RackRowPosition(node, kRRLHost);
+  HostName name = node->name();
+  if (name.substr(0, 4) == "rack") return RackRowPosition(node, kRRLTopOfRack, std::stoi(name.substr(4)));
+  if (name.substr(0, 3) == "row") return RackRowPosition(node, kRRLEndOfRow, std::stoi(name.substr(3)));
+  if (name.substr(0, 4) == "core") return RackRowPosition(node, kRRLCore);
+  assert(false);
+  return RackRowPosition(NULL, kRRLNone);
+}
+
+Topology::RackRowPosition Topology::RackRow_Up(Topology::RackRowPosition nodepos) {
+  if (nodepos.layer() == kRRLNone || nodepos.layer() == kRRLCore) return RackRowPosition(NULL, kRRLNone);
+  HostName name = nodepos.node()->name();
+  RackRowLayer up_layer = (RackRowLayer)((int)nodepos.layer() - 1);
+  for (std::unordered_map<LinkId,ns3::Ptr<Link>>::const_iterator it = this->links_.begin(); it != this->links_.end(); ++it) {
+    ns3::Ptr<Link> link = it->second;
+    ns3::Ptr<Node> other_node;
+    if (link->node1() == name) other_node = this->nodes_[link->node2()];
+    else if (link->node2() == name) other_node = this->nodes_[link->node1()];
+    else continue;
+    RackRowPosition other_pos = this->RackRow_Position(other_node);
+    if (other_pos.layer() == up_layer) return other_pos;
+  }
+  assert(false);
+  return RackRowPosition(NULL, kRRLNone);
+}
+
 
 
 };//namespace HadoopNetSim

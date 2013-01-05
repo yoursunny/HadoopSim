@@ -73,20 +73,53 @@ class Link : public ns3::SimpleRefCount<Node> {
     DISALLOW_COPY_AND_ASSIGN(Link);
 };
 
+enum TopoType {
+  kTTNone,
+  kTTStar,
+  kTTRackRow
+};
+
 class Topology {
   public:
     Topology(void) {}
-    const std::string& topotype(void) const { return this->topotype_; }
+    TopoType type(void) const { return this->type_; }
     const std::unordered_map<HostName,ns3::Ptr<Node>>& nodes(void) const { return this->nodes_; }
     const std::unordered_map<LinkId,ns3::Ptr<Link>>& links(void) const { return this->links_; }
 
     void Load(const std::string& filename);
     void LoadString(char* json);
+    
+    uint16_t PathLength(HostName src, HostName dst);//calculate path length between two nodes; works for kTTStar and kTTRackRow only
 
   private:
-    std::string topotype_;
+    enum RackRowLayer {
+      kRRLNone = 0,
+      kRRLCore = 1,
+      kRRLEndOfRow = 2,
+      kRRLTopOfRack = 3,
+      kRRLHost = 4
+    };
+    class RackRowPosition {
+      public:
+        RackRowPosition(ns3::Ptr<Node> node, RackRowLayer layer, int index = -1);
+        RackRowPosition(const RackRowPosition& other) { this->operator=(other); }
+        RackRowPosition& operator=(const RackRowPosition& other);
+        ns3::Ptr<Node> node(void) const { return this->node_; }
+        RackRowLayer layer(void) const { return this->layer_; }
+        int index(void) const { return this->index_; }
+      private:
+        ns3::Ptr<Node> node_;
+        RackRowLayer layer_;
+        int index_;
+    };
+    
+    TopoType type_;
     std::unordered_map<HostName,ns3::Ptr<Node>> nodes_;//name=>Node
     std::unordered_map<LinkId,ns3::Ptr<Link>> links_;//positive LinkId=>Link
+    
+    RackRowPosition RackRow_Position(ns3::Ptr<Node> node);
+    RackRowPosition RackRow_Up(RackRowPosition nodepos);
+    
     DISALLOW_COPY_AND_ASSIGN(Topology);
 };
 

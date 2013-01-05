@@ -12,7 +12,7 @@ HadoopSim is a simulator for a Hadoop Runtime by replaying the collected traces.
 const int MaxMapSlots = 2;
 const int MaxReduceSlots = 2;
 const int ClusterTopoTypes = 3;
-const std::string TopoTypeArray[ClusterTopoTypes] = {"star", "rackrow", "fattree"};
+const HadoopNetSim::TopoType TopoTypeArray[ClusterTopoTypes] = {HadoopNetSim::kTTStar, HadoopNetSim::kTTRackRow, HadoopNetSim::kTTNone/*fattree*/};
 
 class MachineNode {
 public:
