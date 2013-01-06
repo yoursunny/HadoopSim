@@ -17,8 +17,8 @@ static JobClient *client;
 static string debugDirectory;
 static bool debugOption = false;
 static double OVERLOAD_MAPTASK_MAPSLOT_RATIO = 2.0f;
-static long LOAD_PROB_INTERVAL_START = 1000;    //ms
-static long LOAD_PROB_INTERVAL_MAX = 320000;    //ms
+static long LOAD_PROB_INTERVAL_START = 6000;    //ms
+static long LOAD_PROB_INTERVAL_MAX = 360000;    //ms
 
 JobClient::JobClient(JobSubmissionPolicy policy)
 {
@@ -43,8 +43,8 @@ void JobClient::submitJob(long evtTime)
         }
 
         // setup next event according to the specified policy
-        if (this->policy == Replay) {
-            if (isMoreJobs()) {
+        if (isMoreJobs()) {
+            if (this->policy == Replay) {
                 long timeStamp = nextJobSubmitTime() - lastSubmissionTime;
                 HEvent evt(this, EVT_JobSubmit);
                 ns3::Simulator::Schedule(ns3::Seconds((double)timeStamp/1000.0), &hadoopEventCallback, evt);
@@ -96,8 +96,10 @@ bool JobClient::isSystemOverloaded(void)
     map<string, Job>::iterator jobIt;
     for(jobIt = runningJobs.begin(); jobIt != runningJobs.end(); jobIt++) {
         Job job = jobIt->second;
-        incompleteMapTasks += (1.0 - min((double)job.getCompletedMaps().size()/job.getNumMap(), 1.0) * job.getNumMap());
+        incompleteMapTasks += (1.0 - min((double)job.getCompletedMaps().size()/job.getNumMap(), 1.0)) * job.getNumMap();
     }
+
+    cout<<"runningJobs = "<<runningJobs.size()<<", incompleteMapTasks = "<<incompleteMapTasks<<", value = "<<OVERLOAD_MAPTASK_MAPSLOT_RATIO * jobTracker->getMapSlotCapacity()<<endl;
     if (incompleteMapTasks > OVERLOAD_MAPTASK_MAPSLOT_RATIO * jobTracker->getMapSlotCapacity())
         return true;
 

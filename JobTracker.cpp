@@ -131,7 +131,7 @@ void JobTracker::updateTaskStatus(HeartBeatReport report, long now)
             completedJobs.insert(pair<string, Job>(jobIt->first, jobIt->second));
             runningJobs.erase(jobIt);
 
-            cout<<"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n";
+            cout<<"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx Job "<<jobIt->first<<" done\n";
             // also update TraceReader completedJobSet
             completeJob(jobIt->first);
 
