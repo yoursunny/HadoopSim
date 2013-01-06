@@ -20,6 +20,8 @@ EVENTS after ready
   snapshot link stat
 3.1 seconds
   snapshot and show link stat: queue util at 3.1, and bw util between 1.8 and 3.1
+4.1,4.2,4.3,4.4,4.5 seconds
+  sw1 send Snmp (2500B) to manager1
 8 seconds
   stop
 */
@@ -37,6 +39,7 @@ class NetSimTestRunner {
       calcs[kMTNameResponse] = ns3::Create<ns3::MinMaxAvgTotalCalculator<double>>();
       calcs[kMTDataRequest] = ns3::Create<ns3::MinMaxAvgTotalCalculator<double>>();
       calcs[kMTDataResponse] = ns3::Create<ns3::MinMaxAvgTotalCalculator<double>>();
+      calcs[kMTSnmp] = ns3::Create<ns3::MinMaxAvgTotalCalculator<double>>();
       for (std::unordered_map<MsgId,ns3::Ptr<MsgInfo>>::const_iterator it = this->received_.cbegin(); it != this->received_.cend(); ++it) {
         ns3::Ptr<MsgInfo> msg = it->second;
         calcs[msg->type()]->Update((msg->finish() - msg->start()).GetSeconds());
@@ -45,11 +48,13 @@ class NetSimTestRunner {
       assert(calcs[kMTNameResponse]->getCount() == 18);
       assert(calcs[kMTDataRequest]->getCount() == 18);
       assert(calcs[kMTDataResponse]->getCount() == 18);
+      assert(calcs[kMTSnmp]->getCount() >= 4);//sent 5 messages, expect at least 4 to arrive
       
       printf("NameRequest %f,%f,%f\n", calcs[kMTNameRequest]->getMin(), calcs[kMTNameRequest]->getMean(), calcs[kMTNameRequest]->getMax());
       printf("NameResponse %f,%f,%f\n", calcs[kMTNameResponse]->getMin(), calcs[kMTNameResponse]->getMean(), calcs[kMTNameResponse]->getMax());
       printf("DataRequest %f,%f,%f\n", calcs[kMTDataRequest]->getMin(), calcs[kMTDataRequest]->getMean(), calcs[kMTDataRequest]->getMax());
       printf("DataResponse %f,%f,%f\n", calcs[kMTDataResponse]->getMin(), calcs[kMTDataResponse]->getMean(), calcs[kMTDataResponse]->getMax());
+      printf("Snmp(%"PRId64") %f,%f,%f\n", calcs[kMTSnmp]->getCount(), calcs[kMTSnmp]->getMin(), calcs[kMTSnmp]->getMean(), calcs[kMTSnmp]->getMax());
     }
 
   private:
@@ -68,6 +73,9 @@ class NetSimTestRunner {
       }
       ns3::Simulator::Schedule(ns3::Seconds(1.8), &NetSimTestRunner::SaveLinkStat, this);
       ns3::Simulator::Schedule(ns3::Seconds(3.1), &NetSimTestRunner::ShowLinkStat, this);
+      for (double t = 4.1; t < 4.51; t += 0.1) {
+        ns3::Simulator::Schedule(ns3::Seconds(t), &NetSimTestRunner::SnmpSend, this);
+      }
       ns3::Simulator::Schedule(ns3::Seconds(8.0), &ns3::Simulator::Stop);
     }
 
@@ -148,6 +156,18 @@ class NetSimTestRunner {
       assert(this->received_.count(response_msg->id()) == 0);
       this->received_[response_msg->id()] = response_msg;
     }
+    void SnmpSend() {
+      MsgId id;
+      id = this->netsim_->Snmp("sw1", "manager1", 2500, ns3::MakeCallback(&NetSimTestRunner::SnmpArrive, this), this->userobj_);
+      assert(id != MsgId_invalid);
+      this->sent_[id] = kMTSnmp;
+    }
+    void SnmpArrive(ns3::Ptr<MsgInfo> msg) {
+      assert(this->sent_[msg->id()] == kMTSnmp);
+      assert(msg->userobj() == this->userobj_);
+      //it's UDP, cannot assume not duplicate
+      this->received_[msg->id()] = msg;
+    }
     
     void SaveLinkStat() {
       for (LinkId id = -6; id <= 6; ++id) {
@@ -169,7 +189,7 @@ class NetSimTestRunner {
 
 TEST(NetSimTest, NetSim) {
   Topology topology;
-  char topo_json[] = "{\"version\":1,\"type\":\"rackrow\",\"nodes\":{\"sw1\":{\"type\":\"switch\",\"devices\":[\"eth0\",\"eth1\",\"eth2\"]},\"sw2\":{\"type\":\"switch\",\"devices\":[\"eth0\",\"eth1\",\"eth2\",\"eth3\"]},\"manager0\":{\"type\":\"host\",\"ip\":\"10.0.0.1\",\"devices\":[\"eth0\"]},\"manager1\":{\"type\":\"host\",\"ip\":\"10.0.0.2\",\"devices\":[\"eth0\"]},\"slave0\":{\"type\":\"host\",\"ip\":\"10.0.1.1\",\"devices\":[\"eth0\"]},\"slave1\":{\"type\":\"host\",\"ip\":\"10.0.1.2\",\"devices\":[\"eth0\"]},\"slave2\":{\"type\":\"host\",\"ip\":\"10.0.1.3\",\"devices\":[\"eth0\"]}},\"links\":{\"1\":{\"node1\":\"sw1\",\"port1\":\"eth1\",\"node2\":\"manager0\",\"port2\":\"eth0\",\"type\":\"eth1G\"},\"2\":{\"node1\":\"sw2\",\"port1\":\"eth1\",\"node2\":\"manager1\",\"port2\":\"eth0\",\"type\":\"eth1G\"},\"3\":{\"node1\":\"sw2\",\"port1\":\"eth0\",\"node2\":\"slave0\",\"port2\":\"eth0\",\"type\":\"eth1G\"},\"4\":{\"node1\":\"sw1\",\"port1\":\"eth1\",\"node2\":\"slave1\",\"port2\":\"eth0\",\"type\":\"eth1G\"},\"5\":{\"node1\":\"sw2\",\"port1\":\"eth2\",\"node2\":\"slave2\",\"port2\":\"eth0\",\"type\":\"eth1G\"},\"6\":{\"node1\":\"sw1\",\"port1\":\"eth2\",\"node2\":\"sw2\",\"port2\":\"eth3\",\"type\":\"eth10G\"}}}";
+  char topo_json[] = "{\"version\":1,\"type\":\"generic\",\"nodes\":{\"sw1\":{\"type\":\"switch\",\"devices\":[\"eth0\",\"eth1\",\"eth2\"]},\"sw2\":{\"type\":\"switch\",\"devices\":[\"eth0\",\"eth1\",\"eth2\",\"eth3\"]},\"manager0\":{\"type\":\"host\",\"ip\":\"10.0.0.1\",\"devices\":[\"eth0\"]},\"manager1\":{\"type\":\"host\",\"ip\":\"10.0.0.2\",\"devices\":[\"eth0\"]},\"slave0\":{\"type\":\"host\",\"ip\":\"10.0.1.1\",\"devices\":[\"eth0\"]},\"slave1\":{\"type\":\"host\",\"ip\":\"10.0.1.2\",\"devices\":[\"eth0\"]},\"slave2\":{\"type\":\"host\",\"ip\":\"10.0.1.3\",\"devices\":[\"eth0\"]}},\"links\":{\"1\":{\"node1\":\"sw1\",\"port1\":\"eth1\",\"node2\":\"manager0\",\"port2\":\"eth0\",\"type\":\"eth1G\"},\"2\":{\"node1\":\"sw2\",\"port1\":\"eth1\",\"node2\":\"manager1\",\"port2\":\"eth0\",\"type\":\"eth1G\"},\"3\":{\"node1\":\"sw2\",\"port1\":\"eth0\",\"node2\":\"slave0\",\"port2\":\"eth0\",\"type\":\"eth1G\"},\"4\":{\"node1\":\"sw1\",\"port1\":\"eth1\",\"node2\":\"slave1\",\"port2\":\"eth0\",\"type\":\"eth1G\"},\"5\":{\"node1\":\"sw2\",\"port1\":\"eth2\",\"node2\":\"slave2\",\"port2\":\"eth0\",\"type\":\"eth1G\"},\"6\":{\"node1\":\"sw1\",\"port1\":\"eth2\",\"node2\":\"sw2\",\"port2\":\"eth3\",\"type\":\"eth10G\"}}}";
   topology.LoadString(topo_json);
   std::unordered_set<HostName> managers; managers.insert("manager0"); managers.insert("manager1");
 

@@ -161,7 +161,9 @@ void Topology::LoadString(char* json) {
   assert(p_type != NULL);
   assert(p_type->type == JSON_STRING);
   std::string v_type = p_type->string_value;
-  if (0 == v_type.compare("star")) {
+  if (0 == v_type.compare("generic")) {
+    this->type_ = kTTGeneric;
+  } else if (0 == v_type.compare("star")) {
     this->type_ = kTTStar;
   } else if (0 == v_type.compare("rackrow")) {
     this->type_ = kTTRackRow;

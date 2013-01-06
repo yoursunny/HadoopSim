@@ -9,6 +9,7 @@ def build(bld):
     'netsim/nameserver.cc',
     'netsim/dataclient.cc',
     'netsim/dataserver.cc',
+    'netsim/snmpagent.cc',
     'netsim/linkstat.cc',
     'netsim/netsim.cc'
   }
@@ -48,7 +49,8 @@ def build(bld):
     'gtest/gtest.cc',
     'netsim/topology_test.cc',
     'netsim/msgtransport_test.cc',
+    'netsim/snmpagent_test.cc',
     'netsim/netsim_test.cc',
-    'netsim/bulkdata_test.cc'
+    'netsim/bulkdata_test.cc',
   }
 

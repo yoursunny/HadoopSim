@@ -75,6 +75,7 @@ class Link : public ns3::SimpleRefCount<Node> {
 
 enum TopoType {
   kTTNone,
+  kTTGeneric,
   kTTStar,
   kTTRackRow
 };

@@ -76,27 +76,6 @@ class MsgTransportTestSource : public ns3::Application {
       this->mt_ = ns3::Create<MsgTransport>(sock, false);
       this->mt_->set_send_cb(ns3::MakeCallback(&MsgTransportTestSource::HandleSend, this));
       this->mt_->Send(this->msg_);
-
-      /*
-      ns3::Ptr<ns3::Socket> sock2 = ns3::Socket::CreateSocket(this->GetNode(), ns3::TcpSocketFactory::GetTypeId());
-      sock2->Bind();
-      sock2->Connect(ns3::InetSocketAddress(ns3::Ipv4Address("192.168.72.1"), 80));
-      ns3::Ptr<MsgInfo> msg2 = ns3::Create<MsgInfo>();
-      msg2->set_id(51); msg2->set_size(64*1<<20); msg2->set_src("source"); msg2->set_dst("sink");
-      //msg2->set_cb(ns3::MakeCallback(&MsgTransportTestSource::TransmitCallback, this));
-      ns3::Ptr<MsgTransport> mt2 = ns3::Create<MsgTransport>(sock2, false);
-      mt2->Send(msg2);
-      mt2->Ref();
-      ns3::Ptr<ns3::Socket> sock3 = ns3::Socket::CreateSocket(this->GetNode(), ns3::TcpSocketFactory::GetTypeId());
-      sock3->Bind();
-      sock3->Connect(ns3::InetSocketAddress(ns3::Ipv4Address("192.168.72.1"), 80));
-      ns3::Ptr<MsgInfo> msg3 = ns3::Create<MsgInfo>();
-      msg3->set_id(52); msg3->set_size(64*1<<20);
-      //msg3->set_cb(ns3::MakeCallback(&MsgTransportTestSource::TransmitCallback, this));
-      ns3::Ptr<MsgTransport> mt3 = ns3::Create<MsgTransport>(sock3, false);
-      mt3->Send(msg3);msg3->Ref();
-      mt3->Ref();
-      */
     }
     void StopApplication() {}
     
@@ -125,8 +104,8 @@ TEST(NetSimTest, MsgTransport) {
     
     ns3::Ptr<MsgTransportTestSink> sink = ns3::CreateObject<MsgTransportTestSink>();
     nodes.Get(0)->AddApplication(sink);
-    ns3::Ptr<MsgTransportTestSource> source = ns3::CreateObject<MsgTransportTestSource>();
     sink->SetStartTime(ns3::Seconds(0));
+    ns3::Ptr<MsgTransportTestSource> source = ns3::CreateObject<MsgTransportTestSource>();
     nodes.Get(1)->AddApplication(source);
     source->SetStartTime(ns3::Seconds(1));
     

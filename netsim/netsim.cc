@@ -3,6 +3,7 @@
 #include "netsim/nameclient.h"
 #include "netsim/dataserver.h"
 #include "netsim/dataclient.h"
+#include "netsim/snmpagent.h"
 #include "netsim/linkstat.h"
 namespace HadoopNetSim {
 
@@ -27,6 +28,7 @@ void NetSim::BuildNodes(const std::unordered_map<HostName,ns3::Ptr<Node>>& topo_
   std::unordered_map<HostName,ns3::Ptr<Node>>::const_iterator it1; ns3::NodeContainer::Iterator it2;
   for (it1 = topo_nodes.cbegin(), it2 = nodes.Begin(); it1 != topo_nodes.cend() && it2 != nodes.End(); ++it1,++it2) {
     this->nodes_[it1->first] = (*it2);
+    if (it1->second->type() == kNTSwitch) this->switches_.insert(it1->first);
   }
 }
 
@@ -140,6 +142,11 @@ void NetSim::InstallApps(const std::unordered_set<HostName>& managers) {
     ns3::Ptr<DataClient> dc_app = ns3::CreateObject<DataClient>(&this->slaves_);
     node->AddApplication(dc_app); c_apps.Add(dc_app);
   }
+  for (std::unordered_map<HostName,ns3::Ipv4Address>::const_iterator it = this->all_nodes_.cbegin(); it != this->all_nodes_.cend(); ++it) {
+    ns3::Ptr<ns3::Node> node = this->nodes_[it->first];
+    ns3::Ptr<SnmpAgent> snmp_app = ns3::CreateObject<SnmpAgent>(&this->all_nodes_);
+    node->AddApplication(snmp_app); s_apps.Add(snmp_app);
+  }
   s_apps.Start(ns3::Seconds(0.0));
   c_apps.Start(ns3::Seconds(1.0));
   ns3::Simulator::Schedule(ns3::Seconds(5.0), &NetSim::FireReadyCb, this);
@@ -149,10 +156,15 @@ void NetSim::InstallApps(const std::unordered_set<HostName>& managers) {
 
 void NetSim::PopulateIPList(const std::unordered_set<HostName>& managers) {
   for (std::unordered_map<HostName,ns3::Ptr<ns3::Node>>::const_iterator it = this->nodes_.cbegin(); it != this->nodes_.cend(); ++it) {
-    if (managers.count(it->first) == 1) {
-      this->managers_[it->first] = this->GetNodeIP(it->second);
-    } else {
-      this->slaves_[it->first] = this->GetNodeIP(it->second);
+    HostName name = it->first;
+    ns3::Ipv4Address ip = this->GetNodeIP(it->second);
+    this->all_nodes_[name] = ip;
+    if (this->switches_.count(name) == 0) {
+      if (managers.count(it->first) == 1) {
+        this->managers_[it->first] = this->GetNodeIP(it->second);
+      } else {
+        this->slaves_[it->first] = this->GetNodeIP(it->second);
+      }
     }
   }
 }
@@ -201,6 +213,16 @@ MsgId NetSim::DataResponse(MsgId in_reply_to, HostName src, HostName dst, size_t
   ns3::Ptr<MsgInfo> msg = this->MakeMsg(kMTDataResponse, src, dst, size, cb, userobj);
   msg->set_in_reply_to(in_reply_to);
   if (!app->DataResponse(msg)) return MsgId_invalid;
+  return msg->id();
+}
+
+MsgId NetSim::Snmp(HostName src, HostName dst, size_t size, TransmitCb cb, void* userobj) {
+  this->AssertReady();
+  if (this->all_nodes_.count(src) == 0 || this->all_nodes_.count(dst) == 0) return MsgId_invalid;
+  ns3::Ptr<SnmpAgent> app = this->GetNodeApp<SnmpAgent>(this->nodes_[src]);
+  assert(app != NULL);
+  ns3::Ptr<MsgInfo> msg = this->MakeMsg(kMTSnmp, src, dst, size, cb, userobj);
+  if (!app->Send(msg)) return MsgId_invalid;
   return msg->id();
 }
 

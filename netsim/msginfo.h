@@ -12,7 +12,8 @@ enum MsgType {
   kMTNameRequest,
   kMTNameResponse,
   kMTDataRequest,
-  kMTDataResponse
+  kMTDataResponse,
+  kMTSnmp
 };
 
 class MsgInfo;
