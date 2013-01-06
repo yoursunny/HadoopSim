@@ -9,9 +9,9 @@ HadoopSim is a simulator for a Hadoop Runtime by replaying the collected traces.
 #include "HEvent.h"
 
 typedef enum JobSubmissionPolicy {
-    Replay,
-    Serial,
-    Stress
+    Replay,     //replay the trace by following the job inter-arrival rate faithfully
+    Serial,     //submitting jobs sequentially
+    Stress      //ignore submission time, keep submitting jobs until the cluster is saturated.
 }JobSubmissionPolicy;
 
 class JobClient: public EventListener {
@@ -20,10 +20,13 @@ public:
     void submitJob(long evtTime);
     void completeJob(long evtTime);
     void probeLoad(long evtTime);
+    bool isSystemOverloaded(void);
     void handleNewEvent(EvtType type);
+    long getProbingInterval(void);
 private:
     JobSubmissionPolicy policy;
     long lastSubmissionTime;
+    long loadProbingInterval;
 };
 
 void initJobClient(JobSubmissionPolicy policy, long firstJobSubmitTime, bool needDebug, std::string debugDir);

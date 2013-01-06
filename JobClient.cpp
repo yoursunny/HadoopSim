@@ -3,6 +3,7 @@ Lei Ye <leiy@cs.arizona.edu>
 HadoopSim is a simulator for a Hadoop Runtime by replaying the collected traces.
 */
 #include <assert.h>
+#include <algorithm>
 #include <iostream>
 #include "EventQueue.h"
 #include "JobClient.h"
@@ -11,15 +12,19 @@ HadoopSim is a simulator for a Hadoop Runtime by replaying the collected traces.
 #include "netsim/netsim.h"
 using namespace std;
 
-/* JobTracker Variables */
+/* JobClient Variables */
 static JobClient *client;
 static string debugDirectory;
 static bool debugOption = false;
+static double OVERLOAD_MAPTASK_MAPSLOT_RATIO = 2.0f;
+static long LOAD_PROB_INTERVAL_START = 1000;    //ms
+static long LOAD_PROB_INTERVAL_MAX = 320000;    //ms
 
 JobClient::JobClient(JobSubmissionPolicy policy)
 {
     this->policy = policy;
     this->lastSubmissionTime = 0;
+    this->loadProbingInterval = LOAD_PROB_INTERVAL_START;
 }
 
 void JobClient::submitJob(long evtTime)
@@ -45,9 +50,6 @@ void JobClient::submitJob(long evtTime)
                 ns3::Simulator::Schedule(ns3::Seconds((double)timeStamp/1000.0), &hadoopEventCallback, evt);
             }
         }
-        else if (this->policy == Stress) {
-            // todo
-        }
     }
 }
 
@@ -57,17 +59,49 @@ void JobClient::completeJob(long evtTime)
         if (this->policy == Serial) {
             JobStory jobStory = fetchNextJob();
             JobTracker *jobTracker = getJobTracker();
-            jobTracker->acceptNewJob(&jobStory, evtTime + 1);
-        }
-        else if (this->policy == Stress) {
-            // todo
+            jobTracker->acceptNewJob(&jobStory, evtTime);
         }
     }
 }
 
 void JobClient::probeLoad(long evtTime)
 {
+    if (isMoreJobs()) {
+        if (isSystemOverloaded()) {
+            loadProbingInterval = min(loadProbingInterval * 2, LOAD_PROB_INTERVAL_MAX);
+            HEvent evt(client, EVT_LoadProbe);
+            ns3::Simulator::Schedule(ns3::Seconds((double)(loadProbingInterval)/1000.0), &hadoopEventCallback, evt);
+        } else {
+            HEvent evt1(this, EVT_JobSubmit);
+            ns3::Simulator::Schedule(ns3::Seconds(1.0), &hadoopEventCallback, evt1);
 
+            loadProbingInterval = LOAD_PROB_INTERVAL_START;
+            HEvent evt2(client, EVT_LoadProbe);
+            ns3::Simulator::Schedule(ns3::Seconds((double)(loadProbingInterval)/1000.0), &hadoopEventCallback, evt2);
+        }
+    }
+}
+
+bool JobClient::isSystemOverloaded(void)
+{
+    JobTracker *jobTracker = getJobTracker();
+    map<string, Job> &runningJobs = jobTracker->getRunningJobs();
+
+    // If there are more jobs than number of task trackers, we assume the cluster is overloaded
+    if (runningJobs.size() >= jobTracker->getTaskTrackerCount())
+        return true;
+
+    // check MAP tasks and MAP slots
+    double incompleteMapTasks = 0.0f;
+    map<string, Job>::iterator jobIt;
+    for(jobIt = runningJobs.begin(); jobIt != runningJobs.end(); jobIt++) {
+        Job job = jobIt->second;
+        incompleteMapTasks += (1.0 - min((double)job.getCompletedMaps().size()/job.getNumMap(), 1.0) * job.getNumMap());
+    }
+    if (incompleteMapTasks > OVERLOAD_MAPTASK_MAPSLOT_RATIO * jobTracker->getMapSlotCapacity())
+        return true;
+
+    return false;
 }
 
 void JobClient::handleNewEvent(EvtType type)
@@ -80,9 +114,17 @@ void JobClient::handleNewEvent(EvtType type)
         case EVT_JobDone:
             completeJob(timestamp);
             break;
+        case EVT_LoadProbe:
+            probeLoad(timestamp);
+            break;
         default:
             cout<<"Unhandled Event for JobClient\n";
     }
+}
+
+long JobClient::getProbingInterval(void)
+{
+    return this->loadProbingInterval;
 }
 
 void initJobClient(JobSubmissionPolicy policy, long firstJobSubmitTime, bool needDebug, string debugDir)
@@ -98,6 +140,12 @@ void initJobClient(JobSubmissionPolicy policy, long firstJobSubmitTime, bool nee
     // add first Job Submission event to the EventQueue
     HEvent evt(client, EVT_JobSubmit);
     ns3::Simulator::Schedule(ns3::Seconds((double)firstJobSubmitTime/1000.0), &hadoopEventCallback, evt);
+
+    if (policy == Stress) {
+        // add probeLoad Event
+        HEvent evt(client, EVT_LoadProbe);
+        ns3::Simulator::Schedule(ns3::Seconds((double)(firstJobSubmitTime+client->getProbingInterval())/1000.0), &hadoopEventCallback, evt);
+    }
 }
 
 void killJobClient()

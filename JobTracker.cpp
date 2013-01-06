@@ -5,6 +5,7 @@ HadoopSim is a simulator for a Hadoop Runtime by replaying the collected traces.
 #include <assert.h>
 #include <math.h>
 #include <iostream>
+#include "Cluster.h"
 #include "EventQueue.h"
 #include "JobClient.h"
 #include "JobTracker.h"
@@ -137,7 +138,7 @@ void JobTracker::updateTaskStatus(HeartBeatReport report, long now)
             // ask for a new job
             JobClient *client = getJobClient();
             HEvent evt(client, EVT_JobDone);
-            ns3::Simulator::Schedule(ns3::Seconds((double)1/1000.0), &hadoopEventCallback, evt);
+            ns3::Simulator::Schedule(ns3::Seconds(1.0), &hadoopEventCallback, evt);
         }
     }
 }
@@ -230,6 +231,16 @@ const map<string, vector<string>> &JobTracker::getBlock2Node() const
 const std::string JobTracker::getHostName(void) const
 {
     return this->hostName;
+}
+
+const size_t JobTracker::getTaskTrackerCount(void) const
+{
+    return getClusterSlaveNodes().size();
+}
+
+const long JobTracker::getMapSlotCapacity(void) const
+{
+    return MaxMapSlots * this->getTaskTrackerCount();
 }
 
 void initJobTracker(string hostName, int schedType)

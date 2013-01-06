@@ -26,12 +26,13 @@ static string traceFilePrefix;
 static int numTraceFiles;
 static bool needDebug = false;
 static string debugDir;
+static int submitType;
 
 void completeCluster(HadoopNetSim::NetSim *netsim)
 {
     initJobTracker(getClusterMasterNodes().getHostName(), schedType);
     long firstJobSubmitTime = initTaskTrackers();
-    initJobClient(Replay, firstJobSubmitTime, needDebug, debugDir);
+    initJobClient((JobSubmissionPolicy)submitType, firstJobSubmitTime, needDebug, debugDir);
 }
 
 void initSim()
@@ -57,48 +58,54 @@ void endSim()
 
 void helper()
 {
-    cout<<"./HadoopSim schedType[0-default, 1-netOpt] topoType[0-star, 1-rackrow, 2-fattree] topologyFile traceFilePrefix numTraceFiles needDebug debugDir\n";
+    cout<<"./HadoopSim jobSubmitTYpe[0-replay, 1-serial, 2-stress] schedType[0-default, 1-netOpt] topoType[0-star, 1-rackrow, 2-fattree] topologyFile traceFilePrefix numTraceFiles needDebug debugDir\n";
     cout<<"Each trace file represents a single job. For N trace files, the trace file name is represented "
         <<"as prefix0, prefix1, prefix2, ......\n";
 }
 
 int parseParameters(int argc, char *argv[])
 {
-    if (argc < 7) {
+    if (argc < 8) {
         helper();
         return Status::TooFewParameters;
     }
 
-    schedType = atoi(argv[1]);
+    submitType = atoi(argv[1]);
+    if (submitType < 0 || submitType > 2) {
+        helper();
+        return Status::WrongParameters;
+    }
+
+    schedType = atoi(argv[2]);
     if (schedType < 0 || schedType > 1) {
         helper();
         return Status::WrongParameters;
     }
 
-    topoType = atoi(argv[2]);
+    topoType = atoi(argv[3]);
     if (topoType < 0 || topoType > 3) {
         helper();
         return Status::WrongParameters;
     }
 
     // check whether files exist
-    topologyFile.assign(argv[3]);
+    topologyFile.assign(argv[4]);
     if (access(topologyFile.c_str(), 0) < 0) {
         helper();
         return Status::NonExistentFile;
     }
 
-    traceFilePrefix.assign(argv[4]);
-    numTraceFiles = atoi(argv[5]);
+    traceFilePrefix.assign(argv[5]);
+    numTraceFiles = atoi(argv[6]);
     int nameLength = traceFilePrefix.size();
     if (numTraceFiles <= 0 || nameLength <= 0) {
         helper();
         return Status::WrongParameters;
     }
 
-    needDebug = (atoi(argv[6]) == 0) ? false : true;
+    needDebug = (atoi(argv[7]) == 0) ? false : true;
     if (needDebug)
-        debugDir.assign(argv[7]);
+        debugDir.assign(argv[8]);
 
     for(int i = 0; i < numTraceFiles; i++) {
         traceFilePrefix.append(to_string(i));

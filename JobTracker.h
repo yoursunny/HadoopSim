@@ -27,6 +27,8 @@ public:
     const std::map<std::string, std::vector<std::string>> &getNode2Block() const;
     const std::map<std::string, std::vector<std::string>> &getBlock2Node() const;
     const std::string getHostName(void) const;
+    const size_t getTaskTrackerCount(void) const;
+    const long getMapSlotCapacity(void) const;
 private:
     std::string hostName;
     HScheduler *sched;
