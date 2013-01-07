@@ -73,7 +73,6 @@ class BulkDataTestRunner {
       this->netsim_ = netsim;
       this->netsim_->set_ready_cb(ns3::MakeCallback(&BulkDataTestRunner::Ready, this));
       this->userobj_ = this;
-      this->lastID = 0;
     }
     void Verify() {
       std::unordered_map<MsgType,ns3::Ptr<ns3::MinMaxAvgTotalCalculator<double>>,std::hash<int>> calcs;
@@ -88,11 +87,10 @@ class BulkDataTestRunner {
         if (it->second == kMTDataRequest) ++sentDataRequest;
         else if (it->second == kMTDataResponse) ++sentDataResponse;
       }
-      printf("counts %ld %ld %d %d\n", calcs[kMTDataRequest]->getCount(), calcs[kMTDataResponse]->getCount(), sentDataRequest, sentDataResponse);
-      assert(calcs[kMTDataRequest]->getCount() == 98);
-      assert(calcs[kMTDataResponse]->getCount() == 98);
-      printf("DataRequest %f,%f,%f\n", calcs[kMTDataRequest]->getMin(), calcs[kMTDataRequest]->getMean(), calcs[kMTDataRequest]->getMax());
-      printf("DataResponse %f,%f,%f\n", calcs[kMTDataResponse]->getMin(), calcs[kMTDataResponse]->getMean(), calcs[kMTDataResponse]->getMax());
+      printf("DataRequest(%d,%ld) %f,%f,%f\n", sentDataRequest, calcs[kMTDataRequest]->getCount(), calcs[kMTDataRequest]->getMin(), calcs[kMTDataRequest]->getMean(), calcs[kMTDataRequest]->getMax());
+      printf("DataResponse(%d,%ld) %f,%f,%f\n", sentDataResponse, calcs[kMTDataResponse]->getCount(), calcs[kMTDataResponse]->getMin(), calcs[kMTDataResponse]->getMean(), calcs[kMTDataResponse]->getMax());
+      assert(calcs[kMTDataRequest]->getCount() == 196);
+      assert(calcs[kMTDataResponse]->getCount() == 196);
     }
 
   private:
@@ -100,34 +98,32 @@ class BulkDataTestRunner {
     NetSim* netsim_;
     std::unordered_map<MsgId,MsgType> sent_;
     std::unordered_map<MsgId,ns3::Ptr<MsgInfo>> received_;
-    MsgId lastID;
 
     void Ready(NetSim*) {
       ns3::Simulator::Schedule(ns3::Seconds(2.0), &BulkDataTestRunner::DataRequestAll, this);
+      ns3::Simulator::Schedule(ns3::Seconds(5.0), &BulkDataTestRunner::DataRequestAllRev, this);
+      ns3::Simulator::Schedule(ns3::Seconds(900), &ns3::Simulator::Stop);
     }
     void DataRequestAll() {
       for (size_t i = 1; i < Server.size(); ++i) {
-        //ns3::Simulator::Schedule(ns3::Seconds(0.001 * i), &BulkDataTestRunner::DataRequest, this, i);
-        this->DataRequest(i);
+        this->DataRequest(i, 0);
+        this->DataRequest(i, 0);
       }
-      ns3::Simulator::Schedule(ns3::Seconds(900), &ns3::Simulator::Stop);
     }
-    void DataRequest(size_t i) {
-      MsgId id;
-      id = this->netsim_->DataRequest(Server[0], Server[i], 9000, ns3::MakeCallback(&BulkDataTestRunner::DataResponse, this), this->userobj_);
-      assert(id != MsgId_invalid);
-      this->sent_[id] = kMTDataRequest;
-
-      id = this->netsim_->DataRequest(Server[0], Server[i], 9000, ns3::MakeCallback(&BulkDataTestRunner::DataResponse, this), this->userobj_);
-      assert(id != MsgId_invalid);
-      this->sent_[id] = kMTDataRequest;
-
-      if (i == Server.size() - 1) {
-        lastID = id;
+    void DataRequestAllRev() {
+      for (size_t i = 1; i < Server.size(); ++i) {
+        this->DataRequest(0, i);
+        this->DataRequest(0, i);
       }
+    }
+    void DataRequest(size_t i, size_t j) {
+      MsgId id;
+      id = this->netsim_->DataRequest(Server[i], Server[j], 9000, ns3::MakeCallback(&BulkDataTestRunner::DataResponse, this), this->userobj_);
+      assert(id != MsgId_invalid);
+      this->sent_[id] = kMTDataRequest;
     }
     void DataResponse(ns3::Ptr<MsgInfo> request_msg) {
-      printf("got DataRequest %"PRIu64" %f\n", request_msg->id(), ns3::Simulator::Now().GetSeconds());
+      printf("%f got DataRequest %"PRIu64"\n", ns3::Simulator::Now().GetSeconds(), request_msg->id());
       assert(this->sent_[request_msg->id()] == kMTDataRequest);
       assert(request_msg->userobj() == this->userobj_);
       assert(this->received_.count(request_msg->id()) == 0);
@@ -135,19 +131,13 @@ class BulkDataTestRunner {
       MsgId id = this->netsim_->DataResponse(request_msg->id(), request_msg->dst(), request_msg->src(), 1<<26, ns3::MakeCallback(&BulkDataTestRunner::DataFinish, this), this->userobj_);
       assert(id != MsgId_invalid);
       this->sent_[id] = kMTDataResponse;
-      if (lastID == request_msg->id()) {
-        lastID = id;
-      }
     }
     void DataFinish(ns3::Ptr<MsgInfo> response_msg) {
-      printf("got DataResponse %"PRIu64" %f\n", response_msg->id(), ns3::Simulator::Now().GetSeconds());
+      printf("%f got DataResponse %"PRIu64"\n", ns3::Simulator::Now().GetSeconds(), response_msg->id());
       assert(this->sent_[response_msg->id()] == kMTDataResponse);
       assert(response_msg->userobj() == this->userobj_);
       assert(this->received_.count(response_msg->id()) == 0);
       this->received_[response_msg->id()] = response_msg;
-      if (lastID == response_msg->id()) {
-        //ns3::Simulator::Schedule(ns3::Simulator::Now(), &ns3::Simulator::Stop);
-      }
     }
     DISALLOW_COPY_AND_ASSIGN(BulkDataTestRunner);
 };
@@ -161,7 +151,7 @@ TEST(NetSimTest, BulkData) {
 
   EXPECT_EXIT({
     NetSim netsim;
-    //ns3::Config::SetDefault("ns3::DropTailQueue::MaxPackets", ns3::UintegerValue(200));
+    //ns3::Config::SetDefault("ns3::DropTailQueue::MaxPackets", ns3::UintegerValue(500));
     //ns3::LogComponentEnable("TcpSocketBase", ns3::LOG_LEVEL_LOGIC);
     //ns3::LogComponentEnable("TcpNewReno", ns3::LOG_LEVEL_LOGIC);
     netsim.BuildTopology(topology);

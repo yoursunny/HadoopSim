@@ -1,5 +1,7 @@
 #include "netsim/dataclient.h"
 #include "netsim/portnumber.h"
+//#include <../src/internet/model/rtt-estimator.h>
+//#include <../src/internet/model/tcp-newreno.h>
 namespace HadoopNetSim {
 
 DataClient::DataClient(std::unordered_map<HostName,ns3::Ipv4Address>* data_servers) {
@@ -17,7 +19,10 @@ ns3::TypeId DataClient::GetTypeId(void) {
 bool DataClient::DataRequest(ns3::Ptr<MsgInfo> msg) {
   assert(msg->type() == kMTDataRequest);
   if (this->data_servers_->count(msg->dst()) == 0) return false;
+  //ns3::Ptr<ns3::RttEstimator> rtt = ns3::CreateObject<ns3::RttMeanDeviation>();
+  //rtt->SetAttribute("MaxMultiplier", ns3::UintegerValue(1));
   ns3::Ptr<ns3::Socket> sock = ns3::Socket::CreateSocket(this->GetNode(), ns3::TcpSocketFactory::GetTypeId());
+  //sock->GetObject<ns3::TcpNewReno>()->SetRtt(rtt);
   sock->Bind();
   sock->Connect(ns3::InetSocketAddress((*this->data_servers_)[msg->dst()], kDataServerPort));
   ns3::Ptr<MsgTransport> mt = ns3::Create<MsgTransport>(sock, false);
