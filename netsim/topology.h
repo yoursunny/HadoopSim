@@ -86,10 +86,11 @@ class Topology {
     TopoType type(void) const { return this->type_; }
     const std::unordered_map<HostName,ns3::Ptr<Node>>& nodes(void) const { return this->nodes_; }
     const std::unordered_map<LinkId,ns3::Ptr<Link>>& links(void) const { return this->links_; }
+    const std::unordered_map<HostName, std::vector<LinkId>>& graph(void) const { return this->graph_; }
 
     void Load(const std::string& filename);
     void LoadString(char* json);
-    
+
     uint16_t PathLength(HostName src, HostName dst);//calculate path length between two nodes; works for kTTStar and kTTRackRow only
 
   private:
@@ -113,14 +114,17 @@ class Topology {
         RackRowLayer layer_;
         int index_;
     };
-    
+
     TopoType type_;
     std::unordered_map<HostName,ns3::Ptr<Node>> nodes_;//name=>Node
     std::unordered_map<LinkId,ns3::Ptr<Link>> links_;//positive LinkId=>Link
-    
+
+    // --- Topology Information only used for new scheduler ---
+    std::unordered_map<HostName, std::vector<LinkId>> graph_;     // {NodeName, DirectOutLinkArray[linkID, linkID...]}
+
     RackRowPosition RackRow_Position(ns3::Ptr<Node> node);
     RackRowPosition RackRow_Up(RackRowPosition nodepos);
-    
+
     DISALLOW_COPY_AND_ASSIGN(Topology);
 };
 

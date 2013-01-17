@@ -187,6 +187,20 @@ void Topology::LoadString(char* json) {
     assert(this->nodes_.at(link->node1())->devices().count(link->port1()) == 1);
     assert(this->nodes_.at(link->node2())->devices().count(link->port2()) == 1);
     this->links_[link->id()] = link;
+
+    std::vector<LinkId> edge;
+    if (graph_.find(link->node1()) != this->graph_.end()) {
+      edge = this->graph_[link->node1()];
+    }
+    edge.push_back(link->id());
+    this->graph_[link->node1()] = edge;
+
+    edge.clear();
+    if (graph_.find(link->node2()) != this->graph_.end()) {
+      edge = this->graph_[link->node2()];
+    }
+    edge.push_back(link->rid());
+    this->graph_[link->node2()] = edge;
   }
 }
 
