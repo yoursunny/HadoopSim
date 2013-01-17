@@ -86,7 +86,7 @@ class Topology {
     TopoType type(void) const { return this->type_; }
     const std::unordered_map<HostName,ns3::Ptr<Node>>& nodes(void) const { return this->nodes_; }
     const std::unordered_map<LinkId,ns3::Ptr<Link>>& links(void) const { return this->links_; }
-    const std::unordered_map<HostName, std::vector<LinkId>>& graph(void) const { return this->graph_; }
+    const std::unordered_map<HostName,std::vector<LinkId>>& graph(void) const { return this->graph_; }
 
     void Load(const std::string& filename);
     void LoadString(char* json);
@@ -118,9 +118,7 @@ class Topology {
     TopoType type_;
     std::unordered_map<HostName,ns3::Ptr<Node>> nodes_;//name=>Node
     std::unordered_map<LinkId,ns3::Ptr<Link>> links_;//positive LinkId=>Link
-
-    // --- Topology Information only used for new scheduler ---
-    std::unordered_map<HostName, std::vector<LinkId>> graph_;     // {NodeName, DirectOutLinkArray[linkID, linkID...]}
+    std::unordered_map<HostName,std::vector<LinkId>> graph_;//host=>array of outgoing links
 
     RackRowPosition RackRow_Position(ns3::Ptr<Node> node);
     RackRowPosition RackRow_Up(RackRowPosition nodepos);

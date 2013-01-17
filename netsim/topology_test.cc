@@ -10,6 +10,9 @@ TEST(NetSimTest, Topology) {
   ASSERT_EQ(3, topology.nodes().size());
   ASSERT_EQ(2, topology.links().size());
   ASSERT_EQ(kTTStar, topology.type());
+  ASSERT_EQ(2, topology.graph().at("sw1").size());
+  ASSERT_EQ(1, topology.graph().at("host1").size());
+  ASSERT_EQ(-1, topology.graph().at("host1")[0]);
 }
 
 TEST(NetSimTest, TopologyRackRowPathLength) {
