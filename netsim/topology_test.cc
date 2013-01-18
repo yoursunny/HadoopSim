@@ -10,9 +10,14 @@ TEST(NetSimTest, Topology) {
   ASSERT_EQ(3, topology.nodes().size());
   ASSERT_EQ(2, topology.links().size());
   ASSERT_EQ(kTTStar, topology.type());
-  ASSERT_EQ(2, topology.graph().at("sw1").size());
-  ASSERT_EQ(1, topology.graph().at("host1").size());
-  ASSERT_EQ(-1, topology.graph().at("host1")[0]);
+  ASSERT_EQ(2, topology.graph().count("sw1"));
+  ASSERT_EQ(1, topology.graph().count("host1"));
+  std::pair<std::unordered_multimap<HostName,LinkId>::const_iterator,std::unordered_multimap<HostName,LinkId>::const_iterator> host1outlinks = topology.graph().equal_range("host1");
+  bool has_minus1 = false;
+  for (std::unordered_multimap<HostName,LinkId>::const_iterator it = host1outlinks.first; it != host1outlinks.second; ++it) {
+    if (it->second == -1) has_minus1 = true;
+  }
+  ASSERT_TRUE(has_minus1);
 }
 
 TEST(NetSimTest, TopologyRackRowPathLength) {

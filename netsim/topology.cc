@@ -188,8 +188,8 @@ void Topology::LoadString(char* json) {
     assert(this->nodes_.at(link->node2())->devices().count(link->port2()) == 1);
     this->links_[link->id()] = link;
 
-    this->graph_[link->node1()].push_back(link->id());
-    this->graph_[link->node2()].push_back(link->rid());
+    this->graph_.insert(std::make_pair(link->node1(),link->id()));
+    this->graph_.insert(std::make_pair(link->node2(),link->rid()));
   }
 }
 
