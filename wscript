@@ -35,7 +35,6 @@ def build(bld):
     'JobClient.cpp',
     'TraceReader.cpp',
     'TraceAnalyzer.cpp',
-    'TraceLogger.cpp',
     'NetMonitor.cpp',
     'DataLocalityScheduler.cpp',
     'FIFOScheduler.cpp',
