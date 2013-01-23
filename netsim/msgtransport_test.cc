@@ -7,11 +7,15 @@ class MsgTransportTestSink : public ns3::Application {
     ns3::Ptr<ns3::Socket> sock_listen_;
     ns3::Ptr<MsgTransport> mt_;
     ns3::Ptr<MsgInfo> msg_;
+    int progress_called_;
+    size_t progress_last_;
 
     MsgTransportTestSink(void) {
       this->sock_listen_ = NULL;
       this->mt_ = NULL;
       this->msg_ = NULL;
+      this->progress_called_ = 0;
+      this->progress_last_ = 0;
     }
     virtual ~MsgTransportTestSink(void) {}
     static ns3::TypeId GetTypeId(void) {
@@ -36,9 +40,16 @@ class MsgTransportTestSink : public ns3::Application {
     void HandleAccept(ns3::Ptr<ns3::Socket> sock, const ns3::Address& from) {
       this->mt_ = ns3::Create<MsgTransport>(sock);
       this->mt_->set_recv_cb(ns3::MakeCallback(&MsgTransportTestSink::Recv, this));
+      this->mt_->set_progress_cb(ns3::MakeCallback(&MsgTransportTestSink::HandleProgress, this));
     }
     void Recv(ns3::Ptr<MsgTransport>, ns3::Ptr<MsgInfo> msg) {
       this->msg_ = msg;
+    }
+    void HandleProgress(ns3::Ptr<MsgTransport>, ns3::Ptr<MsgInfo> msg, size_t progress) {
+      //printf("MsgTransportTestSink::HandleProgress(msg=%"PRIu64",progress=%"PRIuMAX")\n", msg->id(), progress);
+      ++this->progress_called_;
+      assert(this->progress_last_ <= progress);
+      this->progress_last_ = progress;
     }
     
     DISALLOW_COPY_AND_ASSIGN(MsgTransportTestSink);
@@ -71,7 +82,7 @@ class MsgTransportTestSource : public ns3::Application {
       sock->Bind();
       sock->Connect(ns3::InetSocketAddress(ns3::Ipv4Address("192.168.72.1"), 80));
       this->msg_ = ns3::Create<MsgInfo>();
-      this->msg_->set_id(50); this->msg_->set_size(64*1<<20); this->msg_->set_src("source"); this->msg_->set_dst("sink");
+      this->msg_->set_id(50); this->msg_->set_size(1<<26); this->msg_->set_src("source"); this->msg_->set_dst("sink");
       this->msg_->set_cb(ns3::MakeCallback(&MsgTransportTestSource::TransmitCallback, this));
       this->mt_ = ns3::Create<MsgTransport>(sock, false);
       this->mt_->set_send_cb(ns3::MakeCallback(&MsgTransportTestSource::HandleSend, this));
@@ -115,6 +126,7 @@ TEST(NetSimTest, MsgTransport) {
     assert(sink->msg_ == source->msg_);
     assert(source->send_called_ == 1);
     assert(source->transmit_cb_called_ == 1);
+    assert(sink->progress_called_ > 0);
     assert(sink->msg_->success());
     ::exit(0);
   }, ::testing::ExitedWithCode(0), "");

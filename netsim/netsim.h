@@ -27,6 +27,8 @@ class NetSim {
     MsgId DataRequest(HostName src, HostName dst, size_t size, TransmitCb cb, void* userobj);
     MsgId DataResponse(MsgId in_reply_to, HostName src, HostName dst, size_t size, TransmitCb cb, void* userobj);
     MsgId Snmp(HostName src, HostName dst, size_t size, TransmitCb cb, void* userobj);
+    MsgId ImportRequest(std::vector<HostName> pipeline, size_t size, TransmitCb cb, void* userobj);
+    MsgId ImportResponse(MsgId in_reply_to, std::vector<HostName> pipeline, size_t size, TransmitCb cb, void* userobj);
     
     //----stat----
     ns3::Ptr<LinkStat> GetLinkStat(LinkId link);//get link utilization and queue usage 'now'

@@ -1,6 +1,7 @@
 #ifndef HADOOPSIM_NETSIM_MSGINFO_H_
 #define HADOOPSIM_NETSIM_MSGINFO_H_
 #include "netsim/defs.h"
+#include <vector>
 #include "netsim/topology.h"
 namespace HadoopNetSim {
 
@@ -13,7 +14,9 @@ enum MsgType {
   kMTNameResponse,
   kMTDataRequest,
   kMTDataResponse,
-  kMTSnmp
+  kMTSnmp,
+  kMTImportRequest,
+  kMTImportResponse
 };
 
 class MsgInfo;

@@ -38,13 +38,17 @@ class TransmitState : public ns3::SimpleRefCount<TransmitState> {//a sending or 
     size_t count(void) const { return this->count_; }
     void set_count(size_t value) { this->count_ = value; }
     void inc_count(size_t diff) { this->count_ += diff; }
+    size_t pumped(void) const { return this->pumped_; }
+    void set_pumped(size_t value) { this->pumped_ = value; }
     size_t remaining(void) const { return this->IsComplete() ? 0 : this->msg()->size() - this->count_; }
+    size_t remaining_pumped(void) const { return this->pumped_ - this->count_; }
     bool IsComplete(void) const { return this->count_ >= this->msg()->size(); }
     const MsgTag& tag(void) const { return this->tag_; }
 
   private:
     ns3::Ptr<MsgInfo> msg_;
     size_t count_;//octets already sent or received
+    size_t pumped_;//octets allowed to be sent
     MsgTag tag_;
     DISALLOW_COPY_AND_ASSIGN(TransmitState);
 };
@@ -63,8 +67,11 @@ class MsgTransport : public ns3::SimpleRefCount<MsgTransport> {
     MsgTransport(ns3::Ptr<ns3::Socket> socket, bool connected = true);
     virtual ~MsgTransport(void);
     ns3::Ptr<ns3::Socket> sock(void) { return this->sock_; }
-    void Send(ns3::Ptr<MsgInfo> msg);//queue a message to send
+    void Send(ns3::Ptr<MsgInfo> msg) { this->SendPrepare(msg); this->SendPump(msg, msg->size()); }
+    void SendPrepare(ns3::Ptr<MsgInfo> msg);//queue a message to send, but don't start sending
+    void SendPump(ns3::Ptr<MsgInfo> msg, size_t max_progress);//send up to max_progress octets of a message; if a message is in front of queue but not fully pumped, subsequent messages have to wait
     void set_send_cb(ns3::Callback<void,ns3::Ptr<MsgTransport>,ns3::Ptr<MsgInfo>> value) { this->send_cb_ = value; }//fires when a message is sent
+    void set_progress_cb(ns3::Callback<void,ns3::Ptr<MsgTransport>,ns3::Ptr<MsgInfo>,size_t> value) { this->progress_cb_ = value; }//reports progress about a message being received
     void set_recv_cb(ns3::Callback<void,ns3::Ptr<MsgTransport>,ns3::Ptr<MsgInfo>> value) { this->recv_cb_ = value; }//fires when a message is received
     void set_evt_cb(ns3::Callback<void,ns3::Ptr<MsgTransport>,MsgTransportEvt> value) { this->evt_cb_ = value; }//fires when any MsgTransportEvt happens
     
@@ -72,9 +79,11 @@ class MsgTransport : public ns3::SimpleRefCount<MsgTransport> {
     ns3::Ptr<ns3::Socket> sock_;
     bool connected_;
     ns3::Callback<void,ns3::Ptr<MsgTransport>,ns3::Ptr<MsgInfo>> send_cb_;
+    ns3::Callback<void,ns3::Ptr<MsgTransport>,ns3::Ptr<MsgInfo>,size_t> progress_cb_;
     ns3::Callback<void,ns3::Ptr<MsgTransport>,ns3::Ptr<MsgInfo>> recv_cb_;
     ns3::Callback<void,ns3::Ptr<MsgTransport>,MsgTransportEvt> evt_cb_;
     std::queue<ns3::Ptr<TransmitState>> send_queue_;
+    std::unordered_map<MsgId,ns3::Ptr<TransmitState>> send_map_;
     bool send_block_;//true if send buffer is full
     std::unordered_map<MsgId,ns3::Ptr<TransmitState>> recv_map_;
     
