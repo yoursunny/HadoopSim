@@ -82,7 +82,7 @@ class MsgTransportTestSource : public ns3::Application {
       sock->Bind();
       sock->Connect(ns3::InetSocketAddress(ns3::Ipv4Address("192.168.72.1"), 80));
       this->msg_ = ns3::Create<MsgInfo>();
-      this->msg_->set_id(50); this->msg_->set_size(1<<26); this->msg_->set_src("source"); this->msg_->set_dst("sink");
+      this->msg_->set_id(50); this->msg_->set_size(1<<26); this->msg_->set_srcdst("source","sink");
       this->msg_->set_cb(ns3::MakeCallback(&MsgTransportTestSource::TransmitCallback, this));
       this->mt_ = ns3::Create<MsgTransport>(sock, false);
       this->mt_->set_send_cb(ns3::MakeCallback(&MsgTransportTestSource::HandleSend, this));

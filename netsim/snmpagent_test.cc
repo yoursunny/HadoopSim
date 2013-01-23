@@ -10,7 +10,7 @@ void SnmpAgentTest_Recv(ns3::Ptr<MsgInfo> msg) {
 
 void SnmpAgentTest_Send(ns3::Ptr<SnmpAgent> source) {
   ns3::Ptr<MsgInfo> msg = ns3::Create<MsgInfo>();
-  msg->set_id(72); msg->set_type(kMTSnmp); msg->set_size(2013); msg->set_src("source"); msg->set_dst("sink");
+  msg->set_id(72); msg->set_type(kMTSnmp); msg->set_size(2013); msg->set_srcdst("source","sink");
   msg->set_cb(ns3::MakeCallback(&SnmpAgentTest_Recv));
   assert(source->Send(msg));
 }

@@ -34,10 +34,11 @@ class MsgInfo : public ns3::SimpleRefCount<MsgInfo> {
     void set_in_reply_to(MsgId value) { this->in_reply_to_ = value; }
     MsgType type(void) const { return this->type_; }
     void set_type(MsgType value) { this->type_ = value; }
-    HostName src(void) const { return this->src_; }
-    void set_src(HostName value) { this->src_ = value; }
-    HostName dst(void) const { return this->dst_; }
-    void set_dst(HostName value) { this->dst_ = value; }
+    HostName src(void) const { return this->pipeline_[0]; }
+    HostName dst(void) const { return this->pipeline_[this->pipeline_.size()-1]; }
+    const std::vector<HostName>& pipeline(void) const { return this->pipeline_; }
+    void set_pipeline(const std::vector<HostName>& value);
+    void set_srcdst(HostName src, HostName dst);
     size_t size(void) const { return this->size_; }
     void set_size(size_t value) { this->size_ = value; }
     bool success(void) const { return this->success_; }
@@ -53,10 +54,9 @@ class MsgInfo : public ns3::SimpleRefCount<MsgInfo> {
     
   private:
     MsgId id_;//message id
-    MsgId in_reply_to_;//in reply to message id, applicable for kMTDataResponse only
+    MsgId in_reply_to_;//in reply to message id, applicable for kMTDataResponse and kMTImportResponse only
     MsgType type_;//message type
-    HostName src_;//source node
-    HostName dst_;//destination node
+    std::vector<HostName> pipeline_;
     size_t size_;//payload size in octets
     bool success_;//whether transmission succeeds
     ns3::Time start_;//sending start time

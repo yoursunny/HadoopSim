@@ -242,8 +242,7 @@ ns3::Ptr<MsgInfo> NetSim::MakeMsg(MsgType type, HostName src, HostName dst, size
   ns3::Ptr<MsgInfo> msg = ns3::Create<MsgInfo>();
   msg->set_id(this->msgidgen_.Next());
   msg->set_type(type);
-  msg->set_src(src);
-  msg->set_dst(dst);
+  msg->set_srcdst(src,dst);
   msg->set_size(size);
   msg->set_cb(cb);
   msg->set_userobj(userobj);
