@@ -79,9 +79,13 @@ class MsgTransport : public ns3::SimpleRefCount<MsgTransport> {
     ns3::Ptr<ns3::Socket> sock_;
     bool connected_;
     ns3::Callback<void,ns3::Ptr<MsgTransport>,ns3::Ptr<MsgInfo>> send_cb_;
+    void invoke_send_cb(ns3::Ptr<MsgInfo> msg) { if (!this->send_cb_.IsNull()) this->send_cb_(this, msg); }
     ns3::Callback<void,ns3::Ptr<MsgTransport>,ns3::Ptr<MsgInfo>,size_t> progress_cb_;
+    void invoke_progress_cb(ns3::Ptr<MsgInfo> msg, size_t progress) { if (!this->progress_cb_.IsNull()) this->progress_cb_(this, msg, progress); }
     ns3::Callback<void,ns3::Ptr<MsgTransport>,ns3::Ptr<MsgInfo>> recv_cb_;
+    void invoke_recv_cb(ns3::Ptr<MsgInfo> msg) { if (!this->recv_cb_.IsNull()) this->recv_cb_(this, msg); }
     ns3::Callback<void,ns3::Ptr<MsgTransport>,MsgTransportEvt> evt_cb_;
+    void invoke_evt_cb(MsgTransportEvt evt) { if (!this->evt_cb_.IsNull()) this->evt_cb_(this, evt); }
     std::queue<ns3::Ptr<TransmitState>> send_queue_;
     std::unordered_map<MsgId,ns3::Ptr<TransmitState>> send_map_;
     bool send_block_;//true if send buffer is full

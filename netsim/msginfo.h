@@ -49,6 +49,7 @@ class MsgInfo : public ns3::SimpleRefCount<MsgInfo> {
     void set_finish(ns3::Time value) { this->finish_ = value; }
     TransmitCb cb(void) const { return this->cb_; }
     void set_cb(TransmitCb value) { this->cb_ = value; }
+    void invoke_cb(void) { if (!this->cb_.IsNull()) this->cb_(this); }
     void* userobj(void) const { return this->userobj_; }
     void set_userobj(void* value) { this->userobj_ = value; }
     

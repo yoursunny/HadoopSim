@@ -94,7 +94,7 @@ void MsgTransport::SendData(void) {
     //printf("SendData size=%u actual=%d\n", send_size, send_actual);
     if (send_actual < 0) {
       this->send_block_ = true;
-      if (!this->evt_cb_.IsNull()) this->evt_cb_(ns3::Ptr<MsgTransport>(this), kMTESendError);
+      ns3::Simulator::ScheduleNow(&MsgTransport::invoke_evt_cb, this, kMTESendError);
       break;
     } else {
       this->send_block_ = ((uint32_t)send_actual < send_size);
@@ -104,7 +104,7 @@ void MsgTransport::SendData(void) {
       //printf("MsgTransport::SendData complete\n");
       this->send_queue_.pop();
       this->send_map_.erase(ts->msg()->id());
-      if (!this->send_cb_.IsNull()) this->send_cb_(ns3::Ptr<MsgTransport>(this), ts->msg());
+      ns3::Simulator::ScheduleNow(&MsgTransport::invoke_send_cb, this, ts->msg());
     }
   }
 }
@@ -138,14 +138,14 @@ void MsgTransport::RecvData(ns3::Ptr<ns3::Socket> s) {
       }
       ts->inc_count(count);
       //printf("RecvData id=%u count=%u remain=%u now=%f\n", msg->id(), count, ts->remaining(), ns3::Simulator::Now().GetSeconds());
-      if (!this->progress_cb_.IsNull()) this->progress_cb_(ns3::Ptr<MsgTransport>(this), msg, ts->count());
+      ns3::Simulator::ScheduleNow(&MsgTransport::invoke_progress_cb, this, msg, ts->count());
       if (ts->IsComplete()) {
         this->recv_map_.erase(msg->id());
         msg->set_success(true);
         msg->set_finish(ns3::Simulator::Now());
         msg->Unref();//in-flight message reference
-        if (!this->recv_cb_.IsNull()) this->recv_cb_(ns3::Ptr<MsgTransport>(this), msg);
-        if (!msg->cb().IsNull()) msg->cb()(msg);
+        ns3::Simulator::ScheduleNow(&MsgTransport::invoke_recv_cb, this, msg);
+        ns3::Simulator::ScheduleNow(&MsgInfo::invoke_cb, msg);
       }
     }
   }
@@ -159,19 +159,19 @@ void MsgTransport::SocketConnect(ns3::Ptr<ns3::Socket>) {
 
 void MsgTransport::SocketConnectFail(ns3::Ptr<ns3::Socket>) {
   //printf("MsgTransport::SocketConnectFail %"PRIxMAX"\n", (uintmax_t)this);
-  if (!this->evt_cb_.IsNull()) this->evt_cb_(ns3::Ptr<MsgTransport>(this), kMTEConnectError);
+  ns3::Simulator::ScheduleNow(&MsgTransport::invoke_evt_cb, this, kMTEConnectError);
 }
 
 void MsgTransport::SocketNormalClose(ns3::Ptr<ns3::Socket>) {
   //printf("MsgTransport::SocketNormalClose %"PRIxMAX"\n", (uintmax_t)this);
   this->connected_ = false;
-  if (!this->evt_cb_.IsNull()) this->evt_cb_(ns3::Ptr<MsgTransport>(this), kMTEClose);
+  ns3::Simulator::ScheduleNow(&MsgTransport::invoke_evt_cb, this, kMTEClose);
 }
 
 void MsgTransport::SocketErrorClose(ns3::Ptr<ns3::Socket>) {
   //printf("MsgTransport::SocketErrorClose %"PRIxMAX"\n", (uintmax_t)this);
   this->connected_ = false;
-  if (!this->evt_cb_.IsNull()) this->evt_cb_(ns3::Ptr<MsgTransport>(this), kMTEReset);
+  ns3::Simulator::ScheduleNow(&MsgTransport::invoke_evt_cb, this, kMTEReset);
 }
 
 

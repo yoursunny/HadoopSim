@@ -42,13 +42,7 @@ void DataClient::HandleSend(ns3::Ptr<MsgTransport> mt, ns3::Ptr<MsgInfo> msg) {
 
 void DataClient::HandleRecv(ns3::Ptr<MsgTransport> mt, ns3::Ptr<MsgInfo> msg) {
   mt->sock()->ShutdownSend();
-  //this->mts_.erase(msg->in_reply_to());
-  //this is called from mt, so erasing mt right here would invalidate pointers
-  ns3::Simulator::ScheduleNow(&DataClient::DeleteMT, this, msg->in_reply_to());
-}
-
-void DataClient::DeleteMT(MsgId key) {
-  this->mts_.erase(key);
+  this->mts_.erase(msg->in_reply_to());
 }
 
 };//namespace HadoopNetSim
