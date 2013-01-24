@@ -34,10 +34,11 @@ class MsgInfo : public ns3::SimpleRefCount<MsgInfo> {
     void set_in_reply_to(MsgId value) { this->in_reply_to_ = value; }
     MsgType type(void) const { return this->type_; }
     void set_type(MsgType value) { this->type_ = value; }
-    HostName src(void) const { return this->pipeline_[0]; }
-    HostName dst(void) const { return this->pipeline_[this->pipeline_.size()-1]; }
+    HostName src(void) const { return this->pipeline_.front(); }
+    HostName dst(void) const { return this->pipeline_.back(); }
     const std::vector<HostName>& pipeline(void) const { return this->pipeline_; }
     void set_pipeline(const std::vector<HostName>& value);
+    HostName FindNextHost(HostName localhost) const;
     void set_srcdst(HostName src, HostName dst);
     size_t size(void) const { return this->size_; }
     void set_size(size_t value) { this->size_ = value; }

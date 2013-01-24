@@ -67,9 +67,10 @@ class MsgTransport : public ns3::SimpleRefCount<MsgTransport> {
     MsgTransport(ns3::Ptr<ns3::Socket> socket, bool connected = true);
     virtual ~MsgTransport(void);
     ns3::Ptr<ns3::Socket> sock(void) { return this->sock_; }
-    void Send(ns3::Ptr<MsgInfo> msg) { this->SendPrepare(msg); this->SendPump(msg, msg->size()); }
+    void Send(ns3::Ptr<MsgInfo> msg);
     void SendPrepare(ns3::Ptr<MsgInfo> msg);//queue a message to send, but don't start sending
     void SendPump(ns3::Ptr<MsgInfo> msg, size_t max_progress);//send up to max_progress octets of a message; if a message is in front of queue but not fully pumped, subsequent messages have to wait
+    MsgId PeekSendingMsg(void) const;//peek MsgId of send_queue.front
     void set_send_cb(ns3::Callback<void,ns3::Ptr<MsgTransport>,ns3::Ptr<MsgInfo>> value) { this->send_cb_ = value; }//fires when a message is sent
     void set_progress_cb(ns3::Callback<void,ns3::Ptr<MsgTransport>,ns3::Ptr<MsgInfo>,size_t> value) { this->progress_cb_ = value; }//reports progress about a message being received
     void set_recv_cb(ns3::Callback<void,ns3::Ptr<MsgTransport>,ns3::Ptr<MsgInfo>> value) { this->recv_cb_ = value; }//fires when a message is received

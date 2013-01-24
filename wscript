@@ -10,6 +10,7 @@ def build(bld):
     'netsim/dataclient.cc',
     'netsim/dataserver.cc',
     'netsim/snmpagent.cc',
+    'netsim/importagent.cc',
     'netsim/linkstat.cc',
     'netsim/netsim.cc'
   }

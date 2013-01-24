@@ -13,6 +13,7 @@ enum NodeType {
 };
 
 typedef std::string HostName;
+static const HostName HostName_invalid = "";
 typedef std::string DeviceName;
 
 class Node : public ns3::SimpleRefCount<Node> {

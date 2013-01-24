@@ -61,9 +61,15 @@ MsgTransport::~MsgTransport(void) {
                                  ns3::MakeNullCallback<void,ns3::Ptr<ns3::Socket>>());
 }
 
-void MsgTransport::SendPrepare(ns3::Ptr<MsgInfo> msg) {
-  assert(msg->size() > 0);
+void MsgTransport::Send(ns3::Ptr<MsgInfo> msg) {
+  this->SendPrepare(msg);
   msg->set_start(ns3::Simulator::Now());
+  this->SendPump(msg, msg->size());
+}
+
+void MsgTransport::SendPrepare(ns3::Ptr<MsgInfo> msg) {
+  assert(msg != NULL);
+  assert(msg->size() > 0);
   msg->Ref();//in-flight message reference
   ns3::Ptr<TransmitState> ts = ns3::Create<TransmitState>(msg);
   //printf("MsgTransport::Send id=%u size=%u\n", msg->id(), msg->size());
@@ -77,6 +83,11 @@ void MsgTransport::SendPump(ns3::Ptr<MsgInfo> msg, size_t max_progress) {
   assert(ts->pumped() <= max_progress);
   ts->set_pumped(max_progress);
   ns3::Simulator::ScheduleNow(&MsgTransport::SendData, this);
+}
+
+MsgId MsgTransport::PeekSendingMsg(void) const {
+  if (this->send_queue_.empty()) return MsgId_invalid;
+  else return this->send_queue_.front()->msg()->id();
 }
 
 void MsgTransport::SendData(void) {

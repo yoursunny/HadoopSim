@@ -28,4 +28,14 @@ void MsgInfo::set_srcdst(HostName src, HostName dst) {
   this->set_pipeline(pipeline);
 }
 
+HostName MsgInfo::FindNextHost(HostName localhost) const {
+  std::vector<HostName>::const_iterator it;
+  for (it = this->pipeline_.cbegin(); it != this->pipeline_.cend(); ++it) {
+    if (*it == localhost) {
+      if (++it != this->pipeline_.cend()) return *it;
+    }
+  }
+  return HostName_invalid;
+}
+
 };//namespace HadoopNetSim
