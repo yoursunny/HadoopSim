@@ -7,11 +7,12 @@ namespace HadoopNetSim {
 
 class DataServer : public ns3::Application {
   public:
-    DataServer(void);
+    DataServer(HostName localhost);
     static ns3::TypeId GetTypeId(void);
     bool DataResponse(ns3::Ptr<MsgInfo> msg);
     
   private:
+    HostName localhost_;
     ns3::Ptr<ns3::Socket> sock_;
     std::list<ns3::Ptr<MsgTransport>> new_mts_;//mt that has not received a message
     std::unordered_map<MsgId,ns3::Ptr<MsgTransport>> mts_;//data request msgid=>active mt

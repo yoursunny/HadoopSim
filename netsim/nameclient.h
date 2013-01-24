@@ -7,11 +7,12 @@ namespace HadoopNetSim {
 
 class NameClient : public ns3::Application {
   public:
-    NameClient(std::unordered_map<HostName,ns3::Ipv4Address>* name_servers);
+    NameClient(HostName localhost, std::unordered_map<HostName,ns3::Ipv4Address>* name_servers);
     static ns3::TypeId GetTypeId(void);
     bool NameRequest(ns3::Ptr<MsgInfo> msg);
     
   private:
+    HostName localhost_;
     std::unordered_map<HostName,ns3::Ipv4Address>* name_servers_;
     std::unordered_map<HostName,ns3::Ptr<MsgTransport>> mts_;//peer=>mt
     void StartApplication();

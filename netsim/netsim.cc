@@ -132,16 +132,16 @@ void NetSim::InstallApps(const std::unordered_set<HostName>& managers) {
   ns3::ApplicationContainer s_apps, c_apps;
   for (std::unordered_map<HostName,ns3::Ipv4Address>::const_iterator it = this->managers_.cbegin(); it != this->managers_.cend(); ++it) {
     ns3::Ptr<ns3::Node> node = this->nodes_[it->first];
-    ns3::Ptr<NameServer> ns_app = ns3::CreateObject<NameServer>();
+    ns3::Ptr<NameServer> ns_app = ns3::CreateObject<NameServer>(it->first);
     node->AddApplication(ns_app); s_apps.Add(ns_app);
   }
   for (std::unordered_map<HostName,ns3::Ipv4Address>::const_iterator it = this->slaves_.cbegin(); it != this->slaves_.cend(); ++it) {
     ns3::Ptr<ns3::Node> node = this->nodes_[it->first];
-    ns3::Ptr<NameClient> nc_app = ns3::CreateObject<NameClient>(&this->managers_);
+    ns3::Ptr<NameClient> nc_app = ns3::CreateObject<NameClient>(it->first, &this->managers_);
     node->AddApplication(nc_app); c_apps.Add(nc_app);
-    ns3::Ptr<DataServer> ds_app = ns3::CreateObject<DataServer>();
+    ns3::Ptr<DataServer> ds_app = ns3::CreateObject<DataServer>(it->first);
     node->AddApplication(ds_app); s_apps.Add(ds_app);
-    ns3::Ptr<DataClient> dc_app = ns3::CreateObject<DataClient>(&this->slaves_);
+    ns3::Ptr<DataClient> dc_app = ns3::CreateObject<DataClient>(it->first, &this->slaves_);
     node->AddApplication(dc_app); c_apps.Add(dc_app);
   }
   for (std::unordered_map<HostName,ns3::Ipv4Address>::const_iterator it = this->all_nodes_.cbegin(); it != this->all_nodes_.cend(); ++it) {

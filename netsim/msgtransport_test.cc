@@ -38,7 +38,7 @@ class MsgTransportTestSink : public ns3::Application {
     void StopApplication() {}
     
     void HandleAccept(ns3::Ptr<ns3::Socket> sock, const ns3::Address& from) {
-      this->mt_ = ns3::Create<MsgTransport>(sock);
+      this->mt_ = ns3::Create<MsgTransport>("sink", sock);
       this->mt_->set_recv_cb(ns3::MakeCallback(&MsgTransportTestSink::Recv, this));
       this->mt_->set_progress_cb(ns3::MakeCallback(&MsgTransportTestSink::HandleProgress, this));
     }
@@ -84,7 +84,7 @@ class MsgTransportTestSource : public ns3::Application {
       this->msg_ = ns3::Create<MsgInfo>();
       this->msg_->set_id(50); this->msg_->set_size(1<<26); this->msg_->set_srcdst("source","sink");
       this->msg_->set_cb(ns3::MakeCallback(&MsgTransportTestSource::TransmitCallback, this));
-      this->mt_ = ns3::Create<MsgTransport>(sock, false);
+      this->mt_ = ns3::Create<MsgTransport>("source", sock, false);
       this->mt_->set_send_cb(ns3::MakeCallback(&MsgTransportTestSource::HandleSend, this));
       this->mt_->Send(this->msg_);
     }

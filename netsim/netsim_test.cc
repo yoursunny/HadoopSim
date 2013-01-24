@@ -10,19 +10,26 @@ manager0 \              / slave0
   slave1 /              \ slave2
 
 EVENTS after ready
-0,3,6 seconds
+0.0,3.0,6.0 seconds
   slaves send NameRequest (1KB) to managers
   reply NameResponse (2KB)
-2 seconds
-  slaves send 3x DataRequest (256B) to all other slaves
-  reply DataResponse (64MB)
 1.8 seconds
   snapshot link stat
+2.0 seconds
+  slaves send 3x DataRequest (256B) to all other slaves
+  reply DataResponse (64MB)
 3.1 seconds
   snapshot and show link stat: queue util at 3.1, and bw util between 1.8 and 3.1
 4.1,4.2,4.3,4.4,4.5 seconds
   sw1 send Snmp (2500B) to manager1
-8 seconds
+4.8 seconds
+  snapshot link stat
+4.8,4.9 seconds
+  ImportRequest (64MB) on pipeline manager0-slave1-slave0-slave2
+  reply ImportResponse (1KB)
+5.3 seconds
+  snapshot and show link stat: queue util at 5.3, and bw util between 4.8 and 5.3
+12.0 seconds
   stop
 */
 
@@ -40,6 +47,8 @@ class NetSimTestRunner {
       calcs[kMTDataRequest] = ns3::Create<ns3::MinMaxAvgTotalCalculator<double>>();
       calcs[kMTDataResponse] = ns3::Create<ns3::MinMaxAvgTotalCalculator<double>>();
       calcs[kMTSnmp] = ns3::Create<ns3::MinMaxAvgTotalCalculator<double>>();
+      calcs[kMTImportRequest] = ns3::Create<ns3::MinMaxAvgTotalCalculator<double>>();
+      calcs[kMTImportResponse] = ns3::Create<ns3::MinMaxAvgTotalCalculator<double>>();
       for (std::unordered_map<MsgId,ns3::Ptr<MsgInfo>>::const_iterator it = this->received_.cbegin(); it != this->received_.cend(); ++it) {
         ns3::Ptr<MsgInfo> msg = it->second;
         calcs[msg->type()]->Update((msg->finish() - msg->start()).GetSeconds());
@@ -49,12 +58,16 @@ class NetSimTestRunner {
       assert(calcs[kMTDataRequest]->getCount() == 18);
       assert(calcs[kMTDataResponse]->getCount() == 18);
       assert(calcs[kMTSnmp]->getCount() >= 4);//sent 5 messages, expect at least 4 to arrive
+      assert(calcs[kMTImportRequest]->getCount() == 2);
+      assert(calcs[kMTImportResponse]->getCount() == 2);
       
       printf("NameRequest %f,%f,%f\n", calcs[kMTNameRequest]->getMin(), calcs[kMTNameRequest]->getMean(), calcs[kMTNameRequest]->getMax());
       printf("NameResponse %f,%f,%f\n", calcs[kMTNameResponse]->getMin(), calcs[kMTNameResponse]->getMean(), calcs[kMTNameResponse]->getMax());
       printf("DataRequest %f,%f,%f\n", calcs[kMTDataRequest]->getMin(), calcs[kMTDataRequest]->getMean(), calcs[kMTDataRequest]->getMax());
       printf("DataResponse %f,%f,%f\n", calcs[kMTDataResponse]->getMin(), calcs[kMTDataResponse]->getMean(), calcs[kMTDataResponse]->getMax());
       printf("Snmp(%"PRId64") %f,%f,%f\n", calcs[kMTSnmp]->getCount(), calcs[kMTSnmp]->getMin(), calcs[kMTSnmp]->getMean(), calcs[kMTSnmp]->getMax());
+      printf("ImportRequest %f,%f,%f\n", calcs[kMTImportRequest]->getMin(), calcs[kMTImportRequest]->getMean(), calcs[kMTImportRequest]->getMax());
+      printf("ImportResponse %f,%f,%f\n", calcs[kMTImportResponse]->getMin(), calcs[kMTImportResponse]->getMean(), calcs[kMTImportResponse]->getMax());
     }
 
   private:
@@ -76,7 +89,11 @@ class NetSimTestRunner {
       for (double t = 4.1; t < 4.51; t += 0.1) {
         ns3::Simulator::Schedule(ns3::Seconds(t), &NetSimTestRunner::SnmpSend, this);
       }
-      ns3::Simulator::Schedule(ns3::Seconds(8.0), &ns3::Simulator::Stop);
+      ns3::Simulator::Schedule(ns3::Seconds(4.8), &NetSimTestRunner::ImportRequest, this);
+      ns3::Simulator::Schedule(ns3::Seconds(4.9), &NetSimTestRunner::ImportRequest, this);
+      ns3::Simulator::Schedule(ns3::Seconds(4.8), &NetSimTestRunner::SaveLinkStat, this);
+      ns3::Simulator::Schedule(ns3::Seconds(5.3), &NetSimTestRunner::ShowLinkStat, this);
+      ns3::Simulator::Schedule(ns3::Seconds(12.0), &ns3::Simulator::Stop);
     }
 
     void NameRequestAll() {
@@ -167,6 +184,28 @@ class NetSimTestRunner {
       assert(msg->userobj() == this->userobj_);
       //it's UDP, cannot assume not duplicate
       this->received_[msg->id()] = msg;
+    }
+    void ImportRequest() {
+      std::vector<HostName> pipeline; pipeline.push_back("manager0"); pipeline.push_back("slave1"); pipeline.push_back("slave0"); pipeline.push_back("slave2");
+      MsgId id = this->netsim_->ImportRequest(pipeline, 1<<26, ns3::MakeCallback(&NetSimTestRunner::ImportResponse, this), this->userobj_);
+      assert(id != MsgId_invalid);
+      this->sent_[id] = kMTImportRequest;
+    }
+    void ImportResponse(ns3::Ptr<MsgInfo> request_msg) {
+      assert(this->sent_[request_msg->id()] == kMTImportRequest);
+      assert(request_msg->userobj() == this->userobj_);
+      assert(this->received_.count(request_msg->id()) == 0);
+      this->received_[request_msg->id()] = request_msg;
+      std::vector<HostName> pipeline; pipeline.push_back("slave2"); pipeline.push_back("slave0"); pipeline.push_back("slave1"); pipeline.push_back("manager0");
+      MsgId id = this->netsim_->ImportResponse(request_msg->id(), pipeline, 1<<10, ns3::MakeCallback(&NetSimTestRunner::ImportFinish, this), this->userobj_);
+      assert(id != MsgId_invalid);
+      this->sent_[id] = kMTImportResponse;
+    }
+    void ImportFinish(ns3::Ptr<MsgInfo> response_msg) {
+      assert(this->sent_[response_msg->id()] == kMTImportResponse);
+      assert(response_msg->userobj() == this->userobj_);
+      assert(this->received_.count(response_msg->id()) == 0);
+      this->received_[response_msg->id()] = response_msg;
     }
     
     void SaveLinkStat() {

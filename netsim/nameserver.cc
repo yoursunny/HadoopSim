@@ -2,14 +2,14 @@
 #include "netsim/portnumber.h"
 namespace HadoopNetSim {
 
-NameServer::NameServer(void) {
+NameServer::NameServer(HostName localhost) {
+  this->localhost_ = localhost;
   this->sock_ = NULL;
 }
 
 ns3::TypeId NameServer::GetTypeId(void) {
   static ns3::TypeId tid = ns3::TypeId("HadoopNetSim::NameServer")
-                           .SetParent<ns3::Application>()
-                           .AddConstructor<NameServer>();
+                           .SetParent<ns3::Application>();
   return tid;
 }
 
@@ -23,7 +23,7 @@ void NameServer::StartApplication() {
 }
 
 void NameServer::HandleAccept(ns3::Ptr<ns3::Socket> sock, const ns3::Address& from) {
-  ns3::Ptr<MsgTransport> mt = ns3::Create<MsgTransport>(sock);
+  ns3::Ptr<MsgTransport> mt = ns3::Create<MsgTransport>(this->localhost_, sock);
   mt->set_recv_cb(ns3::MakeCallback(&NameServer::HandleRecv, this));
   this->new_mts_.push_back(mt);
 }

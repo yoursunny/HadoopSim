@@ -2,9 +2,10 @@
 #include "netsim/portnumber.h"
 namespace HadoopNetSim {
 
-NameClient::NameClient(std::unordered_map<HostName,ns3::Ipv4Address>* name_servers) {
+NameClient::NameClient(HostName localhost, std::unordered_map<HostName,ns3::Ipv4Address>* name_servers) {
   assert(name_servers != NULL);
   assert(!name_servers->empty());
+  this->localhost_ = localhost;
   this->name_servers_ = name_servers;
 }
 
@@ -19,7 +20,7 @@ void NameClient::StartApplication() {
     ns3::Ptr<ns3::Socket> sock = ns3::Socket::CreateSocket(this->GetNode(), ns3::TcpSocketFactory::GetTypeId());
     sock->Bind();
     sock->Connect(ns3::InetSocketAddress(it->second, kNameServerPort));
-    ns3::Ptr<MsgTransport> mt = ns3::Create<MsgTransport>(sock, false);
+    ns3::Ptr<MsgTransport> mt = ns3::Create<MsgTransport>(this->localhost_, sock, false);
     this->mts_[it->first] = mt;
   }
 }

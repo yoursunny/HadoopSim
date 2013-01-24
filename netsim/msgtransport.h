@@ -64,7 +64,7 @@ enum MsgTransportEvt {
 //pump messages into socket, and/or receive full messages from socket
 class MsgTransport : public ns3::SimpleRefCount<MsgTransport> {
   public:
-    MsgTransport(ns3::Ptr<ns3::Socket> socket, bool connected = true);
+    MsgTransport(HostName localhost, ns3::Ptr<ns3::Socket> socket, bool connected = true);
     virtual ~MsgTransport(void);
     ns3::Ptr<ns3::Socket> sock(void) { return this->sock_; }
     void Send(ns3::Ptr<MsgInfo> msg);
@@ -77,6 +77,7 @@ class MsgTransport : public ns3::SimpleRefCount<MsgTransport> {
     void set_evt_cb(ns3::Callback<void,ns3::Ptr<MsgTransport>,MsgTransportEvt> value) { this->evt_cb_ = value; }//fires when any MsgTransportEvt happens
     
   private:
+    HostName localhost_;
     ns3::Ptr<ns3::Socket> sock_;
     bool connected_;
     ns3::Callback<void,ns3::Ptr<MsgTransport>,ns3::Ptr<MsgInfo>> send_cb_;

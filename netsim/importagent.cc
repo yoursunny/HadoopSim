@@ -42,7 +42,7 @@ ns3::Ptr<MsgTransport> ImportAgent::OpenConnection(HostName peer) {
   sock->Bind();
   sock->Connect(ns3::InetSocketAddress(addr, kImportPort));
 
-  ns3::Ptr<MsgTransport> mt = ns3::Create<MsgTransport>(sock, false);
+  ns3::Ptr<MsgTransport> mt = ns3::Create<MsgTransport>(this->localhost_, sock, false);
   return mt;
 }
 
@@ -52,7 +52,7 @@ void ImportAgent::SourceResponseRecv(ns3::Ptr<MsgTransport> mt, ns3::Ptr<MsgInfo
 }
 
 void ImportAgent::SockAccept(ns3::Ptr<ns3::Socket> sock, const ns3::Address& from) {
-  ns3::Ptr<MsgTransport> mt = ns3::Create<MsgTransport>(sock);
+  ns3::Ptr<MsgTransport> mt = ns3::Create<MsgTransport>(this->localhost_, sock);
   mt->set_progress_cb(ns3::MakeCallback(&ImportAgent::NewMTRequestProgress, this));
   this->new_mts_.push_back(mt);
 }

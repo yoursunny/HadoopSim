@@ -8,11 +8,12 @@ namespace HadoopNetSim {
 
 class NameServer : public ns3::Application {
   public:
-    NameServer(void);
+    NameServer(HostName localhost);
     static ns3::TypeId GetTypeId(void);
     bool NameResponse(ns3::Ptr<MsgInfo> msg);
     
   private:
+    HostName localhost_;
     ns3::Ptr<ns3::Socket> sock_;
     std::list<ns3::Ptr<MsgTransport>> new_mts_;//mt that has not received a message
     std::unordered_map<HostName,ns3::Ptr<MsgTransport>> mts_;//peer=>active mt
