@@ -25,7 +25,7 @@ void ImportAgent::StartApplication() {
                                  ns3::MakeCallback(&ImportAgent::SockAccept, this));
 }
 
-void ImportAgent::ImportRequest(ns3::Ptr<MsgInfo> msg) {
+bool ImportAgent::ImportRequest(ns3::Ptr<MsgInfo> msg) {
   assert(msg->type() == kMTImportRequest);
   assert(msg->src() == this->localhost_);
   
@@ -33,6 +33,7 @@ void ImportAgent::ImportRequest(ns3::Ptr<MsgInfo> msg) {
   mt->set_recv_cb(ns3::MakeCallback(&ImportAgent::SourceResponseRecv, this));
   mt->Send(msg);
   this->sources_[msg->id()] = mt;
+  return true;
 }
 
 ns3::Ptr<MsgTransport> ImportAgent::OpenConnection(HostName peer) {

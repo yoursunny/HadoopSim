@@ -37,7 +37,7 @@ class MsgInfo : public ns3::SimpleRefCount<MsgInfo> {
     HostName src(void) const { return this->pipeline_.front(); }
     HostName dst(void) const { return this->pipeline_.back(); }
     const std::vector<HostName>& pipeline(void) const { return this->pipeline_; }
-    void set_pipeline(const std::vector<HostName>& value);
+    void set_pipeline(const std::vector<HostName>& value) { this->pipeline_ = value; }
     HostName FindNextHost(HostName localhost) const;
     void set_srcdst(HostName src, HostName dst);
     size_t size(void) const { return this->size_; }

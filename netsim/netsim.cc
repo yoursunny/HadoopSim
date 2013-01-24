@@ -4,6 +4,7 @@
 #include "netsim/dataserver.h"
 #include "netsim/dataclient.h"
 #include "netsim/snmpagent.h"
+#include "netsim/importagent.h"
 #include "netsim/linkstat.h"
 namespace HadoopNetSim {
 
@@ -147,6 +148,8 @@ void NetSim::InstallApps(const std::unordered_set<HostName>& managers) {
     ns3::Ptr<ns3::Node> node = this->nodes_[it->first];
     ns3::Ptr<SnmpAgent> snmp_app = ns3::CreateObject<SnmpAgent>(&this->all_nodes_);
     node->AddApplication(snmp_app); s_apps.Add(snmp_app);
+    ns3::Ptr<ImportAgent> import_app = ns3::CreateObject<ImportAgent>(it->first, &this->all_nodes_);
+    node->AddApplication(import_app); s_apps.Add(import_app);
   }
   s_apps.Start(ns3::Seconds(0.0));
   c_apps.Start(ns3::Seconds(1.0));
@@ -178,7 +181,7 @@ void NetSim::FireReadyCb(void) {
 
 MsgId NetSim::NameRequest(HostName src, HostName dst, size_t size, TransmitCb cb, void* userobj) {
   this->AssertReady();
-  if (this->slaves_.count(src) == 0 || this->managers_.count(dst) == 0) return MsgId_invalid;
+  if (src == dst || this->slaves_.count(src) == 0 || this->managers_.count(dst) == 0) return MsgId_invalid;
   ns3::Ptr<NameClient> app = this->GetNodeApp<NameClient>(this->nodes_[src]);
   assert(app != NULL);
   ns3::Ptr<MsgInfo> msg = this->MakeMsg(kMTNameRequest, src, dst, size, cb, userobj);
@@ -188,7 +191,7 @@ MsgId NetSim::NameRequest(HostName src, HostName dst, size_t size, TransmitCb cb
 
 MsgId NetSim::NameResponse(HostName src, HostName dst, size_t size, TransmitCb cb, void* userobj) {
   this->AssertReady();
-  if (this->managers_.count(src) == 0 || this->slaves_.count(dst) == 0) return MsgId_invalid;
+  if (src == dst || this->managers_.count(src) == 0 || this->slaves_.count(dst) == 0) return MsgId_invalid;
   ns3::Ptr<NameServer> app = this->GetNodeApp<NameServer>(this->nodes_[src]);
   assert(app != NULL);
   ns3::Ptr<MsgInfo> msg = this->MakeMsg(kMTNameResponse, src, dst, size, cb, userobj);
@@ -198,7 +201,7 @@ MsgId NetSim::NameResponse(HostName src, HostName dst, size_t size, TransmitCb c
 
 MsgId NetSim::DataRequest(HostName src, HostName dst, size_t size, TransmitCb cb, void* userobj) {
   this->AssertReady();
-  if (this->slaves_.count(src) == 0 || this->slaves_.count(dst) == 0) return MsgId_invalid;
+  if (src == dst || this->slaves_.count(src) == 0 || this->slaves_.count(dst) == 0) return MsgId_invalid;
   ns3::Ptr<DataClient> app = this->GetNodeApp<DataClient>(this->nodes_[src]);
   assert(app != NULL);
   ns3::Ptr<MsgInfo> msg = this->MakeMsg(kMTDataRequest, src, dst, size, cb, userobj);
@@ -208,7 +211,7 @@ MsgId NetSim::DataRequest(HostName src, HostName dst, size_t size, TransmitCb cb
 
 MsgId NetSim::DataResponse(MsgId in_reply_to, HostName src, HostName dst, size_t size, TransmitCb cb, void* userobj) {
   this->AssertReady();
-  if (this->slaves_.count(src) == 0 || this->slaves_.count(dst) == 0) return MsgId_invalid;
+  if (src == dst || this->slaves_.count(src) == 0 || this->slaves_.count(dst) == 0) return MsgId_invalid;
   ns3::Ptr<DataServer> app = this->GetNodeApp<DataServer>(this->nodes_[src]);
   assert(app != NULL);
   ns3::Ptr<MsgInfo> msg = this->MakeMsg(kMTDataResponse, src, dst, size, cb, userobj);
@@ -219,11 +222,39 @@ MsgId NetSim::DataResponse(MsgId in_reply_to, HostName src, HostName dst, size_t
 
 MsgId NetSim::Snmp(HostName src, HostName dst, size_t size, TransmitCb cb, void* userobj) {
   this->AssertReady();
-  if (this->all_nodes_.count(src) == 0 || this->all_nodes_.count(dst) == 0) return MsgId_invalid;
+  if (src == dst || this->all_nodes_.count(src) == 0 || this->all_nodes_.count(dst) == 0) return MsgId_invalid;
   ns3::Ptr<SnmpAgent> app = this->GetNodeApp<SnmpAgent>(this->nodes_[src]);
   assert(app != NULL);
   ns3::Ptr<MsgInfo> msg = this->MakeMsg(kMTSnmp, src, dst, size, cb, userobj);
   if (!app->Send(msg)) return MsgId_invalid;
+  return msg->id();
+}
+
+MsgId NetSim::ImportRequest(const std::vector<HostName>& pipeline, size_t size, TransmitCb cb, void* userobj) {
+  this->AssertReady();
+  if (pipeline.size() < 2) return MsgId_invalid;
+  std::unordered_set<HostName> hosts;
+  for (std::vector<HostName>::const_iterator it = pipeline.cbegin(); it != pipeline.cend(); ++it) {
+    if (this->all_nodes_.count(*it) == 0) return MsgId_invalid;
+    std::pair<std::unordered_set<HostName>::iterator,bool> inserted = hosts.insert(*it);
+    if (!inserted.second) return MsgId_invalid;//duplicate
+  }
+
+  ns3::Ptr<ImportAgent> app = this->GetNodeApp<ImportAgent>(this->nodes_[pipeline[0]]);
+  assert(app != NULL);
+  ns3::Ptr<MsgInfo> msg = this->MakeMsg(kMTImportRequest, pipeline, size, cb, userobj);
+  if (!app->ImportRequest(msg)) return MsgId_invalid;
+  return msg->id();
+}
+
+MsgId NetSim::ImportResponse(MsgId in_reply_to, const std::vector<HostName>& pipeline, size_t size, TransmitCb cb, void* userobj) {
+  this->AssertReady();
+  if (pipeline.size() < 2 || this->all_nodes_.count(pipeline[0]) == 0) return MsgId_invalid;
+  ns3::Ptr<ImportAgent> app = this->GetNodeApp<ImportAgent>(this->nodes_[pipeline[0]]);
+  assert(app != NULL);
+  ns3::Ptr<MsgInfo> msg = this->MakeMsg(kMTImportResponse, pipeline, size, cb, userobj);
+  msg->set_in_reply_to(in_reply_to);
+  if (!app->ImportResponse(msg)) return MsgId_invalid;
   return msg->id();
 }
 
@@ -239,10 +270,21 @@ template<typename apptype> ns3::Ptr<apptype> NetSim::GetNodeApp(ns3::Ptr<ns3::No
 }
 
 ns3::Ptr<MsgInfo> NetSim::MakeMsg(MsgType type, HostName src, HostName dst, size_t size, TransmitCb& cb, void* userobj) {
+  ns3::Ptr<MsgInfo> msg = this->MakeMsgInternal(type, size, cb, userobj);
+  msg->set_srcdst(src,dst);
+  return msg;
+}
+
+ns3::Ptr<MsgInfo> NetSim::MakeMsg(MsgType type, const std::vector<HostName>& pipeline, size_t size, TransmitCb& cb, void* userobj) {
+  ns3::Ptr<MsgInfo> msg = this->MakeMsgInternal(type, size, cb, userobj);
+  msg->set_pipeline(pipeline);
+  return msg;
+}
+
+ns3::Ptr<MsgInfo> NetSim::MakeMsgInternal(MsgType type, size_t size, TransmitCb& cb, void* userobj) {
   ns3::Ptr<MsgInfo> msg = ns3::Create<MsgInfo>();
   msg->set_id(this->msgidgen_.Next());
   msg->set_type(type);
-  msg->set_srcdst(src,dst);
   msg->set_size(size);
   msg->set_cb(cb);
   msg->set_userobj(userobj);

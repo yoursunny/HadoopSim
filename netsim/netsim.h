@@ -27,8 +27,8 @@ class NetSim {
     MsgId DataRequest(HostName src, HostName dst, size_t size, TransmitCb cb, void* userobj);
     MsgId DataResponse(MsgId in_reply_to, HostName src, HostName dst, size_t size, TransmitCb cb, void* userobj);
     MsgId Snmp(HostName src, HostName dst, size_t size, TransmitCb cb, void* userobj);
-    MsgId ImportRequest(std::vector<HostName> pipeline, size_t size, TransmitCb cb, void* userobj);
-    MsgId ImportResponse(MsgId in_reply_to, std::vector<HostName> pipeline, size_t size, TransmitCb cb, void* userobj);
+    MsgId ImportRequest(const std::vector<HostName>& pipeline, size_t size, TransmitCb cb, void* userobj);
+    MsgId ImportResponse(MsgId in_reply_to, const std::vector<HostName>& pipeline, size_t size, TransmitCb cb, void* userobj);//pipeline should be the reverse of ImportRequest's
     
     //----stat----
     ns3::Ptr<LinkStat> GetLinkStat(LinkId link);//get link utilization and queue usage 'now'
@@ -66,6 +66,8 @@ class NetSim {
     //----transmit----
     template<typename apptype> ns3::Ptr<apptype> GetNodeApp(ns3::Ptr<ns3::Node> node);
     ns3::Ptr<MsgInfo> MakeMsg(MsgType type, HostName src, HostName dst, size_t size, TransmitCb& cb, void* userobj);
+    ns3::Ptr<MsgInfo> MakeMsg(MsgType type, const std::vector<HostName>& pipeline, size_t size, TransmitCb& cb, void* userobj);
+    ns3::Ptr<MsgInfo> MakeMsgInternal(MsgType type, size_t size, TransmitCb& cb, void* userobj);
 
     DISALLOW_COPY_AND_ASSIGN(NetSim);
 };

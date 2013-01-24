@@ -9,7 +9,7 @@ class ImportAgent : public ns3::Application {
   public:
     ImportAgent(HostName localhost, std::unordered_map<HostName,ns3::Ipv4Address>* agents);
     static ns3::TypeId GetTypeId(void);
-    void ImportRequest(ns3::Ptr<MsgInfo> msg);
+    bool ImportRequest(ns3::Ptr<MsgInfo> msg);
     bool ImportResponse(ns3::Ptr<MsgInfo> msg);
     //ImportRequest makes a new TCP connection to next node in pipeline,
     //  MT goes to sources.
