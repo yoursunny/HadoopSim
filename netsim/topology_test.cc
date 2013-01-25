@@ -39,6 +39,11 @@ TEST(NetSimTest, TopologyRackRowPathLength) {
   ASSERT_EQ(4, topology.PathLength("row1B", "Pico"));
   ASSERT_EQ(5, topology.PathLength("rack2", "Pico"));
   ASSERT_EQ(6, topology.PathLength("Silo", "Pico"));
+  ASSERT_EQ("rack0", topology.nodes().at("manager")->rack());
+  ASSERT_EQ("rack0", topology.nodes().at("gn04")->rack());
+  ASSERT_EQ("rack1", topology.nodes().at("Pico")->rack());
+  ASSERT_EQ("rack1", topology.nodes().at("gn05")->rack());
+  ASSERT_EQ("rack2", topology.nodes().at("Silo")->rack());
 }
 
 };//namespace HadoopNetSim

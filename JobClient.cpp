@@ -1,7 +1,3 @@
-/*
-Lei Ye <leiy@cs.arizona.edu>
-HadoopSim is a simulator for a Hadoop Runtime by replaying the collected traces.
-*/
 #include <assert.h>
 #include <algorithm>
 #include <iostream>
@@ -18,7 +14,7 @@ static string debugDirectory;
 static bool debugOption = false;
 static double OVERLOAD_MAPTASK_MAPSLOT_RATIO = 2.0f;
 static long LOAD_PROB_INTERVAL_START = 6000;    //ms
-static long LOAD_PROB_INTERVAL_MAX = 360000;    //ms
+static long LOAD_PROB_INTERVAL_MAX = 120000;    //ms
 
 JobClient::JobClient(JobSubmissionPolicy policy)
 {

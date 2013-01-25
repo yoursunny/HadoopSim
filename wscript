@@ -22,7 +22,8 @@ def build(bld):
   }
 
   obj = bld.create_ns3_program('HadoopSim', netsim_dependency)
-  obj.source = { 'HadoopSim.cpp',
+  obj.source = {
+    'HadoopSim.cpp',
     'json/block_allocator.cpp',
     'json/json.cpp',
     'Cluster.cpp',
@@ -37,6 +38,7 @@ def build(bld):
     'TraceReader.cpp',
     'TraceAnalyzer.cpp',
     'NetMonitor.cpp',
+    'DataImport.cpp',
     'DataLocalityScheduler.cpp',
     'FIFOScheduler.cpp',
     'Task.cpp',

@@ -1,7 +1,3 @@
-/*
-Lei Ye <leiy@cs.arizona.edu>
-HadoopSim is a simulator for a Hadoop Runtime by replaying the collected traces.
-*/
 #ifndef HSCHEDULER_H
 #define HSCHEDULER_H
 
@@ -11,22 +7,24 @@ HadoopSim is a simulator for a Hadoop Runtime by replaying the collected traces.
 
 class HScheduler {
 public:
-    HScheduler(std::string name): schedName(name) { }
+    HScheduler(std::string name, int id): schedName(name), schedID(id) { }
     std::string getSchedName() { return schedName; }
+    int getSchedID() { return schedID; }
     virtual std::list<TaskAction> assignTasks(std::string trackerName, long numAvailMapSlots, long numAvailReduceSlots, long now) = 0;
 private:
     std::string schedName;
+    int schedID;
 };
 
 class DataLocalityScheduler: public HScheduler {
 public:
-    DataLocalityScheduler(std::string name): HScheduler(name) { }
+    DataLocalityScheduler(std::string name, int id): HScheduler(name, id) { }
     std::list<TaskAction> assignTasks(std::string trackerName, long numAvailMapSlots, long numAvailReduceSlots, long now);
 };
 
 class FIFOScheduler: public HScheduler {
 public:
-    FIFOScheduler(std::string name): HScheduler(name) { }
+    FIFOScheduler(std::string name, int id): HScheduler(name, id) { }
     std::list<TaskAction> assignTasks(std::string trackerName, long numAvailMapSlots, long numAvailReduceSlots, long now);
 };
 

@@ -15,6 +15,7 @@ enum NodeType {
 typedef std::string HostName;
 static const HostName HostName_invalid = "";
 typedef std::string DeviceName;
+typedef std::string RackName;   // only used for Hadoop cluster nodes
 
 class Node : public ns3::SimpleRefCount<Node> {
   public:
@@ -23,6 +24,8 @@ class Node : public ns3::SimpleRefCount<Node> {
 
     HostName name(void) const { return this->name_; }
     NodeType type(void) const { return this->type_; }
+    RackName rack(void) const { return this->rack_; }
+    void setrack(RackName rack) { this->rack_ = rack; }
     const ns3::Ipv4Address& ip(void) const { return this->ip_; }
     const std::unordered_set<DeviceName>& devices(void) const { return this->devices_; }
 
@@ -31,6 +34,7 @@ class Node : public ns3::SimpleRefCount<Node> {
   private:
     HostName name_;
     NodeType type_;
+    RackName rack_;
     ns3::Ipv4Address ip_;
     std::unordered_set<DeviceName> devices_;
 

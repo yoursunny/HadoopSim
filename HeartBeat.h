@@ -1,7 +1,3 @@
-/*
-Lei Ye <leiy@cs.arizona.edu>
-HadoopSim is a simulator for a Hadoop Runtime by replaying the collected traces.
-*/
 #ifndef HEARTBEAT_H
 #define HEARTBEAT_H
 

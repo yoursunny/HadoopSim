@@ -1,7 +1,3 @@
-/*
-Lei Ye <leiy@cs.arizona.edu>
-HadoopSim is a simulator for a Hadoop Runtime by replaying the collected traces.
-*/
 #include <assert.h>
 #include <math.h>
 #include <stdlib.h>
@@ -16,13 +12,13 @@ using namespace std;
 /* TaskTracker Variables */
 static TaskTracker *taskTrackers;
 static int numTaskTrackers = 0;
-const long clusterStartupDuration = 100 * 1000;     //milliseconds
-const long HEARTBEAT_INTERVAL_MIN = 3 * 1000;       //milliseconds
-const int CLUSTER_INCREMENT = 100;
+static const long clusterStartupDuration = 100 * 1000;     //milliseconds
+static const long HEARTBEAT_INTERVAL_MIN = 3 * 1000;       //milliseconds
+static const int CLUSTER_INCREMENT = 100;
 static long nextHeartbeatInterval = 0;
 // For some unknown reason, if a message is smaller than TCP segment size, TCP
 // retransmission may not work. Therefore, all messages should be at least 9000 octets.
-const size_t DataRequestMsgSize = 9000;             // bytes
+static const size_t DataRequestMsgSize = 9000;             // bytes
 
 void TaskTracker::setHostName(string hostName)
 {

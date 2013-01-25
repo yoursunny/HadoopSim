@@ -1,8 +1,5 @@
-/*
-Lei Ye <leiy@cs.arizona.edu>
-HadoopSim is a simulator for a Hadoop Runtime by replaying the collected traces.
-*/
 #include <assert.h>
+#include <math.h>
 #include <iostream>
 #include "Job.h"
 #include "JobTracker.h"
@@ -20,59 +17,88 @@ Job::Job(string jobID, int numMap, int numReduce, long submitTime)
     //cout<<"completedMapsForReduceStart = "<<completedMapsForReduceStart<<endl;
 }
 
-void Job::initMapTasks(vector<TaskStory> mapTasks)
+void Job::initMapTasks(vector<TaskStory> mapTasks, long scaledMapCPUTime, long customMapNum)
 {
-    assert(this->numMap == (long)mapTasks.size());
-    vector<TaskStory>::iterator taskStoryIt = mapTasks.begin();
-    size_t i;
-    while(taskStoryIt != mapTasks.end()) {
-        for(i = 0; i < taskStoryIt->attempts.size(); i++) {
-            if (taskStoryIt->attempts[i].result.compare("SUCCESS") == 0)
+    int scale = (int)ceil(customMapNum * 1.0 / (long)mapTasks.size());
+    int totalNum = (scale == 1 ? (long)mapTasks.size() : customMapNum);
+    if (scale == 1)
+        assert(this->numMap == (long)mapTasks.size());
+    else
+        assert(this->numMap == customMapNum);
+
+    int index = 0;
+    for(int j = 0; j < scale; j++) {
+        for(vector<TaskStory>::iterator taskStoryIt = mapTasks.begin(); taskStoryIt != mapTasks.end(); taskStoryIt++) {
+            size_t i;
+            for(i = 0; i < taskStoryIt->attempts.size(); i++) {
+                if (taskStoryIt->attempts[i].result.compare("SUCCESS") == 0)
+                    break;
+            }
+            //assert(taskStoryIt->attempts[i].startTime >= taskStoryIt->startTime);
+            //cout<<taskStoryIt->taskID<<endl;
+            //assert(taskStoryIt->attempts[i].finishTime <= taskStoryIt->finishTime);
+            long mapInputBytes = taskStoryIt->attempts[i].mapInputBytes;
+            if (mapInputBytes < 0)
+                mapInputBytes = 0;
+            string taskid = taskStoryIt->taskID + to_string(j);
+            Task task(this->jobID, taskid, MAPTASK, false,
+                        0,
+                        ((scaledMapCPUTime == 0)?(taskStoryIt->attempts[i].finishTime - taskStoryIt->attempts[i].startTime):scaledMapCPUTime),
+                        mapInputBytes, taskStoryIt->attempts[i].mapOutputBytes);
+            waitingMaps.insert(pair<string, Task>(taskid, task));
+            ++index;
+
+            JobTracker *jobTracker = getJobTracker();
+            if (scale == 1) {
+                // update block mapping space
+                vector<string> dataNodes;
+                for(i = 0; i < taskStoryIt->preferredLocations.size(); i++) {
+                    dataNodes.push_back(taskStoryIt->preferredLocations[i].hostName);
+                }
+                Split split(taskid, dataNodes);
+                splitSpace.insert(pair<string, Split>(taskid, split));
+
+                // update global mapping
+                jobTracker->updateBlockNodeMapping(taskid, dataNodes);
+            } else {
+                jobTracker->handleBlockPlacement(taskid);
+            }
+
+            if(index == totalNum)
                 break;
         }
-        //assert(taskStoryIt->attempts[i].startTime >= taskStoryIt->startTime);
-        //cout<<taskStoryIt->taskID<<endl;
-        //assert(taskStoryIt->attempts[i].finishTime <= taskStoryIt->finishTime);
-        long mapInputBytes = taskStoryIt->attempts[i].mapInputBytes;
-        if (mapInputBytes < 0)
-            mapInputBytes = 0;
-        Task task(this->jobID, taskStoryIt->taskID, MAPTASK, false,
-                    0, taskStoryIt->attempts[i].finishTime - taskStoryIt->attempts[i].startTime,
-                    mapInputBytes, taskStoryIt->attempts[i].mapOutputBytes);
-        waitingMaps.insert(pair<string, Task>(taskStoryIt->taskID, task));
-        // update block mapping space
-        vector<string> dataNodes;
-        for(i = 0; i < taskStoryIt->preferredLocations.size(); i++) {
-            dataNodes.push_back(taskStoryIt->preferredLocations[i].hostName);
-        }
-        Split split(taskStoryIt->taskID, dataNodes);
-        splitSpace.insert(pair<string, Split>(taskStoryIt->taskID, split));
-
-        // update global mapping
-        JobTracker *jobTracker = getJobTracker();
-        jobTracker->updateBlockNodeMapping(taskStoryIt->taskID, dataNodes);
-
-        taskStoryIt++;
     }
 }
 
-void Job::initReduceTasks(vector<TaskStory> reduceTasks)
+void Job::initReduceTasks(vector<TaskStory> reduceTasks, long scaledDownRatioForReduce, long customReduceNum)
 {
-    assert(this->numReduce == (long)reduceTasks.size());
-    vector<TaskStory>::iterator taskStoryIt = reduceTasks.begin();
-    size_t i;
-    while(taskStoryIt != reduceTasks.end()) {
-        for(i = 0; i < taskStoryIt->attempts.size(); i++) {
-            if (taskStoryIt->attempts[i].result.compare("SUCCESS") == 0)
+    int scale = (int)ceil(customReduceNum * 1.0 / (long)reduceTasks.size());
+    int totalNum = (scale == 1 ? (long)reduceTasks.size() : customReduceNum);
+    if (scale == 1)
+        assert(this->numReduce == (long)reduceTasks.size());
+    else
+        assert(this->numReduce == customReduceNum);
+
+    int index = 0;
+    for(int j = 0; j < scale; j++) {
+        for(vector<TaskStory>::iterator taskStoryIt = reduceTasks.begin(); taskStoryIt != reduceTasks.end(); taskStoryIt++) {
+            size_t i;
+            for(i = 0; i < taskStoryIt->attempts.size(); i++) {
+                if (taskStoryIt->attempts[i].result.compare("SUCCESS") == 0)
+                    break;
+            }
+            //assert(taskStoryIt->attempts[i].startTime >= taskStoryIt->startTime);
+            //assert(taskStoryIt->attempts[i].finishTime <= taskStoryIt->finishTime);
+            string taskid = taskStoryIt->taskID + to_string(j);
+            Task task(this->jobID, taskid, REDUCETASK, true,
+                    0,
+                    ((scaledDownRatioForReduce == 0)?(taskStoryIt->attempts[i].finishTime - taskStoryIt->attempts[i].shuffleFinished):((taskStoryIt->attempts[i].finishTime - taskStoryIt->attempts[i].shuffleFinished)*1.0/scaledDownRatioForReduce)),
+                    0, 0);
+            waitingReduces.insert(pair<string, Task>(taskid, task));
+            ++index;
+            if(index == totalNum)
                 break;
         }
-        //assert(taskStoryIt->attempts[i].startTime >= taskStoryIt->startTime);
-        //assert(taskStoryIt->attempts[i].finishTime <= taskStoryIt->finishTime);
-        Task task(this->jobID, taskStoryIt->taskID, REDUCETASK, true,
-                    0, taskStoryIt->attempts[i].finishTime - taskStoryIt->attempts[i].shuffleFinished,
-                    0, 0);
-        waitingReduces.insert(pair<string, Task>(taskStoryIt->taskID, task));
-        taskStoryIt++;
     }
 }
 
@@ -120,7 +146,6 @@ ActionType Job::updateTaskStatus(TaskStatus &taskStatus)
         // check if this task is already in the completedMaps. Yes, kill this task.
         taskIt = completedMaps.find(taskStatus.taskAttemptID);
         if (taskIt != completedMaps.end()) {
-
             return KILL_TASK;
         } else {
             if (taskStatus.isRemote) {
@@ -159,7 +184,6 @@ ActionType Job::updateTaskStatus(TaskStatus &taskStatus)
         // check if this task is already in the completedReduces. Yes, kill this task.
         taskIt = completedReduces.find(taskStatus.taskAttemptID);
         if (taskIt != completedReduces.end()) {
-
             return KILL_TASK;
         } else {
             taskIt = runningReduces.find(taskStatus.taskAttemptID);
@@ -251,6 +275,16 @@ map<string, Task> Job::getCompletedReduces()
     return this->completedReduces;
 }
 
+map<string, Task> Job::getRemoteRunningMaps()
+{
+    return this->remoteRunningMaps;
+}
+
+map<string, Task> Job::getLocalRunningMaps()
+{
+    return this->localRunningMaps;
+}
+
 map<string, Task> Job::getRunningReduces()
 {
     return this->runningReduces;
@@ -283,7 +317,10 @@ string Job::getJobID()
 
 bool Job::isFirstMap()
 {
-    return remoteRunningMaps.empty() && localRunningMaps.empty() && completedMaps.empty() && killedMaps.empty();
+    return remoteRunningMaps.empty() && localRunningMaps.empty()
+           && completedMaps.empty() && killedMaps.empty()
+           && runningReduces.empty() && completedReduces.empty()
+           && killedReduces.empty();
 }
 
 long Job::getNumMap()
@@ -301,4 +338,3 @@ void Job::removeMapDataSource()
     assert(this->numMapDataSource > 0);
     this->numMapDataSource--;
 }
-

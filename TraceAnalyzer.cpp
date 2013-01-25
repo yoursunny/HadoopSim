@@ -1,7 +1,3 @@
-/*
-Lei Ye <leiy@cs.arizona.edu>
-HadoopSim is a simulator for a Hadoop Runtime by replaying the collected traces.
-*/
 #include <assert.h>
 #include <algorithm>
 #include <fstream>
@@ -221,10 +217,81 @@ void verifyShuffleData(deque<JobStory> &jobSet, string debugDir)
     }
 }
 
+void logRawJobTaskDetails(deque<JobStory> &jobSet, string debugDir)
+{
+    ofstream csvFile;
+
+    for(size_t i = 0; i < jobSet.size(); i++) {
+        csvFile.open((debugDir + jobSet[i].jobID + "_RawDetails.csv").c_str());
+        // log Job Detail
+        // jobID, numMap, numReduce, submitTime, startTime, endTime
+        csvFile<<"jobID,numMap,numReduce,submitTime,startTime,endTime"<<endl;
+        csvFile<<jobSet[i].jobID<<","<<jobSet[i].totalMaps<<","<<jobSet[i].totalReduces<<","
+               <<jobSet[i].submitTime<<","<<jobSet[i].launchTime<<","<<jobSet[i].finishTime<<endl<<endl;
+
+        // log Task Detail
+        // taskAttemptID, taskTracker, type, isRemote, dataSource, datasource1, datasource2, datasource3,
+        // dataSize, startTime, finishTime, CPUTime, nettime+waitingtime, outputSize
+        csvFile<<"taskD,taskTracker,type,isRemote,dataSource,datasource1,datasource2,datasource3,dataSize,startTime,finishTime,CPUTime,nettime+waitingtime,outputSize"<<endl;
+        for(size_t j = 0; j < jobSet[i].mapTasks.size(); j++) {
+            TaskStory taskStory = jobSet[i].mapTasks[j];
+            size_t k;
+            for(k = 0; k < taskStory.attempts.size(); k++) {
+                if (taskStory.attempts[k].result.compare("SUCCESS") == 0)
+                    break;
+            }
+            assert(k < taskStory.attempts.size());
+            Attempt task = taskStory.attempts[k];
+
+            vector<Location> nodes = taskStory.preferredLocations;
+            string datasource1 = "null";
+            string datasource2 = "null";
+            string datasource3 = "null";
+            if (nodes.size() >= 1) {
+                datasource1 = nodes[0].hostName;
+            }
+            if (nodes.size() >= 2) {
+                datasource2 = nodes[1].hostName;
+            }
+            if (nodes.size() >= 3) {
+                datasource3 = nodes[2].hostName;
+            }
+            csvFile<<taskStory.taskID<<","<<task.location.hostName<<","
+                   <<taskStory.taskType<<",na,"
+                   <<"na,"<<datasource1<<","
+                   <<datasource2<<","<<datasource3<<","<<task.mapInputBytes<<","
+                   <<task.startTime<<","<<task.finishTime<<","
+                   <<task.finishTime-task.startTime<<",0,"
+                   <<task.mapOutputBytes<<endl;
+        }
+        csvFile<<endl;
+
+        csvFile<<"taskD,taskTracker,type,isRemote,dataSource,datasource1,datasource2,datasource3,dataSize,startTime,finishTime,CPUTime,nettime+waitingtime,outputSize"<<endl;
+        for(size_t j = 0; j < jobSet[i].reduceTasks.size(); j++) {
+            TaskStory taskStory = jobSet[i].reduceTasks[j];
+            size_t k;
+            for(k = 0; k < taskStory.attempts.size(); k++) {
+                if (taskStory.attempts[k].result.compare("SUCCESS") == 0)
+                    break;
+            }
+            assert(k < taskStory.attempts.size());
+            Attempt task = taskStory.attempts[k];
+            csvFile<<taskStory.taskID<<","<<task.location.hostName<<","
+                   <<taskStory.taskType<<",1,ALL,null,null,null,0,"
+                   <<task.startTime<<","<<task.finishTime<<","
+                   <<task.finishTime-task.shuffleFinished<<","<<(task.shuffleFinished - task.startTime)<<",0"<<endl;
+        }
+        csvFile.close();
+    }
+}
+
 void logJobTaskDetails(const map<string, Job> &completedJobs, string debugDir)
 {
     map<string, Job>::const_iterator jobIt;
     map<string, Task>::iterator taskIt;
+    JobTracker *jobTracker = getJobTracker();
+    map<string, vector<string>> block2Node = jobTracker->getBlock2Node();
+    map<string, vector<string>>::iterator dataSourceIt;
     ofstream csvFile;
 
     for(jobIt = completedJobs.begin(); jobIt != completedJobs.end(); jobIt++) {
@@ -232,32 +299,52 @@ void logJobTaskDetails(const map<string, Job> &completedJobs, string debugDir)
         csvFile.open((debugDir + job.getJobID() + "_RuntimeDetails.csv").c_str());
 
         // log Job Detail
-        // jobID, state, numMap, numReduce, submitTime, startTime, endTime
-        csvFile<<job.getJobID()<<","<<job.getState()<<","
-               <<job.getNumMap()<<","<<job.getNumReduce()<<","
+        // jobID, numMap, numReduce, submitTime, startTime, endTime
+        csvFile<<"jobID,numMap,numReduce,submitTime,startTime,endTime"<<endl;
+        csvFile<<job.getJobID()<<","<<job.getNumMap()<<","<<job.getNumReduce()<<","
                <<job.getSubmitTime()<<","<<job.getStarTime()<<","<<job.getEndTime()<<endl<<endl;
 
         // log Task Detail
-        // taskAttemptID, taskTracker, type, isRemote, dataSource, dataSize, startTime, finishTime, CPUTime, outputSize
+        // taskAttemptID, taskTracker, type, isRemote, dataSource, datasource1, datasource2, datasource3,
+        // dataSize, startTime, finishTime, CPUTime, nettime+waitingtime, outputSize
+        csvFile<<"taskD,taskTracker,type,isRemote,dataSource,datasource1,datasource2,datasource3,dataSize,startTime,finishTime,CPUTime,nettime+waitingtime,outputSize"<<endl;
         map<string, Task> mapTasks = job.getCompletedMaps();
         for(taskIt = mapTasks.begin(); taskIt != mapTasks.end(); taskIt++) {
             TaskStatus taskStatus = taskIt->second.getTaskStatus();
+            dataSourceIt = block2Node.find(taskStatus.taskAttemptID);
+            vector<string> nodes = dataSourceIt->second;
+            string datasource1 = "null";
+            string datasource2 = "null";
+            string datasource3 = "null";
+            if (nodes.size() >= 1) {
+                datasource1 = nodes[0];
+            }
+            if (nodes.size() >= 2) {
+                datasource2 = nodes[1];
+            }
+            if (nodes.size() >= 3) {
+                datasource3 = nodes[2];
+            }
             csvFile<<taskStatus.taskAttemptID<<","<<taskStatus.taskTracker<<","
                    <<taskStatus.type<<","<<taskStatus.isRemote<<","
-                   <<taskStatus.dataSource<<","<<taskStatus.dataSize<<","
+                   <<taskStatus.dataSource<<","<<datasource1<<","
+                   <<datasource2<<","<<datasource3<<","<<taskStatus.dataSize<<","
                    <<taskStatus.startTime<<","<<taskStatus.finishTime<<","
-                   <<taskStatus.duration<<","<<taskStatus.outputSize<<endl;
+                   <<taskStatus.duration<<","<<(taskStatus.finishTime - taskStatus.startTime - taskStatus.duration)<<","
+                   <<taskStatus.outputSize<<endl;
         }
         csvFile<<endl;
 
+        csvFile<<"taskD,taskTracker,type,isRemote,dataSource,datasource1,datasource2,datasource3,dataSize,startTime,finishTime,CPUTime,nettime+waitingtime,outputSize"<<endl;
         map<string, Task> reduceTasks = job.getCompletedReduces();
         for(taskIt = reduceTasks.begin(); taskIt != reduceTasks.end(); taskIt++) {
             TaskStatus taskStatus = taskIt->second.getTaskStatus();
             csvFile<<taskStatus.taskAttemptID<<","<<taskStatus.taskTracker<<","
                    <<taskStatus.type<<","<<taskStatus.isRemote<<","
-                   <<taskStatus.dataSource<<","<<taskStatus.dataSize<<","
+                   <<taskStatus.dataSource<<","<<"null,null,null,"<<taskStatus.dataSize<<","
                    <<taskStatus.startTime<<","<<taskStatus.finishTime<<","
-                   <<taskStatus.duration<<","<<taskStatus.outputSize<<endl;
+                   <<taskStatus.duration<<","<<(taskStatus.finishTime - taskStatus.startTime - taskStatus.duration)<<","
+                   <<taskStatus.outputSize<<endl;
         }
         csvFile.close();
     }
@@ -270,6 +357,7 @@ void startAnalysis(bool isRawTrace, string debugDir)
         analyzeJobTaskExeTime(allJobs, debugDir);
         analyzeJobTaskTraffic(allJobs, debugDir);
         verifyShuffleData(allJobs, debugDir);
+        logRawJobTaskDetails(allJobs, debugDir);
     } else {
         JobTracker *jobTracker = getJobTracker();
         if (!jobTracker->getCompletedJobs().empty()) {

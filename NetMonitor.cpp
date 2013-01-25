@@ -1,7 +1,3 @@
-/*
-Lei Ye <leiy@cs.arizona.edu>
-HadoopSim is a simulator for a Hadoop Runtime by replaying the collected traces.
-*/
 #include <assert.h>
 #include <stdio.h>
 #include "Cluster.h"
@@ -27,7 +23,7 @@ void checkLinkStat(void)
     }
     fprintf(netFile, "\n");
     printf("%lu\n", ns3::Simulator::Now().GetMilliSeconds());
-    ns3::Simulator::Schedule(ns3::Seconds(30.0), &checkLinkStat);
+    ns3::Simulator::Schedule(ns3::Seconds(3.0), &checkLinkStat);
 }
 
 void enableNetMonitor(unordered_map<LinkId,ns3::Ptr<Link>> links, string debugDir)
@@ -38,7 +34,7 @@ void enableNetMonitor(unordered_map<LinkId,ns3::Ptr<Link>> links, string debugDi
         linkStats[id] = getNetSim()->GetLinkStat(id);
         linkStats[-id] = getNetSim()->GetLinkStat(-id);
     }
-    ns3::Simulator::Schedule(ns3::Seconds(30.0), &checkLinkStat);
+    ns3::Simulator::Schedule(ns3::Seconds(3.0), &checkLinkStat);
 }
 
 void disableNetMonitor()

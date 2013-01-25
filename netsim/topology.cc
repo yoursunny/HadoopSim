@@ -190,6 +190,10 @@ void Topology::LoadString(char* json) {
 
     this->graph_.insert(std::make_pair(link->node1(),link->id()));
     this->graph_.insert(std::make_pair(link->node2(),link->rid()));
+
+    if(link->node1().find("rack") != std::string::npos && this->nodes_.at(link->node1())->type() == kNTSwitch) {
+        this->nodes_.at(link->node2())->setrack(link->node1());
+    }
   }
 }
 

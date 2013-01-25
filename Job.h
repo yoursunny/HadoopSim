@@ -1,7 +1,3 @@
-/*
-Lei Ye <leiy@cs.arizona.edu>
-HadoopSim is a simulator for a Hadoop Runtime by replaying the collected traces.
-*/
 #ifndef JOB_H
 #define JOB_H
 
@@ -25,8 +21,8 @@ class Job {
 public:
     Job() { }
     Job(std::string jobID, int numMap, int numReduce, long submitTime);
-    void initMapTasks(std::vector<TaskStory> mapTasks);
-    void initReduceTasks(std::vector<TaskStory> reduceTasks);
+    void initMapTasks(std::vector<TaskStory> mapTasks, long scaledMapCPUTime, long customMapNum);
+    void initReduceTasks(std::vector<TaskStory> reduceTasks, long scaledDownRatioForReduce, long customReduceNum);
     JobState getState();
     void setState(JobState state);
     bool isSucceeded();
@@ -43,6 +39,8 @@ public:
     std::map<std::string, Task> getWaitingReduces();
     std::map<std::string, Task> getCompletedMaps();
     std::map<std::string, Task> getCompletedReduces();
+    std::map<std::string, Task> getRemoteRunningMaps();
+    std::map<std::string, Task> getLocalRunningMaps();
     std::map<std::string, Task> getRunningReduces();
     bool canScheduleReduce();
     long getSubmitTime();
