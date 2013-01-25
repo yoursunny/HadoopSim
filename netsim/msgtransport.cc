@@ -42,6 +42,10 @@ void MsgTransport::Initialize(HostName localhost) {
   this->recv_cb_ = ns3::MakeNullCallback<void,ns3::Ptr<MsgTransport>,ns3::Ptr<MsgInfo>>();
   this->evt_cb_ = ns3::MakeNullCallback<void,ns3::Ptr<MsgTransport>,MsgTransportEvt>();
   this->send_block_ = false;
+  this->sock_ = NULL;
+  this->connected_ = false;
+  this->connect_retry_ = false;
+  this->connect_attempts_ = 0;
 }
 
 MsgTransport::MsgTransport(HostName localhost, ns3::Ptr<ns3::Socket> socket, bool connected) {
@@ -49,15 +53,12 @@ MsgTransport::MsgTransport(HostName localhost, ns3::Ptr<ns3::Socket> socket, boo
   assert(socket != NULL);
   this->sock_ = socket;
   this->connected_ = connected;
-  this->connect_retry_ = false;
   this->SetSocketCallbacks(connected);
 }
 
 MsgTransport::MsgTransport(HostName localhost, ns3::Ptr<ns3::Node> local_node, const ns3::InetSocketAddress& remote_addr) {
   this->Initialize(localhost);
   assert(local_node != NULL);
-  this->sock_ = NULL;
-  this->connected_ = false;
   this->connect_retry_ = true;
   this->local_node_ = local_node;
   this->remote_addr_ = remote_addr;
@@ -65,11 +66,7 @@ MsgTransport::MsgTransport(HostName localhost, ns3::Ptr<ns3::Node> local_node, c
 }
 
 MsgTransport::~MsgTransport(void) {
-  this->sock_->SetRecvCallback(ns3::MakeNullCallback<void,ns3::Ptr<ns3::Socket>>());
-  this->sock_->SetConnectCallback(ns3::MakeNullCallback<void,ns3::Ptr<ns3::Socket>>(),
-                                  ns3::MakeNullCallback<void,ns3::Ptr<ns3::Socket>>());
-  this->sock_->SetCloseCallbacks(ns3::MakeNullCallback<void,ns3::Ptr<ns3::Socket>>(),
-                                 ns3::MakeNullCallback<void,ns3::Ptr<ns3::Socket>>());
+  this->ClearSocketCallbacks();
 }
 
 void MsgTransport::Send(ns3::Ptr<MsgInfo> msg) {
@@ -182,6 +179,8 @@ void MsgTransport::Connect(void) {
   this->sock_->Bind();
   this->sock_->Connect(this->remote_addr_);
   this->SetSocketCallbacks(false);
+  ++this->connect_attempts_;
+  //printf("MsgTransport::Connect %"PRIxMAX" %"PRIu16"\n", (uintmax_t)this, this->connect_attempts());
 }
 
 void MsgTransport::SetSocketCallbacks(bool connected) {
@@ -194,6 +193,15 @@ void MsgTransport::SetSocketCallbacks(bool connected) {
                                  ns3::MakeCallback(&MsgTransport::SocketErrorClose, this));
 }
 
+void MsgTransport::ClearSocketCallbacks(void) {
+  if (this->sock_ == NULL) return;
+  this->sock_->SetRecvCallback(ns3::MakeNullCallback<void,ns3::Ptr<ns3::Socket>>());
+  this->sock_->SetConnectCallback(ns3::MakeNullCallback<void,ns3::Ptr<ns3::Socket>>(),
+                                  ns3::MakeNullCallback<void,ns3::Ptr<ns3::Socket>>());
+  this->sock_->SetCloseCallbacks(ns3::MakeNullCallback<void,ns3::Ptr<ns3::Socket>>(),
+                                 ns3::MakeNullCallback<void,ns3::Ptr<ns3::Socket>>());
+}
+
 void MsgTransport::SocketConnect(ns3::Ptr<ns3::Socket>) {
   //printf("MsgTransport::SocketConnect %"PRIxMAX"\n", (uintmax_t)this);
   this->connected_ = true;
@@ -201,7 +209,7 @@ void MsgTransport::SocketConnect(ns3::Ptr<ns3::Socket>) {
 }
 
 void MsgTransport::SocketConnectFail(ns3::Ptr<ns3::Socket>) {
-  //printf("MsgTransport::SocketConnectFail %"PRIxMAX"\n", (uintmax_t)this);
+  printf("MsgTransport::SocketConnectFail %"PRIxMAX" %"PRIu16"\n", (uintmax_t)this, this->connect_attempts());
   ns3::Simulator::ScheduleNow(&MsgTransport::invoke_evt_cb, ns3::Ptr<MsgTransport>(this), kMTEConnectError);
   if (this->connect_retry_) {
     ns3::Simulator::Schedule(ns3::Seconds(3.0), &MsgTransport::Connect, this);

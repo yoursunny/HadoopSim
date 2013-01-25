@@ -38,11 +38,7 @@ bool ImportAgent::ImportRequest(ns3::Ptr<MsgInfo> msg) {
 
 ns3::Ptr<MsgTransport> ImportAgent::OpenConnection(HostName peer) {
   ns3::Ipv4Address addr = this->agents_->at(peer);
-  ns3::Ptr<ns3::Socket> sock = ns3::Socket::CreateSocket(this->GetNode(), ns3::TcpSocketFactory::GetTypeId());
-  sock->Bind();
-  sock->Connect(ns3::InetSocketAddress(addr, kImportPort));
-
-  ns3::Ptr<MsgTransport> mt = ns3::Create<MsgTransport>(this->localhost_, sock, false);
+  ns3::Ptr<MsgTransport> mt = ns3::Create<MsgTransport>(this->localhost_, this->GetNode(), ns3::InetSocketAddress(addr, kImportPort));
   return mt;
 }
 

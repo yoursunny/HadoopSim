@@ -20,13 +20,7 @@ ns3::TypeId DataClient::GetTypeId(void) {
 bool DataClient::DataRequest(ns3::Ptr<MsgInfo> msg) {
   assert(msg->type() == kMTDataRequest);
   if (this->data_servers_->count(msg->dst()) == 0) return false;
-  //ns3::Ptr<ns3::RttEstimator> rtt = ns3::CreateObject<ns3::RttMeanDeviation>();
-  //rtt->SetAttribute("MaxMultiplier", ns3::UintegerValue(1));
-  ns3::Ptr<ns3::Socket> sock = ns3::Socket::CreateSocket(this->GetNode(), ns3::TcpSocketFactory::GetTypeId());
-  //sock->GetObject<ns3::TcpNewReno>()->SetRtt(rtt);
-  sock->Bind();
-  sock->Connect(ns3::InetSocketAddress((*this->data_servers_)[msg->dst()], kDataServerPort));
-  ns3::Ptr<MsgTransport> mt = ns3::Create<MsgTransport>(this->localhost_, sock, false);
+  ns3::Ptr<MsgTransport> mt = ns3::Create<MsgTransport>(this->localhost_, this->GetNode(), ns3::InetSocketAddress((*this->data_servers_)[msg->dst()], kDataServerPort));
   //printf("DataClient::DataRequest %"PRIxMAX"\n", (uintmax_t)ns3::PeekPointer(mt));
   mt->set_send_cb(ns3::MakeCallback(&DataClient::HandleSend, this));
   mt->set_recv_cb(ns3::MakeCallback(&DataClient::HandleRecv, this));

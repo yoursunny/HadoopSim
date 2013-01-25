@@ -106,7 +106,10 @@ void NetSim::ConfigureRouting(const std::unordered_map<HostName,ns3::Ptr<Node>>&
 
 void NetSim::SetNetworkParameters(void) {
   ns3::Config::SetDefault("ns3::TcpSocket::SegmentSize", ns3::UintegerValue(8960));
-  ns3::Config::SetDefault("ns3::TcpSocket::ConnCount", ns3::UintegerValue(1024));
+  //ns3::Config::SetDefault("ns3::TcpSocket::ConnCount", ns3::UintegerValue(1024));
+  //ns3::Config::SetDefault("ns3::DropTailQueue::MaxPackets", ns3::UintegerValue(100));
+  //ns3::Config::SetDefault("ns3::RttEstimator::InitialEstimation", ns3::TimeValue(ns3::MilliSeconds(20)));
+  //ns3::Config::SetDefault("ns3::RttEstimator::MinRTO", ns3::TimeValue(ns3::MilliSeconds(1)));
 }
 
 ns3::Ipv4Address NetSim::GetHostIP(HostName host) {

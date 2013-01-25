@@ -67,7 +67,8 @@ class MsgTransport : public ns3::SimpleRefCount<MsgTransport> {
     MsgTransport(HostName localhost, ns3::Ptr<ns3::Socket> socket, bool connected = true);//use existing socket, optionally wait for Connect succeed
     MsgTransport(HostName localhost, ns3::Ptr<ns3::Node> local_node, const ns3::InetSocketAddress& remote_addr);//create new socket, retry if Connect fails
     virtual ~MsgTransport(void);
-    ns3::Ptr<ns3::Socket> sock(void) { return this->sock_; }
+    ns3::Ptr<ns3::Socket> sock(void) const { return this->sock_; }
+    uint16_t connect_attempts(void) const { return this->connect_attempts_; }
     void Send(ns3::Ptr<MsgInfo> msg);
     void SendPrepare(ns3::Ptr<MsgInfo> msg);//queue a message to send, but don't start sending
     void SendPump(ns3::Ptr<MsgInfo> msg, size_t max_progress);//send up to max_progress octets of a message; if a message is in front of queue but not fully pumped, subsequent messages have to wait
@@ -81,6 +82,7 @@ class MsgTransport : public ns3::SimpleRefCount<MsgTransport> {
     HostName localhost_;
     ns3::Ptr<ns3::Socket> sock_;
     bool connect_retry_;
+    uint16_t connect_attempts_;
     ns3::Ptr<ns3::Node> local_node_;
     ns3::Address remote_addr_;
     
@@ -108,6 +110,7 @@ class MsgTransport : public ns3::SimpleRefCount<MsgTransport> {
     
     void Connect(void);
     void SetSocketCallbacks(bool connected);
+    void ClearSocketCallbacks(void);
     void SocketConnect(ns3::Ptr<ns3::Socket>);
     void SocketConnectFail(ns3::Ptr<ns3::Socket>);
     void SocketNormalClose(ns3::Ptr<ns3::Socket>);
