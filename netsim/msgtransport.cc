@@ -36,22 +36,32 @@ TransmitState::TransmitState(ns3::Ptr<MsgInfo> msg) {
   this->tag_ = MsgTag(msg);
 }
 
-MsgTransport::MsgTransport(HostName localhost, ns3::Ptr<ns3::Socket> socket, bool connected) {
-  assert(socket != NULL);
+void MsgTransport::Initialize(HostName localhost) {
   this->localhost_ = localhost;
-  this->sock_ = socket;
-  this->connected_ = connected;
-  socket->SetRecvCallback(ns3::MakeCallback(&MsgTransport::RecvData, this));
-  if (!connected) {
-    socket->SetConnectCallback(ns3::MakeCallback(&MsgTransport::SocketConnect, this),
-                               ns3::MakeCallback(&MsgTransport::SocketConnectFail, this));
-  }
-  socket->SetCloseCallbacks(ns3::MakeCallback(&MsgTransport::SocketNormalClose, this),
-                            ns3::MakeCallback(&MsgTransport::SocketErrorClose, this));
   this->send_cb_ = ns3::MakeNullCallback<void,ns3::Ptr<MsgTransport>,ns3::Ptr<MsgInfo>>();
   this->recv_cb_ = ns3::MakeNullCallback<void,ns3::Ptr<MsgTransport>,ns3::Ptr<MsgInfo>>();
   this->evt_cb_ = ns3::MakeNullCallback<void,ns3::Ptr<MsgTransport>,MsgTransportEvt>();
   this->send_block_ = false;
+}
+
+MsgTransport::MsgTransport(HostName localhost, ns3::Ptr<ns3::Socket> socket, bool connected) {
+  this->Initialize(localhost);
+  assert(socket != NULL);
+  this->sock_ = socket;
+  this->connected_ = connected;
+  this->connect_retry_ = false;
+  this->SetSocketCallbacks(connected);
+}
+
+MsgTransport::MsgTransport(HostName localhost, ns3::Ptr<ns3::Node> local_node, const ns3::InetSocketAddress& remote_addr) {
+  this->Initialize(localhost);
+  assert(local_node != NULL);
+  this->sock_ = NULL;
+  this->connected_ = false;
+  this->connect_retry_ = true;
+  this->local_node_ = local_node;
+  this->remote_addr_ = remote_addr;
+  this->Connect();
 }
 
 MsgTransport::~MsgTransport(void) {
@@ -165,6 +175,25 @@ void MsgTransport::RecvData(ns3::Ptr<ns3::Socket> s) {
   }
 }
 
+void MsgTransport::Connect(void) {
+  assert(this->connect_retry_);
+  assert(!this->connected_);
+  this->sock_ = ns3::Socket::CreateSocket(this->local_node_, ns3::TcpSocketFactory::GetTypeId());
+  this->sock_->Bind();
+  this->sock_->Connect(this->remote_addr_);
+  this->SetSocketCallbacks(false);
+}
+
+void MsgTransport::SetSocketCallbacks(bool connected) {
+  this->sock_->SetRecvCallback(ns3::MakeCallback(&MsgTransport::RecvData, this));
+  if (!connected) {
+    this->sock_->SetConnectCallback(ns3::MakeCallback(&MsgTransport::SocketConnect, this),
+                                    ns3::MakeCallback(&MsgTransport::SocketConnectFail, this));
+  }
+  this->sock_->SetCloseCallbacks(ns3::MakeCallback(&MsgTransport::SocketNormalClose, this),
+                                 ns3::MakeCallback(&MsgTransport::SocketErrorClose, this));
+}
+
 void MsgTransport::SocketConnect(ns3::Ptr<ns3::Socket>) {
   //printf("MsgTransport::SocketConnect %"PRIxMAX"\n", (uintmax_t)this);
   this->connected_ = true;
@@ -174,6 +203,9 @@ void MsgTransport::SocketConnect(ns3::Ptr<ns3::Socket>) {
 void MsgTransport::SocketConnectFail(ns3::Ptr<ns3::Socket>) {
   //printf("MsgTransport::SocketConnectFail %"PRIxMAX"\n", (uintmax_t)this);
   ns3::Simulator::ScheduleNow(&MsgTransport::invoke_evt_cb, ns3::Ptr<MsgTransport>(this), kMTEConnectError);
+  if (this->connect_retry_) {
+    ns3::Simulator::Schedule(ns3::Seconds(3.0), &MsgTransport::Connect, this);
+  }
 }
 
 void MsgTransport::SocketNormalClose(ns3::Ptr<ns3::Socket>) {

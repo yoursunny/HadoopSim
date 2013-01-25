@@ -78,13 +78,14 @@ class MsgTransportTestSource : public ns3::Application {
     
   private:
     void StartApplication() {
-      ns3::Ptr<ns3::Socket> sock = ns3::Socket::CreateSocket(this->GetNode(), ns3::TcpSocketFactory::GetTypeId());
-      sock->Bind();
-      sock->Connect(ns3::InetSocketAddress(ns3::Ipv4Address("192.168.72.1"), 80));
+      //ns3::Ptr<ns3::Socket> sock = ns3::Socket::CreateSocket(this->GetNode(), ns3::TcpSocketFactory::GetTypeId());
+      //sock->Bind();
+      //sock->Connect(ns3::InetSocketAddress(ns3::Ipv4Address("192.168.72.1"), 80));
       this->msg_ = ns3::Create<MsgInfo>();
       this->msg_->set_id(50); this->msg_->set_size(1<<26); this->msg_->set_srcdst("source","sink");
       this->msg_->set_cb(ns3::MakeCallback(&MsgTransportTestSource::TransmitCallback, this));
-      this->mt_ = ns3::Create<MsgTransport>("source", sock, false);
+      //this->mt_ = ns3::Create<MsgTransport>("source", sock, false);
+      this->mt_ = ns3::Create<MsgTransport>("source", this->GetNode(), ns3::InetSocketAddress(ns3::Ipv4Address("192.168.72.1"), 80));
       this->mt_->set_send_cb(ns3::MakeCallback(&MsgTransportTestSource::HandleSend, this));
       this->mt_->Send(this->msg_);
     }
