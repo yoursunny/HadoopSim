@@ -25,7 +25,7 @@ class Node : public ns3::SimpleRefCount<Node> {
     HostName name(void) const { return this->name_; }
     NodeType type(void) const { return this->type_; }
     RackName rack(void) const { return this->rack_; }
-    void setrack(RackName rack) { this->rack_ = rack; }
+    void set_rack(RackName rack) { this->rack_ = rack; }
     const ns3::Ipv4Address& ip(void) const { return this->ip_; }
     const std::unordered_set<DeviceName>& devices(void) const { return this->devices_; }
 
