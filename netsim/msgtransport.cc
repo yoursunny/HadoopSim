@@ -212,7 +212,7 @@ void MsgTransport::ClearSocketCallbacks(void) {
 }
 
 void MsgTransport::SocketConnect(ns3::Ptr<ns3::Socket>) {
-  printf("MsgTransport::SocketConnect %"PRIxMAX" %"PRIu64"\n", (uintmax_t)this, this->PeekFirstMsgId());
+  //printf("MsgTransport::SocketConnect %"PRIxMAX" %"PRIu64"\n", (uintmax_t)this, this->PeekFirstMsgId());
   this->connected_ = true;
   this->SendData();
 }
