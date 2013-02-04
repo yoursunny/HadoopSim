@@ -529,11 +529,11 @@ const std::array <std::string, 512> Server = {
     "server-1722.novalocal"
 };
 
-class BulkDataTestRunner {
+class BulkData2TestRunner {
   public:
-    BulkDataTestRunner(NetSim* netsim) {
+    BulkData2TestRunner(NetSim* netsim) {
       this->netsim_ = netsim;
-      this->netsim_->set_ready_cb(ns3::MakeCallback(&BulkDataTestRunner::Ready, this));
+      this->netsim_->set_ready_cb(ns3::MakeCallback(&BulkData2TestRunner::Ready, this));
       this->userobj_ = this;
       this->lastID = 0;
     }
@@ -564,26 +564,26 @@ class BulkDataTestRunner {
     MsgId lastID;
 
     void Ready(NetSim*) {
-      ns3::Simulator::Schedule(ns3::Seconds(2.0), &BulkDataTestRunner::DataRequestAll, this);
+      ns3::Simulator::Schedule(ns3::Seconds(2.0), &BulkData2TestRunner::DataRequestAll, this);
     }
     void DataRequestAll() {
       printf("Start at %f\n", ns3::Simulator::Now().GetSeconds());
       for (size_t i = 0; i < 288; ++i) {
         for (size_t j = 0; j < Server.size(); ++j) {
           if (i == j) continue;
-          //ns3::Simulator::Schedule(ns3::Seconds(0.001 * j), &BulkDataTestRunner::DataRequest, this, i, j);
+          //ns3::Simulator::Schedule(ns3::Seconds(0.001 * j), &BulkData2TestRunner::DataRequest, this, i, j);
           this->DataRequest(i, j);
         }
       }
-      ns3::Simulator::Schedule(ns3::Seconds(900), &ns3::Simulator::Stop);
+      ns3::Simulator::Schedule(ns3::Seconds(3600), &ns3::Simulator::Stop);
     }
     void DataRequest(size_t i, size_t j) {
       MsgId id;
-      id = this->netsim_->DataRequest(Server[i], Server[j], 9000, ns3::MakeCallback(&BulkDataTestRunner::DataResponse, this), this->userobj_);
+      id = this->netsim_->DataRequest(Server[i], Server[j], 9000, ns3::MakeCallback(&BulkData2TestRunner::DataResponse, this), this->userobj_);
       assert(id != MsgId_invalid);
       this->sent_[id] = kMTDataRequest;
 
-      id = this->netsim_->DataRequest(Server[i], Server[j], 9000, ns3::MakeCallback(&BulkDataTestRunner::DataResponse, this), this->userobj_);
+      id = this->netsim_->DataRequest(Server[i], Server[j], 9000, ns3::MakeCallback(&BulkData2TestRunner::DataResponse, this), this->userobj_);
       assert(id != MsgId_invalid);
       this->sent_[id] = kMTDataRequest;
     }
@@ -593,7 +593,7 @@ class BulkDataTestRunner {
       assert(request_msg->userobj() == this->userobj_);
       assert(this->received_.count(request_msg->id()) == 0);
       this->received_[request_msg->id()] = request_msg;
-      MsgId id = this->netsim_->DataResponse(request_msg->id(), request_msg->dst(), request_msg->src(), 1000, ns3::MakeCallback(&BulkDataTestRunner::DataFinish, this), this->userobj_);
+      MsgId id = this->netsim_->DataResponse(request_msg->id(), request_msg->dst(), request_msg->src(), 1000, ns3::MakeCallback(&BulkData2TestRunner::DataFinish, this), this->userobj_);
       assert(id != MsgId_invalid);
       this->sent_[id] = kMTDataResponse;
     }
@@ -604,7 +604,7 @@ class BulkDataTestRunner {
       assert(this->received_.count(response_msg->id()) == 0);
       this->received_[response_msg->id()] = response_msg;
     }
-    DISALLOW_COPY_AND_ASSIGN(BulkDataTestRunner);
+    DISALLOW_COPY_AND_ASSIGN(BulkData2TestRunner);
 };
 
 TEST(NetSimTest, BulkData2) {
@@ -622,7 +622,7 @@ TEST(NetSimTest, BulkData2) {
     netsim.BuildTopology(topology);
     netsim.InstallApps(managers);
 
-    BulkDataTestRunner runner(&netsim);
+    BulkData2TestRunner runner(&netsim);
     ns3::Simulator::Run();
     ns3::Simulator::Destroy();
     runner.Verify();

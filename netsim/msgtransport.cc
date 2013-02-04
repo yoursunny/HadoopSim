@@ -172,6 +172,15 @@ void MsgTransport::RecvData(ns3::Ptr<ns3::Socket> s) {
   }
 }
 
+MsgId MsgTransport::PeekFirstMsgId(void) const {
+  if (this->send_queue_.empty()) {
+    return MsgId_invalid;
+  } else {
+    ns3::Ptr<TransmitState> ts = this->send_queue_.front();
+    return ts->msg()->id();
+  }
+}
+
 void MsgTransport::Connect(void) {
   assert(this->connect_retry_);
   assert(!this->connected_);
@@ -203,13 +212,13 @@ void MsgTransport::ClearSocketCallbacks(void) {
 }
 
 void MsgTransport::SocketConnect(ns3::Ptr<ns3::Socket>) {
-  //printf("MsgTransport::SocketConnect %"PRIxMAX"\n", (uintmax_t)this);
+  printf("MsgTransport::SocketConnect %"PRIxMAX" %"PRIu64"\n", (uintmax_t)this, this->PeekFirstMsgId());
   this->connected_ = true;
   this->SendData();
 }
 
 void MsgTransport::SocketConnectFail(ns3::Ptr<ns3::Socket>) {
-  printf("MsgTransport::SocketConnectFail %"PRIxMAX" %"PRIu16"\n", (uintmax_t)this, this->connect_attempts());
+  printf("MsgTransport::SocketConnectFail %"PRIxMAX" %"PRIu64" %"PRIu16"\n", (uintmax_t)this, this->PeekFirstMsgId(), this->connect_attempts());
   ns3::Simulator::ScheduleNow(&MsgTransport::invoke_evt_cb, ns3::Ptr<MsgTransport>(this), kMTEConnectError);
   if (this->connect_retry_) {
     ns3::Simulator::Schedule(ns3::Seconds(3.0), &MsgTransport::Connect, this);
@@ -217,13 +226,18 @@ void MsgTransport::SocketConnectFail(ns3::Ptr<ns3::Socket>) {
 }
 
 void MsgTransport::SocketNormalClose(ns3::Ptr<ns3::Socket>) {
-  //printf("MsgTransport::SocketNormalClose %"PRIxMAX"\n", (uintmax_t)this);
+  if (!this->connected_) {
+    printf("MsgTransport::SocketNormalClose %"PRIxMAX" %"PRIu64" not-connected\n", (uintmax_t)this, this->PeekFirstMsgId());
+    if (this->connect_retry_) {
+      ns3::Simulator::Schedule(ns3::Seconds(3.0), &MsgTransport::Connect, this);
+    }
+  }
   this->connected_ = false;
   ns3::Simulator::ScheduleNow(&MsgTransport::invoke_evt_cb, ns3::Ptr<MsgTransport>(this), kMTEClose);
 }
 
 void MsgTransport::SocketErrorClose(ns3::Ptr<ns3::Socket>) {
-  //printf("MsgTransport::SocketErrorClose %"PRIxMAX"\n", (uintmax_t)this);
+  printf("MsgTransport::SocketErrorClose %"PRIxMAX"\n", (uintmax_t)this);
   this->connected_ = false;
   ns3::Simulator::ScheduleNow(&MsgTransport::invoke_evt_cb, ns3::Ptr<MsgTransport>(this), kMTEReset);
 }

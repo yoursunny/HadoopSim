@@ -108,6 +108,7 @@ class MsgTransport : public ns3::SimpleRefCount<MsgTransport> {
     void invoke_recv_cb(ns3::Ptr<MsgInfo> msg) { if (!this->recv_cb_.IsNull()) this->recv_cb_(this, msg); }
     void invoke_evt_cb(MsgTransportEvt evt) { if (!this->evt_cb_.IsNull()) this->evt_cb_(this, evt); }
     
+    MsgId PeekFirstMsgId(void) const;//returns first MsgId in send queue, or MsgId_invalid if send queue is empty
     void Connect(void);
     void SetSocketCallbacks(bool connected);
     void ClearSocketCallbacks(void);
