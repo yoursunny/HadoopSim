@@ -54,6 +54,7 @@ def build(bld):
     'netsim/snmpagent_test.cc',
     'netsim/netsim_test.cc',
     'netsim/bulkdata_test.cc',
-    'netsim/bulkdata2_test.cc'
+    'netsim/bulkdata2_test.cc',
+    'netsim/bulkdata3_test.cc'
   }
 
